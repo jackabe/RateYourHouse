@@ -91,6 +91,10 @@ input[type=text]:focus, textarea:focus {
   border-radius:1px;
 }
 
+a {
+  color: #DA563A;
+}
+
 .mainBackButton {
   margin-left: 95%;
   margin-top: -50px;
