@@ -1,32 +1,148 @@
-.App {
-  text-align: center;
+input {
+  text-align: center!important;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+* {
+  margin: 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+html, body {
+  height: 100%;
+}
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -50px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  height: 50px;
+}
+.site-footer {
+  background: inherit;
   color: white;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10pt;
 }
 
-.App-link {
-  color: #61dafb;
+.listItem:hover {
+  cursor: pointer;
+  background: #fafafa;
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.MuiListItem-gutters-270 {
+  padding-left: 0!important;
+  padding-right: 0!important;
+}
+
+.backButton {
+  margin-left: 97%;
+  margin-top: -10px;
+  cursor: pointer;
+}
+
+.numberCircleGreen {
+  /* remove if you don't care about IE8 */
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  padding: 8px;
+  background: green;
+  border: 2px solid black;
+  color: white;
+  text-align: center;
+  font: 32px Arial, sans-serif;
+  font-size: 12pt;
+}
+
+.numberCircleAmber {
+  /* remove if you don't care about IE8 */
+  min-width: 50px;
+  min-height: 50px;
+  padding: 8px;
+  background: orange;
+  border: 2px solid black;
+  color: white;
+  text-align: center;
+  font: 32px Arial, sans-serif;
+  font-size: 21pt;
+}
+
+.numberCircleRed {
+  /* remove if you don't care about IE8 */
+  min-width: 50px;
+  min-height: 50px;
+  padding: 8px;
+  background: red;
+  border: 2px solid black;
+  color: white;
+  text-align: center;
+  font: 32px Arial, sans-serif;
+  font-size: 21pt;
+}
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+  border-radius:1px;
+}
+
+.mainBackButton {
+  margin-left: 95%;
+  margin-top: -50px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 780px) {
+  .backButton {
+    margin-left: 95%;
+    margin-top: -10px;
+    cursor: pointer;
   }
-  to {
-    transform: rotate(360deg);
+  .mainBackButton {
+    margin-left: 96%;
+    margin-top: -70px;
+    cursor: pointer;
+  }
+  .numberCircleGreen {
+    /* remove if you don't care about IE8 */
+    min-width: 40px;
+    min-height: 30px;
+    padding: 6px;
+    background: green;
+    border: 2px solid black;
+    color: white;
+    text-align: center;
+    font: 15pt Arial, sans-serif;
+  }
+
+  .numberCircleAmber {
+    /* remove if you don't care about IE8 */
+    min-width: 40px;
+    min-height: 30px;
+    padding: 8px;
+    background: orange;
+    border: 2px solid black;
+    color: white;
+    text-align: center;
+    font: 32px Arial, sans-serif;
+    font-size: 15pt;
+  }
+
+  .numberCircleRed {
+    /* remove if you don't care about IE8 */
+    min-width: 40px;
+    min-height: 30px;
+    padding: 8px;
+    background: red;
+    border: 2px solid black;
+    color: white;
+    text-align: center;
+    font: 32px Arial, sans-serif;
+    font-size: 15pt;
   }
 }
