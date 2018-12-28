@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ratemyhouse-1545743069431",
+  "private_key_id": "6b65e20fc365b3a6b64e7cf323c1ef3476c21454",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDSh70SO5kP7Jes\njqeFWn5ERcTnAI1F+UV9kiRwGsVZHQaEtr9v4VnJlydKWfu6M6tCNjO3kjs/A2iy\nbSbfNSKbDqNiZ4BecgfxFVdnxh98mMggCv4BjWDUFfOh0ckjij1vAxbJXxx5O2v5\nuFCba26rXEtqJlwomk6ITDNrGvG0LQKR3fHzd/kFhm8YPI2RlpXnyim0L/bYPP3G\nGDzauMkMctRqpCQ6cWrDPExYeWe/1vi/Yh1iekNfUIPahJuIXKQPLS1LiZ18ay90\nWnqeyvG6SeNka3BlrNIx36UwRGJL02MYYjuWnBgM32q/GTV1H/0ZEGJoJpeYx8QG\nhr/Ny4iVAgMBAAECggEAF2pDbBi20F+XCvkexqUm7/72hF66V7L+uJWded5wXpXs\n2KvepNnie5pVI17YsX/3pziSDfO0pTCC331mWmL1g1tgbpxmWZrDKVwfSYpujBQO\nBgpS7+dCgrQiUbgcb9h7NrKYQTNT3mPugWqvhGmxeFueg6LakyV+YIhhG6N2iHxZ\nVUxmzoE/9oDX070QRCH8s/mD2V3qK09N5ZJEdgOyDZccH0HyFD7OD0PChOFbGhtT\nwRlfHEkRnFkrc6CuSsf9zOMxa0e4LNhS6nQsAXfEb+gUltcMEzF0bO3jNru9XOLh\ngTLGLKJgHabOgqaHlNUJiSOT8g9rlxwyJApP8aqlQQKBgQD2sl8cbRZnaDTibLjq\n0XXzmk3mXzEb5Ozf9FH6K5w8etNv/lQGd8vM54vcDKTUTW4+7Ug7k87QB6xJB7Ux\nEaupGCoM048t3hUeto+Hj4IwPbh1KTikSIvFbKH/duKbOlpfhwCToNGb002kvUi7\nQ0djTQhCeZay4M6qQzFDAeE50QKBgQDaeDZx9YDYdo0jkPdcUz4AUvTpSOwL5t0E\nL2cCk9oP17gguzF6gmD6ioermANbumSWH1QkIOr0Jy6Cg25g0vr+8BfxbKoP7Y11\n1CB9NHNchiNXuKE411v/PDietpLoukr0vm61Srr4acs59kINRT8bdYYRMY+W8PKP\nKmY9ryFPhQKBgQDIhGFkhJKiSIQ7yq1fSBO8hp5s8tDC4Idc3YTIeCwMyLUVob6A\nZ10C1u3KVYige7NxeIKu0kxWsPXrglVXZgqGbfq35DnLyWiXR0JQqGfkeDZ3HKNK\nfSEGvm7Ka8Jy87JDVUM1u5DEPLMuhSAZ/eyHnTRqe9Pu32V75ROkaGG+EQKBgC4k\nictUARy3HWRPsA8t/cBvxQ6oukJhRnkl0en3dG04MMmo//BSLU19iN4zQzJSkgAr\nKchfs4BR7j7ep6eHqD/EUipJuzmWAPTMEvie5Wa7ZieW9WZeBi5Id+T9xtWk00QS\nHKvp1se1AJmDa7wFzihskB59i0hkJ7cZS3Ln1G9JAoGBAN/LbzPY4FS/xLcxl9QS\ny2D+YITjymGKeRlsJhPQf6cqW5fh3yG2HF9VYKHW8BBk3KPnU0WjLvHtv/+O8RgX\nR7FzZpd5r+cd7n2ku5kmWxNpkzRqa6zUVAVlxjRnpMkGQqumzp4VJnxRsZe3y8Id\n72ppUchpGdqSqZayUFneql1x\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-8tyo4@ratemyhouse-1545743069431.iam.gserviceaccount.com",
+  "client_id": "111133216542502006219",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-8tyo4%40ratemyhouse-1545743069431.iam.gserviceaccount.com"
+}

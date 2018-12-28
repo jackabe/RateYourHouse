@@ -32,7 +32,9 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FormControl from "@material-ui/core/FormControl/FormControl";
 
+const BASE_URL = 'http://localhost:4000/';
 
 const styles = theme => ({
     listRoot: {
@@ -77,6 +79,7 @@ const styles = theme => ({
     heading: {
         fontSize: theme.typography.pxToRem(13),
         flexBasis: '33.33%',
+        marginRight: 20,
         flexShrink: 0,
         '@media (max-width:780px)': {
             fontSize: theme.typography.pxToRem(10),
@@ -172,10 +175,27 @@ class PostReviewSection extends React.Component {
 
     state = {
         posts: [],
+        data: null,
         address: '',
         open: false,
         openInDepth: false,
         expanded: null,
+        landlordCommunicationRating: 0,
+        LandlordHelpfulnessRating: 0,
+        agentCommunicationRating: 0,
+        agentHelpfulnessRating: 0,
+        priceRating: 0,
+        houseFurnishingRating: 0,
+        houseConditionRating: 0,
+        moveInRating: 0,
+        moveOutRating: 0,
+        logisticsComments: '',
+        houseComments: '',
+        landlordComments: '',
+        agencyComments: '',
+        mainReviewInput: '',
+        titleInput: '',
+        review: null
     };
 
     handleClose = () => {
@@ -193,8 +213,13 @@ class PostReviewSection extends React.Component {
         });
     };
 
-    openReview = id => {
-        this.setState({ openInDepth: true });
+    openReview(id) {
+        Object.values(this.state.data).map((review, i) => {
+            if (review.id == id) {
+                this.setState({ openInDepth: true });
+                this.setState({ review: review });
+            }
+        });
     };
 
     closeReview = () => {
@@ -202,14 +227,30 @@ class PostReviewSection extends React.Component {
     };
 
     goToAddress(address) {
-        this.setState({ address });
-        console.log(address);
-        this.setState({ open: true });
+        let addressToPost = '';
+        let i = 0;
+        for (i; i < address.length; i++) {
+            addressToPost += address[i]['long_name'] + ' ';
+        }
+        this.setState({ address: addressToPost });
+
+        axios.get(BASE_URL + 'reviews/'+addressToPost)
+            .then(res => {
+                const reviews = res.data;
+                this.setState({ data: reviews });
+                this.setState({ open: true });
+                this.setState({valid: true});
+            })
+            .catch(function (error) {
+                alert('Oops! There has been an issue with finding a review with that address - please try again');
+            });
     };
 
     handleSelect = address => {
         geocodeByAddress(address)
-            .then(this.goToAddress(address));
+            .then(results => results[0]['address_components'])
+            .then(address => this.goToAddress(address))
+            .catch(error => this.setState({error}));
     };
 
     render() {
@@ -276,7 +317,7 @@ class PostReviewSection extends React.Component {
                             >
                                 <div className={classes.paper}>
                                     <Typography className={classes.largeHeading} id="modal-title">
-                                        Reviews for 15 Sycamore Drive Birmingham B475QX
+                                        {'Reviews for '+this.state.address}
                                     </Typography>
 
                                     <Typography vclassName={classes.smallSecondaryHeading} id="simple-modal-description">
@@ -290,59 +331,36 @@ class PostReviewSection extends React.Component {
                                     </div>
 
                                     <br/>
-                                    <div className={classes.list}>
-                                            <List className={classes.listRoot}>
-                                                <ListItem className='listItem' onClick={this.openReview} alignItems="flex-start">
-                                                    <ListItemAvatar>
-                                                        <Avatar className={classes.avatar}>JA</Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary="Excellent, top property!"
-                                                        secondary={
-                                                            <React.Fragment>
-                                                                <Typography component="span" className={classes.inline} color="textPrimary">
-                                                                    Rating: 10
-                                                                </Typography>
-                                                                {" — No better place to rent, everything was perfect..."}
-                                                            </React.Fragment>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                                <ListItem className='listItem' onClick={this.openReview} alignItems="flex-start">
-                                                    <ListItemAvatar>
-                                                        <Avatar className={classes.purpleAvatar}>H</Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary="Okay, but some big issues"
-                                                        secondary={
-                                                            <React.Fragment>
-                                                                <Typography component="span" className={classes.inline} color="textPrimary">
-                                                                    Rating: 5
-                                                                </Typography>
-                                                                {" — Started off well, landlord was good, but then..."}
-                                                            </React.Fragment>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                                <ListItem className='listItem' onClick={this.openReview} alignItems="flex-start">
-                                                    <ListItemAvatar>
-                                                        <Avatar className={classes.orangeAvatar}>SA</Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary="Terrible, we all hated it"
-                                                        secondary={
-                                                            <React.Fragment>
-                                                                <Typography component="span" className={classes.inline} color="textPrimary">
-                                                                    Rating: 1
-                                                                </Typography>
-                                                                {" — Never ever rent this place. When we first..."}
-                                                            </React.Fragment>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                            </List>
+                                    {this.state.data ? (
+                                        <div>
+                                            <div className={classes.list}>
+                                                <List className={classes.listRoot}>
+                                        { Object.values(this.state.data).map((review, i) => {
+                                            return (
+                                                        <ListItem className='listItem'  onClick={() => this.openReview(review.id)} alignIte                                                                        ms="flex-start">
+                                                            <ListItemAvatar>
+                                                                <Avatar className={classes.avatar}>{review.userId.substring(0, 2).toUpperCase()                                                                 }</Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={review.titleInput}
+                                                                secondary={
+                                                                    <React.Fragment>
+                                                                        {/*<Typography component="span" className={classes.inline}                                                                                             color="textPrimary">*/}
+                                                                            {/*Rating: 10*/}
+                                                                        {/*</Typography>*/}
+                                                                        {review.mainReviewInput}
+                                                                    </React.Fragment>
+                                                                }
+                                                            />
+                                                        </ListItem>
+                                            )})}
+                                                </List>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <p>No data</p>
+                                    )}
+                                        </div>
                             </Modal>
                         </div>
                     ) : (
@@ -361,14 +379,38 @@ class PostReviewSection extends React.Component {
                                             </Typography>
                                         </div>
                                         <Typography className={classes.largeHeading} id="modal-title">
-                                            Review for 15 Sycamore Drive Birmingham B475QX
+                                            {'Review for '+this.state.address}
                                         </Typography>
 
                                         <Typography className={classes.smallSecondaryHeading} id="simple-modal-description">
-                                            Created 17/01/18 by Jack Allcock
+                                            {'Created on 17/5/12 by '+this.state.review.userId}
                                         </Typography>
 
                                         <br/>
+
+                                        <ExpansionPanel expanded={expanded === 'panelFeedback'}
+                                                        onChange={this.handlePanelChange('panelFeedback')}>
+                                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                                                <Typography
+                                                    className={classes.heading}>Feedback</Typography>
+                                                <Typography className={classes.secondaryHeading}>
+                                                    The title and body of the review
+                                                </Typography>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails className={classes.reviewBox}>
+
+                                                <div className={classes.comments}>
+                                                    <Typography className={classes.heading}>
+                                                        {this.state.review.titleInput}
+                                                    </Typography>
+                                                 <br/>
+                                                    <Typography className={classes.heading}>
+                                                        {this.state.review.mainReviewInput}
+                                                    </Typography>
+                                                </div>
+
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
 
                                         <ExpansionPanel className='panel' expanded={expanded === 'panel1'} onChange={this.handlePanelChange                                                 ('panel1')}>
                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -387,7 +429,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.landlordCommunicationRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -402,7 +444,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.LandlordHelpfulnessRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -412,7 +454,7 @@ class PostReviewSection extends React.Component {
                                                         Comments:
                                                     </Typography>
                                                     <Typography className={classes.secondaryHeading}>
-                                                        Landlord was good, though we mainly went through the agent
+                                                        {this.state.review.landlordComments}
                                                     </Typography>
                                                 </div>
 
@@ -436,7 +478,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.agentCommunicationRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -451,7 +493,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={2}
+                                                            value={this.state.review.agentHelpfulnessRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -461,7 +503,7 @@ class PostReviewSection extends React.Component {
                                                         Comments:
                                                     </Typography>
                                                     <Typography className={classes.secondaryHeading}>
-                                                        Tended to blame us for everything
+                                                        {this.state.review.agencyComments}
                                                     </Typography>
                                                 </div>
 
@@ -486,7 +528,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={2}
+                                                            value={this.state.review.houseFurnishingRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -501,7 +543,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={3}
+                                                            value={this.state.review.houseConditionRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -511,7 +553,7 @@ class PostReviewSection extends React.Component {
                                                         Comments:
                                                     </Typography>
                                                     <Typography className={classes.secondaryHeading}>
-                                                        Place is falling down, needs updating
+                                                        {this.state.review.houseComments}
                                                     </Typography>
                                                 </div>
 
@@ -536,7 +578,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.priceRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -551,7 +593,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.moveInRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -566,7 +608,7 @@ class PostReviewSection extends React.Component {
                                                             editing={false}
                                                             renderStarIcon={() => <span><StarIcon/></span>}
                                                             starCount={5}
-                                                            value={4}
+                                                            value={this.state.review.moveOutRating}
                                                         />
                                                     </div>
                                                 </div>
@@ -576,7 +618,7 @@ class PostReviewSection extends React.Component {
                                                         Comments:
                                                     </Typography>
                                                     <Typography className={classes.secondaryHeading}>
-                                                        Overall good
+                                                        {this.state.review.logisticsComments}
                                                     </Typography>
                                                 </div>
 

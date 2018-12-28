@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -22,6 +22,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import axios from "axios";
+
+const BASE_URL = 'http://localhost:4000/';
 
 const styles = theme => ({
     listRoot: {
@@ -96,7 +99,7 @@ const styles = theme => ({
         },
         color: theme.palette.text.secondary,
     },
-    secondaryHeadingRating : {
+    secondaryHeadingRating: {
         fontSize: theme.typography.pxToRem(13),
         '@media (max-width:780px)': {
             fontSize: theme.typography.pxToRem(10),
@@ -271,9 +274,7 @@ const styles = theme => ({
     ratings: {
         width: '100%'
     },
-    reviewStage: {
-
-    }
+    reviewStage: {}
 });
 
 class Input extends React.Component {
@@ -283,7 +284,7 @@ class Input extends React.Component {
 
         this.state = {
             posts: [],
-            address: '15 Sycamore Drive',
+            address: '',
             addressToPost: '',
             error: '',
             open: true,
@@ -305,7 +306,9 @@ class Input extends React.Component {
             logisticsComments: '',
             houseComments: '',
             landlordComments: '',
-            agencyComments: ''
+            agencyComments: '',
+            mainReviewInput: '',
+            titleInput: '',
         };
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -313,8 +316,8 @@ class Input extends React.Component {
     };
 
     handleNext = () => {
-        const { activeStep } = this.state;
-        let { skipped } = this.state;
+        const {activeStep} = this.state;
+        let {skipped} = this.state;
         if (this.isStepSkipped(activeStep)) {
             skipped = new Set(skipped.values());
             skipped.delete(activeStep);
@@ -323,6 +326,45 @@ class Input extends React.Component {
             activeStep: activeStep + 1,
             skipped,
         });
+    };
+
+    uploadReview = () => {
+        // Packages all the data together and adds to form data
+        // The form data is then posted to the server via the UR
+        // Uses Form Data - https://www.npmjs.com/package/form-data
+        //     const data = new FormData();
+        //     data.append("address", 'B475QX');
+        //     // Make an AJAX upload request using Axios
+        //     return axios.post(BASE_URL + "upload/review", data).then(response => {
+        //         alert('done')
+        //     });
+        axios.post(BASE_URL + 'upload/review', {
+            address: this.state.addressToPost,
+            userId: 'JackUUID',
+            landlordCommunicationRating: this.state.landlordCommunicationRating,
+            LandlordHelpfulnessRating: this.state.LandlordHelpfulnessRating,
+            agentCommunicationRating: this.state.agentCommunicationRating,
+            agentHelpfulnessRating: this.state.agentHelpfulnessRating,
+            priceRating: this.state.priceRating,
+            houseFurnishingRating: this.state.houseFurnishingRating,
+            houseConditionRating: this.state.houseConditionRating,
+            moveInRating: this.state.moveInRating,
+            moveOutRating: this.state.moveOutRating,
+            logisticsComments: this.state.logisticsComments,
+            houseComments: this.state.houseComments,
+            landlordComments: this.state.landlordComments,
+            agencyComments: this.state.agencyComments,
+            mainReviewInput: this.state.mainReviewInput,
+            titleInput: this.state.titleInput,
+        })
+            .then(function (response) {
+                console.log(response);
+                alert('Your review has been posted successfully! Thank you for contributing!');
+                window.location.reload();
+            })
+            .catch(function (error) {
+                alert('Oops! There has been an issue with posting your review - please try again');
+            });
     };
 
     handleBack = () => {
@@ -392,7 +434,7 @@ class Input extends React.Component {
     render() {
 
         const steps = this.getSteps();
-        const { activeStep } = this.state;
+        const {activeStep} = this.state;
         const google = window.google;
         const openForm = this.props.open;
 
@@ -406,327 +448,387 @@ class Input extends React.Component {
 
         return (
             <div>
-            {openForm ? (
-                <div className={classes.modal}>
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.open}
-                        onClose={this.props.handler}
-                    >
-                        <div className={classes.paper}>
-                            <Typography className={classes.largeHeading} id="modal-title">
-                                Write a review
-                            </Typography>
-                            <div className='backButton'>
-                                <Typography variant="h6" onClick = {this.props.handler}>
-                                    x
+                {openForm ? (
+                    <div className={classes.modal}>
+                        <Modal
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                            open={this.state.open}
+                            onClose={this.props.handler}
+                        >
+                            <div className={classes.paper}>
+                                <Typography className={classes.largeHeading} id="modal-title">
+                                    Write a review
                                 </Typography>
-                            </div>
+                                <div className='backButton'>
+                                    <Typography variant="h6" onClick={this.props.handler}>
+                                        x
+                                    </Typography>
+                                </div>
 
-                            <div className={classes.stepperRoot}>
-                                <Stepper activeStep={activeStep}>
-                                    {steps.map((label, index) => {
-                                        const props = {};
-                                        const labelProps = {};
-                                        return (
-                                            <Step key={label} {...props}>
-                                                <StepLabel {...labelProps}>{label}</StepLabel>
-                                            </Step>
-                                        );
-                                    })}
-                                </Stepper>
-                                <div>
-                                    {activeStep === 2 ? (
-                                        /****************** Last step - review ******************/
-                                        <div className={classes.reviewStage}>
-                                            <Typography className={classes.largeHeading} id="modal-title">
-                                                Review confirmation
-                                            </Typography>
+                                <div className={classes.stepperRoot}>
+                                    <Stepper activeStep={activeStep}>
+                                        {steps.map((label, index) => {
+                                            const props = {};
+                                            const labelProps = {};
+                                            return (
+                                                <Step key={label} {...props}>
+                                                    <StepLabel {...labelProps}>{label}</StepLabel>
+                                                </Step>
+                                            );
+                                        })}
+                                    </Stepper>
+                                    <div>
+                                        {activeStep === 2 ? (
+                                            /****************** Last step - review ******************/
+                                            <div className={classes.reviewStage}>
+                                                <Typography className={classes.largeHeading} id="modal-title">
+                                                    Review confirmation
+                                                </Typography>
 
-                                            <ExpansionPanel className={classes.reviewRatings} expanded={expanded === 'panel5'} onChange={this.handlePanelChange('panel5')}>
-                                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                    <Typography className={classes.heading}>Review Ratings</Typography>
-                                                </ExpansionPanelSummary>
-                                                <ExpansionPanelDetails>
-                                                    <div className={classes.ratings}>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Landlord Communication:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="landlordCommunicationRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.landlordCommunicationRating}
-                                                                />
+                                                <ExpansionPanel className={classes.reviewRatings}
+                                                                expanded={expanded === 'panel5'}
+                                                                onChange={this.handlePanelChange('panel5')}>
+                                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                                                        <Typography className={classes.heading}>Review
+                                                            Ratings</Typography>
+                                                    </ExpansionPanelSummary>
+                                                    <ExpansionPanelDetails>
+                                                        <div className={classes.ratings}>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Landlord Communication:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="landlordCommunicationRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.landlordCommunicationRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Landlord Helpfulness:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="LandlordHelpfulnessRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.LandlordHelpfulnessRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Agent Communication:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="agentCommunicationRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.agentCommunicationRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Agent Helpfulness:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="agentHelpfulnessRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.agentHelpfulnessRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    House furniture quality:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="houseFurnishingRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.houseFurnishingRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    House condition:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="houseConditionRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.houseConditionRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Ease of move in:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="moveInRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.moveInRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Ease of move out:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="moveOutRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.moveOutRating}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className={classes.reviewBox}>
+                                                                <Typography className={classes.secondaryHeadingRating}>
+                                                                    Price:
+                                                                </Typography>
+                                                                <div className={classes.rating}>
+                                                                    <StarRatingComponent
+                                                                        name="priceRating"
+                                                                        editing={false}
+                                                                        renderStarIcon={() => <span><StarIcon/></span>}
+                                                                        starCount={5}
+                                                                        value={this.state.priceRating}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Landlord Helpfulness:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="LandlordHelpfulnessRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.LandlordHelpfulnessRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Agent Communication:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="agentCommunicationRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.agentCommunicationRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Agent Helpfulness:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="agentHelpfulnessRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.agentHelpfulnessRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                House furniture quality:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="houseFurnishingRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.houseFurnishingRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                House condition:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="houseConditionRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.houseConditionRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Ease of move in:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="moveInRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.moveInRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Ease of move out:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="moveOutRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.moveOutRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className={classes.reviewBox}>
-                                                            <Typography className={classes.secondaryHeadingRating}>
-                                                                Price:
-                                                            </Typography>
-                                                            <div className={classes.rating}>
-                                                                <StarRatingComponent
-                                                                    name="priceRating"
-                                                                    editing={false}
-                                                                    renderStarIcon={() => <span><StarIcon/></span>}
-                                                                    starCount={5}
-                                                                    value={this.state.priceRating}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </ExpansionPanelDetails>
-                                            </ExpansionPanel>
+                                                    </ExpansionPanelDetails>
+                                                </ExpansionPanel>
 
-                                            <ExpansionPanel expanded={expanded === 'panel6'} onChange={this.handlePanelChange('panel6')}>
-                                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                    <Typography className={classes.heading}>Comments made</Typography>
-                                                </ExpansionPanelSummary>
-                                                <ExpansionPanelDetails>
-                                                    <div className={classes.reviewComments}>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            Landlord Comments:
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            {this.state.landlordComments}
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            Agency Comments:
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            {this.state.agencyComments}
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            House Comments:
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            {this.state.houseComments}
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            Logistics Comments:
-                                                        </Typography>
-                                                        <Typography className={classes.secondaryHeading}>
-                                                            {this.state.logisticsComments}
-                                                        </Typography>
-                                                    </div>
-                                                </ExpansionPanelDetails>
-                                            </ExpansionPanel>
+                                                <ExpansionPanel expanded={expanded === 'panel6'}
+                                                                onChange={this.handlePanelChange('panel6')}>
+                                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                                                        <Typography className={classes.heading}>Comments
+                                                            made</Typography>
+                                                    </ExpansionPanelSummary>
+                                                    <ExpansionPanelDetails>
+                                                        <div className={classes.reviewComments}>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                Landlord Comments:
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                {this.state.landlordComments}
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                Agency Comments:
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                {this.state.agencyComments}
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                House Comments:
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                {this.state.houseComments}
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                Logistics Comments:
+                                                            </Typography>
+                                                            <Typography className={classes.secondaryHeading}>
+                                                                {this.state.logisticsComments}
+                                                            </Typography>
+                                                        </div>
+                                                    </ExpansionPanelDetails>
+                                                </ExpansionPanel>
 
-                                            <br/>
-                                            <div>
                                                 <br/>
-                                                <Button onClick={this.handleReset} className={classes.button}>
-                                                    {window.reload}
-                                                </Button>
-                                                <Button
-                                                    disabled={activeStep === 0}
-                                                    onClick={this.handleBack}
-                                                    className={classes.button}
-                                                >
-                                                    Back
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={this.handleNext}
-                                                    className={classes.button}
-                                                >
-                                                   Submit Review
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            {activeStep === 0 ? (
-                                                /********* Address form ***********/
                                                 <div>
-                                                    <div className={classes.comments}>
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                                                                Address Line 1
-                                                            </InputLabel>
-                                                            <InputBase
-                                                                id="addressLine"
-                                                                placeholder="e.g., 8 HouseStreet Lane"
-                                                                classes={{
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                }}
-                                                            />
-                                                        </FormControl>
-
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                                                                City
-                                                            </InputLabel>
-                                                            <InputBase
-                                                                id="city"
-                                                                placeholder="e.g., Birmingham"
-                                                                classes={{
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                }}
-                                                            />
-                                                        </FormControl>
-
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                                                                PostCode
-                                                            </InputLabel>
-                                                            <InputBase
-                                                                id="postcode"
-                                                                placeholder="e.g., B47 9HJ"
-                                                                classes={{
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </div>
-
                                                     <br/>
-
-                                                    <Button onClick={this.handleSelect} className={classes.checkButton}>
-                                                        Check Address
+                                                    <Button
+                                                        disabled={activeStep === 0}
+                                                        onClick={this.handleBack}
+                                                        className={classes.button}
+                                                    >
+                                                        Back
                                                     </Button>
-
-                                                    <br/>
-
-                                                    <Paper className={classes.root} elevation={2}>
-                                                        <div className={classes.main}>
-                                                            <div>
-                                                                {this.state.addressToPost.length !== 0 ? (
-                                                                    <div>
-                                                                            <span className={classes.addressText}>{this.state.addressToPost}</span>
-                                                                    </div>
-                                                                ) : (
-                                                                    <div>
-                                                                        {this.state.error.length !== 0 ? (
-                                                                            <div>
-                                                                                <span className={classes.errorText}>Oops! The address entered has either been entered incorrectly or is not available on our public database. Please try again or contact the support team at <a href='www.ratemyhouse.com/support'>www.ratemyhouse.com/support</a></span>
-                                                                            </div>
-                                                                        ) : (
-                                                                            <div>
-                                                                                <span className={classes.enterAddress}>You need to enter an                                                                                     address</span>
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </Paper>
-                                                    <br/>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={this.uploadReview}
+                                                        className={classes.button}
+                                                    >
+                                                        Submit Review
+                                                    </Button>
                                                 </div>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                {activeStep === 0 ? (
+                                                    /********* Address form ***********/
+                                                    <div>
+                                                        <div className={classes.comments}>
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel shrink htmlFor="bootstrap-input"
+                                                                            className={classes.bootstrapFormLabel}>
+                                                                    Address Line 1
+                                                                </InputLabel>
+                                                                <InputBase
+                                                                    id="addressLine"
+                                                                    placeholder="e.g., 8 HouseStreet Lane"
+                                                                    classes={{
+                                                                        root: classes.bootstrapRoot,
+                                                                        input: classes.bootstrapInput,
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel shrink htmlFor="bootstrap-input"
+                                                                            className={classes.bootstrapFormLabel}>
+                                                                    City
+                                                                </InputLabel>
+                                                                <InputBase
+                                                                    id="city"
+                                                                    placeholder="e.g., Birmingham"
+                                                                    classes={{
+                                                                        root: classes.bootstrapRoot,
+                                                                        input: classes.bootstrapInput,
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel shrink htmlFor="bootstrap-input"
+                                                                            className={classes.bootstrapFormLabel}>
+                                                                    PostCode
+                                                                </InputLabel>
+                                                                <InputBase
+                                                                    id="postcode"
+                                                                    placeholder="e.g., B47 9HJ"
+                                                                    classes={{
+                                                                        root: classes.bootstrapRoot,
+                                                                        input: classes.bootstrapInput,
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </div>
+
+                                                        <br/>
+
+                                                        <Button onClick={this.handleSelect}
+                                                                className={classes.checkButton}>
+                                                            Check Address
+                                                        </Button>
+
+                                                        <br/>
+
+                                                        <Paper className={classes.root} elevation={2}>
+                                                            <div className={classes.main}>
+                                                                <div>
+                                                                    {this.state.addressToPost.length !== 0 ? (
+                                                                        <div>
+                                                                            <span
+                                                                                className={classes.addressText}>{this.state.addressToPost}</span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div>
+                                                                            {this.state.error.length !== 0 ? (
+                                                                                <div>
+                                                                                    <span className={classes.errorText}>Oops! The address entered has either been entered incorrectly or is not available on our public database. Please try again or contact the support team at <a
+                                                                                        href='www.ratemyhouse.com/support'>www.ratemyhouse.com/support</a></span>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div>
+                                                                                    <span
+                                                                                        className={classes.enterAddress}>You need to enter an                                                                                     address</span>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </Paper>
+                                                        <br/>
+                                                    </div>
                                                 ) : (
                                                     /********** review form **********/
                                                     <div>
-                                                        <ExpansionPanel className='panel' expanded={expanded === 'panel1'}
+                                                        <ExpansionPanel expanded={expanded === 'panelFeedback'}
+                                                                        onChange={this.handlePanelChange('panelFeedback')}>
+                                                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                                                                <Typography
+                                                                    className={classes.heading}>Feedback</Typography>
+                                                                <Typography className={classes.secondaryHeading}>
+                                                                    The title and body of the review
+                                                                </Typography>
+                                                            </ExpansionPanelSummary>
+                                                            <ExpansionPanelDetails className={classes.reviewBox}>
+
+                                                                <div className={classes.comments}>
+                                                                    <Typography className={classes.heading}>
+                                                                        Title (max 10 characters):
+                                                                    </Typography>
+                                                                    <FormControl className={classes.commentsContainer}>
+                                                                        <InputBase
+                                                                            id="titleInput"
+                                                                            value={this.state.titleInput}
+                                                                            onChange={this.onCommentsChange("titleInput")}
+                                                                            placeholder=""
+                                                                            classes={{
+                                                                                root: classes.bootstrapRootComments,
+                                                                                input: classes.bootstrapInputComments,
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                    <Typography className={classes.heading}>
+                                                                        Your personal review:
+                                                                    </Typography>
+                                                                    <FormControl className={classes.commentsContainer}>
+                                                                        <InputBase
+                                                                            id="mainReviewInput"
+                                                                            multiline
+                                                                            value={this.state.mainReviewInput}
+                                                                            onChange={this.onCommentsChange("mainReviewInput")}
+                                                                            placeholder=""
+                                                                            classes={{
+                                                                                root: classes.bootstrapRootComments,
+                                                                                input: classes.bootstrapInputComments,
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                </div>
+
+                                                            </ExpansionPanelDetails>
+                                                        </ExpansionPanel>
+
+                                                        <ExpansionPanel className='panel'
+                                                                        expanded={expanded === 'panel1'}
                                                                         onChange={this.handlePanelChange('panel1')}>
                                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                                                <Typography className={classes.heading}>Landlord</Typography>
-                                                                <Typography className={classes.secondaryHeading}>Landlord review</Typography>
+                                                                <Typography
+                                                                    className={classes.heading}>Landlord</Typography>
+                                                                <Typography className={classes.secondaryHeading}>Landlord
+                                                                    review</Typography>
                                                             </ExpansionPanelSummary>
                                                             <ExpansionPanelDetails className={classes.reviewBox}>
 
@@ -738,7 +840,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="landlordCommunicationRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             starCount={5}
                                                                             value={this.state.landlordCommunicationRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
@@ -754,7 +857,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="LandlordHelpfulnessRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             starCount={5}
                                                                             value={this.state.LandlordHelpfulnessRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
@@ -782,9 +886,11 @@ class Input extends React.Component {
 
                                                             </ExpansionPanelDetails>
                                                         </ExpansionPanel>
-                                                        <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handlePanelChange('panel2')}>
+                                                        <ExpansionPanel expanded={expanded === 'panel2'}
+                                                                        onChange={this.handlePanelChange('panel2')}>
                                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                                                <Typography className={classes.heading}>Letting Agents</Typography>
+                                                                <Typography className={classes.heading}>Letting
+                                                                    Agents</Typography>
                                                                 <Typography className={classes.secondaryHeading}>
                                                                     Reviewers Agent: CPS Homes
                                                                 </Typography>
@@ -798,7 +904,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="agentCommunicationRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             starCount={5}
                                                                             value={this.state.agentCommunicationRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
@@ -814,7 +921,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="agentHelpfulnessRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.agentHelpfulnessRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -841,9 +949,11 @@ class Input extends React.Component {
 
                                                             </ExpansionPanelDetails>
                                                         </ExpansionPanel>
-                                                        <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handlePanelChange('panel3')}>
+                                                        <ExpansionPanel expanded={expanded === 'panel3'}
+                                                                        onChange={this.handlePanelChange('panel3')}>
                                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                                                <Typography className={classes.heading}>House Quality</Typography>
+                                                                <Typography className={classes.heading}>House
+                                                                    Quality</Typography>
                                                                 <Typography className={classes.secondaryHeading}>
                                                                     The furniture, condition, location...
                                                                 </Typography>
@@ -858,7 +968,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="houseFurnishingRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.houseFurnishingRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -873,7 +984,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="houseConditionRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.houseCondtionRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -900,9 +1012,11 @@ class Input extends React.Component {
 
                                                             </ExpansionPanelDetails>
                                                         </ExpansionPanel>
-                                                        <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handlePanelChange('panel4')}>
+                                                        <ExpansionPanel expanded={expanded === 'panel4'}
+                                                                        onChange={this.handlePanelChange('panel4')}>
                                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                                                <Typography className={classes.heading}>Logistics</Typography>
+                                                                <Typography
+                                                                    className={classes.heading}>Logistics</Typography>
                                                                 <Typography className={classes.secondaryHeading}>
                                                                     Moving in, moving out, price, bills
                                                                 </Typography>
@@ -917,7 +1031,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="priceRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.priceRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -932,7 +1047,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="moveInRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.moveInRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -947,7 +1063,8 @@ class Input extends React.Component {
                                                                         <StarRatingComponent
                                                                             name="moveOutRating"
                                                                             editing={true}
-                                                                            renderStarIcon={() => <span><StarIcon/></span>}
+                                                                            renderStarIcon={() =>
+                                                                                <span><StarIcon/></span>}
                                                                             value={this.state.moveOutRating}
                                                                             onStarClick={this.onStarClick.bind(this)}
                                                                         />
@@ -976,63 +1093,62 @@ class Input extends React.Component {
                                                         </ExpansionPanel>
                                                         <br/>
                                                     </div>
-                                            )}
-                                            {this.state.valid ? (
-                                                <div>
-                                                    <br/>
-                                                    <Button
-                                                        disabled={activeStep === 0}
-                                                        onClick={this.handleBack}
-                                                        className={classes.button}
-                                                    >
-                                                        Back
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={this.handleNext}
-                                                        className={classes.button}
-                                                    >
-                                                        {activeStep === 2 ? 'Submit Review' : 'Next'}
-                                                    </Button>
-                                                </div>
+                                                )}
+                                                {this.state.valid ? (
+                                                    <div>
+                                                        <br/>
+                                                        <Button
+                                                            disabled={activeStep === 0}
+                                                            onClick={this.handleBack}
+                                                            className={classes.button}
+                                                        >
+                                                            Back
+                                                        </Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={this.handleNext}
+                                                            className={classes.button}
+                                                        >
+                                                            {activeStep === 2 ? 'Submit Review' : 'Next'}
+                                                        </Button>
+                                                    </div>
                                                 ) : (
-                                                <div>
-                                                    <br/>
-                                                    <Button
-                                                        disabled={activeStep === 0}
-                                                        onClick={this.handleBack}
-                                                        className={classes.button}
-                                                    >
-                                                        Back
-                                                    </Button>
-                                                    <Button
-                                                        disabled
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={this.handleNext}
-                                                        className={classes.button}
-                                                    >
-                                                        {activeStep === 2 ? 'Submit Review' : 'Next'}
-                                                    </Button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                                    <div>
+                                                        <br/>
+                                                        <Button
+                                                            disabled={activeStep === 0}
+                                                            onClick={this.handleBack}
+                                                            className={classes.button}
+                                                        >
+                                                            Back
+                                                        </Button>
+                                                        <Button
+                                                            disabled
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={this.handleNext}
+                                                            className={classes.button}
+                                                        >
+                                                            {activeStep === 2 ? 'Submit Review' : 'Next'}
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                        </div>
-                        </div>
-                    </Modal>
-                </div>
-                ): (
+                            </div>
+                        </Modal>
+                    </div>
+                ) : (
                     <p></p>
-            )}
+                )}
 
-</div>
+            </div>
         )
     }
 }
-
 
 
 Input.propTypes = {

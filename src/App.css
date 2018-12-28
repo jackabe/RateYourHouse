@@ -96,8 +96,8 @@ a {
 }
 
 .mainBackButton {
-  margin-left: 95%;
-  margin-top: -50px;
+  margin-left: 98%;
+  margin-top: -75px;
   cursor: pointer;
 }
 
@@ -108,8 +108,8 @@ a {
     cursor: pointer;
   }
   .mainBackButton {
-    margin-left: 96%;
-    margin-top: -70px;
+    margin-left: 95%;
+    margin-top: -90px;
     cursor: pointer;
   }
   .numberCircleGreen {
