@@ -3,20 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import axios from 'axios';
-import Icon from '../icon.png';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import {
-    geocodeByAddress,
-    geocodeByPlaceId,
-    getLatLng,
+    geocodeByAddress
 } from 'react-places-autocomplete';
-import Button from "@material-ui/core/Button/Button";
 import Modal from "@material-ui/core/Modal/Modal";
 import StarRatingComponent from 'react-star-rating-component';
 import Typography from "@material-ui/core/Typography/Typography";
@@ -32,14 +23,14 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FormControl from "@material-ui/core/FormControl/FormControl";
+import config from '../config/config';
 
-const BASE_URL = 'http://localhost:4000/';
+const BASE_URL = config.serverURL;
 
 const styles = theme => ({
     listRoot: {
         width: '100%',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.postReviewPaper,
         overflowY: 'auto',
         paddingLeft: '0!important'
     },
@@ -92,7 +83,7 @@ const styles = theme => ({
         },
         color: theme.palette.text.secondary,
     },
-    paper: {
+    postReviewPaper: {
         '@media (max-width:780px)': {
             width: '90%',
             height: '100%',
@@ -102,17 +93,17 @@ const styles = theme => ({
         height: '80%',
         marginTop: 50,
         margin: '0 auto',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.postReviewPaper,
         boxShadow: theme.shadows[5],
         padding: 30
     },
-    panel: {
+    postReviewPanel: {
         '@media (max-width:780px)': {
             fontSize: 5,
         },
         fontSize: 9,
     },
-    modal: {
+    postReviewModal: {
         position: 'absolute',
         width: '80%',
         marginTop: -150,
@@ -127,9 +118,10 @@ const styles = theme => ({
         margin: '0 auto',
         height: '80%',
     },
-    main: {
+    postReviewMain: {
         fontFamily: "Arial",
         width: '100%',
+        borderRadius: 50,
         textAlign: 'center',
         alignItems: 'center',
     },
@@ -155,23 +147,23 @@ const styles = theme => ({
     avatar: {
         margin: 10,
     },
-    root: {
+    postReviewRoot: {
         fontFamily: "Arial",
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 300,
+        width: '100%',
         ['@media (min-width:780px)']: { // eslint-disable-line no-useless-computed-key
-            width: '60%'
+            width: '100%'
         }
     },
-    input: {
+    postReviewInput: {
         width: '100%',
         textAlign: 'center'
     },
 });
 
-class PostReviewSection extends React.Component {
+class ViewReviews extends React.Component {
 
     state = {
         posts: [],
@@ -266,21 +258,21 @@ class PostReviewSection extends React.Component {
 
         return (
             <div>
-                    <Paper className={classes.root} elevation={2}>
+                    <Paper className={classes.postReviewRoot} elevation={2}>
                             <PlacesAutocomplete
-                                className={classes.main}
+                                className={classes.postReviewMain}
                                 value={this.state.address}
                                 onChange={this.handleChange}
                                 onSelect={this.handleSelect}
                                 searchOptions={searchOptions}
                             >
                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                    <div className={classes.main}>
-                                        <InputBase className={classes.main} {...getInputProps({
+                                    <div className={classes.postReviewMain}>
+                                        <InputBase className={classes.postReviewMain} {...getInputProps({
                                             placeholder: 'Enter the address...',
-                                            className: classes.main,
+                                            className: classes.postReviewMain,
                                         })}/>
-                                        <div className={classes.main}>
+                                        <div className={classes.postReviewMain}>
                                             {loading && <div>Loading...</div>}
                                             {suggestions.map(suggestion => {
                                                 const className = suggestion.active
@@ -297,7 +289,7 @@ class PostReviewSection extends React.Component {
                                                             style,
                                                         })}
                                                     >
-                                                        <center><span className={classes.main}>{suggestion.description}</span></center>
+                                                        <center><span className={classes.postReviewMain}>{suggestion.description}</span></center>
                                                     </div>
                                                 );
                                             })}
@@ -308,14 +300,14 @@ class PostReviewSection extends React.Component {
                     </Paper>
 
                     {!this.state.openInDepth ? (
-                        <div className={classes.modal}>
+                        <div className={classes.postReviewModal}>
                             <Modal
                                 aria-labelledby="simple-modal-title"
                                 aria-describedby="simple-modal-description"
                                 open={this.state.open}
                                 onClose={this.handleClose}
                             >
-                                <div className={classes.paper}>
+                                <div className={classes.postReviewPaper}>
                                     <Typography className={classes.largeHeading} id="modal-title">
                                         {'Reviews for '+this.state.address}
                                     </Typography>
@@ -342,7 +334,7 @@ class PostReviewSection extends React.Component {
                                                                 <Avatar className={classes.avatar}>{review.userId.substring(0, 2).toUpperCase()                                                                 }</Avatar>
                                                             </ListItemAvatar>
                                                             <ListItemText
-                                                                primary={review.titleInput}
+                                                                primary={review.titleInput.substr(0, config.maxLength)+'...'}
                                                                 secondary={
                                                                     <React.Fragment>
                                                                         {/*<Typography component="span" className={classes.inline}                                                                                             color="textPrimary">*/}
@@ -365,14 +357,14 @@ class PostReviewSection extends React.Component {
                         </div>
                     ) : (
                         <div>
-                            <div className={classes.modal}>
+                            <div className={classes.postReviewModal}>
                                 <Modal
                                     aria-labelledby="simple-modal-title"
                                     aria-describedby="simple-modal-description"
                                     open={this.state.open}
                                     onClose={this.handleClose}
                                 >
-                                    <div className={classes.paper}>
+                                    <div className={classes.postReviewPaper}>
                                         <div className='backButton'>
                                             <Typography variant="h6" onClick={this.closeReview}>
                                                 x
@@ -383,7 +375,7 @@ class PostReviewSection extends React.Component {
                                         </Typography>
 
                                         <Typography className={classes.smallSecondaryHeading} id="simple-modal-description">
-                                            {'Created on 17/5/12 by '+this.state.review.userId}
+                                            {'Created on ' + this.state.review.date +' by '+this.state.review.userId}
                                         </Typography>
 
                                         <br/>
@@ -634,8 +626,8 @@ class PostReviewSection extends React.Component {
     }
 }
 
-PostReviewSection.propTypes = {
+ViewReviews.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PostReviewSection);
+export default withStyles(styles)(ViewReviews);

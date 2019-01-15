@@ -1,60 +1,39 @@
+/*
+    * Copyright (C) 2019 RateYourHouse
+    * File created By Jack Allcock
+    *
+    * Licensing information goes here
+    *
+    * Class function: This is the header which has the title, info, links and hosts the PostReview form
+    * Dependencies: Children: PostReview.js
+    * Third party libraries/frameworks: Material UI
+ */
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import HelpIcon from '@material-ui/icons/Help';
-import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import PostReviewSection from './postreviewsection'
-import PlacesAutocomplete from "react-places-autocomplete";
-
-const lightColor = 'rgba(255, 255, 255, 0.7)';
-
-const styles = theme => ({
-    secondaryBar: {
-        zIndex: 0,
-        textAlign: 'center'
-    },
-    menuButton: {
-        marginLeft: -theme.spacing.unit,
-    },
-    iconButtonAvatar: {
-        padding: 4,
-    },
-    link: {
-        textDecoration: 'none',
-        color: lightColor,
-        '&:hover': {
-            color: theme.palette.common.white,
-        },
-    },
-    button: {
-        borderColor: lightColor,
-    },
-});
+import Localisation from '../abstractions/localisation';
+import PostReviewSection from './PostReview'
 
 class Header extends React.Component {
 
+    // Create a binding here so that we can open the post form model from a different context
     constructor(props) {
         super(props);
-
         this.handlePostReview = this.handlePostReview.bind(this)
     }
 
+    // Decide whether the post review modal loads up or not
     state = {
         openForm: false
     };
 
+    // Have to be logged in and the modal cannot be open
     handlePostReview() {
         if (this.props.loggedIn) {
             if (this.state.openForm) {
@@ -65,22 +44,29 @@ class Header extends React.Component {
             }
         }
         else {
-            alert('You need to be logged in to post a review')
+            alert(Localisation.loginAlert)
         }
     };
 
     render() {
 
-        const {classes} = this.props;
+        // Logged in comes from app.js verification methods
         const isLoggedIn = this.props.loggedIn;
+        let headerTextPost = Localisation.headerTextPost;
+        let headerTitle = Localisation.appName;
+        let headerVersion = Localisation.headerVersion;
+        let alertDefaultText = Localisation.alertDefaultText;
+        let loginText = Localisation.loginText;
+        let logoutText = Localisation.logoutText;
 
         return (
         <React.Fragment>
-            <AppBar color="primary" position="sticky" elevation={0}>
-                <Toolbar>
+            {/* Alerts, form link and login/logout (top header) */}
+            <AppBar position="sticky" elevation={0}>
+                <Toolbar className='header'>
                     <Grid container spacing={8} alignItems="center">
                         <Grid item>
-                            <Tooltip title="Alerts • No alters">
+                            <Tooltip title={alertDefaultText}>
                                 <IconButton color="inherit">
                                     <NotificationsIcon/>
                                 </IconButton>
@@ -88,57 +74,44 @@ class Header extends React.Component {
                         </Grid>
                         <Grid item xs/>
                         <Grid item>
-                            <Typography className={classes.link} value={this.state.address}
-                                       onClick={this.handlePostReview} component="a" href="#">
-                                Post a review
-                            </Typography>
+                            <p className='headerLink' onClick={this.handlePostReview}>
+                                {headerTextPost}
+                            </p>
                         </Grid>
                         <Grid item>
-                            <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                                <Typography className={classes.link} component="a" href="#">
-                                    {isLoggedIn ? 'Logout' : 'Login'}
-                                </Typography>
-                            </IconButton>
+                            <p className='headerLink'>
+                                {isLoggedIn ? logoutText : loginText}
+                            </p>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
+            {/* Second header (lower down) has the App name and version */}
             <AppBar
                 component="div"
-                className={classes.secondaryBar}
-                color="primary"
+                className='secondaryHeader'
                 position="static"
-                elevation={0}
-            >
-                <Toolbar>
+                elevation={0}>
+
+                <Toolbar className='header'>
                     <Grid container alignItems="center" spacing={8}>
                         <Grid item xs>
-                            <Typography color="inherit" variant="h5">
-                                RateMyHouse.com
+                            <Typography color="inherit" variant="h4">
+                                {headerTitle}
                             </Typography>
+                            <p className='headerTitleVersionText'>
+                                {headerVersion}
+                            </p>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <AppBar
-                component="div"
-                className={classes.secondaryBar}
-                color="primary"
-                position="static"
-                elevation={0}
-            >
-            </AppBar>
+            {/* The post review form will load up here when the link is clicked */}
+            {/* I pass a handler through to here so that the modal closes when we are done with it */}
             <PostReviewSection open={this.state.openForm} handler={this.handlePostReview}/>
         </React.Fragment>
         );
-
     }
 }
 
-
-Header.propTypes = {
-    classes: PropTypes.object.isRequired,
-    onDrawerToggle: PropTypes.func.isRequired,
-};
-
-export default withStyles(styles)(Header);
+export default Header;

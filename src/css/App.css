@@ -1,0 +1,753 @@
+/* CSS file
+  Created By Jack ALlcock
+*/
+
+/* Default styles */
+input {
+    text-align: center;
+}
+
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    background: #048299;
+    overflow: hidden;
+}
+
+input[type=text]:focus, textarea:focus {
+    box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+    border-radius: 1px;
+}
+
+a {
+    color: #048299;
+}
+
+/* Created content */
+
+/* app.js */
+.mainContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 20px 36px 0;
+    background: #048299;
+}
+
+.root {
+    display: flex;
+    min-height: 100vh;
+    background: #048299;
+    webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s; /* Firefox < 16 */
+    -ms-animation: fadein 2s; /* Internet Explorer */
+    -o-animation: fadein 2s; /* Opera < 12.1 */
+    animation: fadein 2s;
+}
+
+.appContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #048299;
+}
+
+.inputWrapper {
+    width: 60%;
+    text-align: center;
+}
+
+/* Header */
+
+.infoText {
+    text-align: center;
+    color: white;
+    font-size: 10pt;
+    letter-spacing: 0.05em;
+    font-family: Arial, serif;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.helpText {
+    text-align: center;
+    color: white;
+    font-size: 10pt;
+    letter-spacing: 0.05em;
+    font-family: Arial, serif;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.header {
+    background: #048299;
+}
+
+.secondaryHeader {
+    z-index: 0;
+    background: #048299;
+    text-align: center;
+}
+
+.headerLink {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 1);
+    padding: 2px;
+    font-size: 11pt;
+}
+
+.headerLink:hover {
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.menuButton {
+    margin-left: 0px;
+}
+
+.headerTitleVersionText {
+    color: white;
+    font-size: 8pt;
+    padding-top: 5px;
+}
+
+.iconButtonAvatar {
+    padding: 4px;
+}
+
+/* Advertisements section */
+
+.advertisements {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 20px 36px 0;
+    overflow-y: auto;
+}
+
+.advertisements span {
+    color: yellow;
+    float: left;
+    border: 1px yellow solid;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.advertisement {
+    padding: 10px;
+}
+
+.advertisement img {
+    float: left;
+}
+
+.advertisement p {
+    float: right;
+    margin-top: 20px;
+    padding-left: 10px;
+    font-size: 8pt;
+}
+
+.advertisement:hover {
+    border: 1px white solid;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+/* Footer */
+
+.page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -50px;
+}
+
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+
+.site-footer, .page-wrap:after {
+    height: 50px;
+}
+
+.site-footer {
+    background: inherit;
+    color: white;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10pt;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    -webkit-animation: slide-top 1s ease-out both;
+    animation: slide-top 1s ease-out both;
+}
+
+/* SnackBar styling is inside components/SnackBar.js*/
+
+/* Reviews */
+.listItem:hover {
+    cursor: pointer;
+    background: #fafafa;
+    width: 100%;
+}
+
+.MuiListItem-gutters-270 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.backButton {
+    margin-left: 97%;
+    margin-top: -10px;
+    cursor: pointer;
+}
+
+.listRoot {
+    width: 100%;
+    background: white;
+    overflow-y: auto;
+    padding-left: 0 !important
+}
+
+.listItem {
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.stepperRoot {
+    width: 100%;
+    margin-top: -30px;
+}
+
+.MuiStepIcon * {
+    color: #048299 !important;
+}
+
+.MuiStepIcon-root-272.MuiStepIcon-completed-275 {
+    color: #048299 !important;
+}
+
+.postNextButton {
+    cursor: pointer;
+    border-radius: 10px;
+    border: #048299;
+    width: 75px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: #048299 !important;
+    position: relative;
+    bottom: 0;
+}
+
+.postBackButton {
+    cursor: pointer;
+    border-radius: 10px;
+    border: #048299;
+    width: 75px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: #048299 !important;
+}
+
+.postSubmitButton {
+    cursor: pointer;
+    border-radius: 10px;
+    border: #048299;
+    width: 150px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: #048299 !important;
+}
+
+button:focus, button:focus {
+    outline: none;
+}
+
+.postBackButton:disabled, .postBackButton[disabled] {
+    cursor: not-allowed;
+    border-radius: 10px;
+    border: #048299;
+    width: 75px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: grey !important;
+}
+
+.postNextButton:disabled, .postNextButton[disabled] {
+    cursor: not-allowed;
+    border-radius: 10px;
+    border: #048299;
+    width: 75px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: gray !important;
+}
+
+.postSubmitButton:disabled, .postSubmitButton[disabled] {
+    cursor: not-allowed;
+    border-radius: 10px;
+    border: #048299;
+    width: 75px;
+    height: 40px;
+    margin: 10px;
+    color: white;
+    background: gray !important;
+}
+
+.foundAddress {
+    font-size: 9pt;
+    color: #048299;
+}
+
+.largeHeading {
+    font-size: 18pt;
+    flex-basis: 33.33%;
+    flex-shrink: 0;
+}
+
+.smallSecondaryHeading {
+    font-size: 15pt;
+    flex-basis: 33.33%;
+    flex-shrink: 0;
+}
+
+.heading {
+    margin-top: 40px;
+    font-size: 14pt;
+    margin-bottom: 15px;
+}
+
+.comments input {
+    margin-bottom: 10px;
+}
+
+.commentsHeading {
+    font-size: 10pt;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.secondaryHeading {
+    margin-top: 20px;
+    font-size: 12pt;
+    margin-bottom: 30px;
+}
+
+.secondaryHeadingRating {
+    font-size: 8pt;
+}
+
+.postReviewPaper {
+    background: white;
+    width: 60%;
+    height: 80%;
+    margin: 30px auto;
+    padding: 30px;
+    overflow: auto;
+}
+
+.postReviewPanel {
+    font-size: 9pt;
+}
+
+.postReviewModal {
+    position: absolute;
+    width: 80%;
+    margin-top: -150px;
+    margin-left: 100px;
+    z-index: -1;
+    height: 80%;
+}
+
+.postReviewMain {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.reviewWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.reviewFormWrapper {
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.reviewStepperButtons {
+    margin-top: 20%;
+}
+
+.reviewBox {
+    width: 100%;
+    text-align: center;
+}
+
+.reviewBox input {
+    width: 500px !important;
+}
+
+.rating {
+    margin-top: -10px;
+    width: 100%;
+}
+
+.ratingWrapper {
+    margin-top: 10px;
+}
+
+.postReviewRoot {
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+}
+
+.postReviewInput {
+    width: 100%;
+    text-align: center;
+}
+
+#mainReviewInput {
+    margin-left: 0px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.commentsContainer {
+    width: 100%;
+}
+
+.errorText {
+    font-size: 12px;
+}
+
+.addressText {
+    font-size: 14px;
+}
+
+.enterAddress {
+    font-size: 14px;
+}
+
+.reviewRatings {
+    width: 100%;
+}
+
+.ratings {
+    width: 100%;
+}
+
+.margin {
+    margin: 100px;
+}
+
+.reviewVerify {
+    margin-top: 50px;
+    font-size: 12pt;
+}
+
+.reviewVerify p {
+    padding: 20px;
+}
+
+.reviewCannotChangeWarning {
+    font-style: italic;
+    font-size: 10pt;
+}
+
+.mainBackButton {
+    margin-left: 98%;
+    margin-top: -75px;
+    cursor: pointer;
+}
+
+/* Media Queries */
+
+/* Desktop */
+@media only screen and (min-width: 780px) {
+    .advertisement p {
+        float: right;
+        margin-top: 20px;
+        padding-left: 10px;
+        font-size: 13pt;
+    }
+
+    .reviewBox {
+        display: inline-block;
+    }
+
+    .rating {
+        margin-left: 0%;
+    }
+
+    .postReviewRoot {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .postReviewModal {
+        margin-left: 5px;
+    }
+}
+
+/* Small devices with little vertical real estate */
+@media only screen and (max-height: 700px) {
+    html, body {
+        height: 100%;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        background: #048299;
+    }
+
+    .advertisements span {
+        display: none;
+    }
+
+    .advertisements {
+        margin-top: -40px;
+    }
+
+    .site-footer {
+        background: inherit;
+        color: white;
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-size: 7pt;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25px;
+        -webkit-animation: slide-top 1s ease-out both;
+        animation: slide-top 1s ease-out both;
+    }
+
+    .reviewStepperButtons {
+        margin-top: 20%;
+    }
+
+}
+
+/* Small devices with no vertical real estate */
+@media only screen and (max-height: 500px) {
+    .advertisements span {
+        display: none;
+    }
+
+    .site-footer {
+        display: none;
+    }
+}
+
+/* Mobile devices */
+@media only screen and (max-width: 780px) {
+    .largeHeading {
+        font-size: 15pt;
+    }
+
+    .smallSecondaryHeading {
+        font-size: 10pt;
+    }
+
+    .heading {
+        margin-top: 30px;
+        font-size: 12pt;
+        margin-bottom: 15px;
+    }
+
+    .comments input {
+        margin-bottom: 10px;
+    }
+
+    .secondaryHeading {
+        font-size: 10pt;
+        margin-bottom: 20px
+    }
+
+    .reviewStepperButtons {
+        margin-top: 40%;
+    }
+
+    .commentsHeading {
+        font-size: 8pt;
+        margin-bottom: 10px;
+    }
+
+    .secondaryHeadingRating {
+        font-size: 10pt;
+        margin-right: 40px;
+    }
+
+    .postReviewPaper {
+        margin-top: 20px;
+        width: 90%;
+        height: 90%;
+        padding: 20px;
+        overflow: auto;
+    }
+
+    .postReviewPanel {
+        font-size: 5pt;
+        width: 100%;
+    }
+
+    .postReviewModal {
+        width: 100%;
+        margin-left: 5px;
+    }
+
+    .inputWrapper {
+        width: 100%;
+        text-align: center;
+    }
+
+    .backButton {
+        margin-left: 95%;
+        margin-top: -10px;
+        cursor: pointer;
+    }
+
+    .mainBackButton {
+        margin-left: 95%;
+        margin-top: -90px;
+        cursor: pointer;
+    }
+
+    .stepperRoot {
+        width: 100%;
+        margin-top: -20px;
+        margin-left: -15px;
+    }
+
+    .reviewVerify {
+        margin-top: 50px;
+        font-size: 10pt;
+    }
+
+    .reviewVerify p {
+        padding: 20px;
+    }
+
+    #mainReviewInput {
+        margin-left: -15px;
+        text-align: center;
+    }
+    #agencyComments {
+        margin-left: -15px;
+        text-align: center;
+    }
+    #landlordComments {
+        margin-left: -15px;
+        text-align: center;
+    }
+    #houseComments {
+        margin-left: -15px;
+        text-align: center;
+    }
+    #logisticsComments {
+        margin-left: -15px;
+        text-align: center;
+    }
+}
+
+/* Animations */
+/* Main page animations */
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Footer animations */
+@-webkit-keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
