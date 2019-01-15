@@ -417,7 +417,7 @@ class ReviewForm extends React.Component {
                                 className={classes.root}
                                 nextButton={
                                     <Button size="small" onClick={this.handleNext}
-                                            disabled={this.isDisabled()}>
+                                            disabled={this.state.activeStep === 5 || this.isDisabled()}>
                                         {Localisation.next}
                                         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                                     </Button>

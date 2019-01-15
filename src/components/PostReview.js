@@ -198,7 +198,8 @@ class PostReview extends React.Component {
             this.setState({
                 alert: true,
                 alertType: 'error',
-                alertMessage: 'There was a problem! Please try again.'
+                alertMessage: 'There was a problem! Please try again.',
+                postDisabled: false,
             });
         });
     };
