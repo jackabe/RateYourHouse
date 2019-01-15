@@ -1,174 +1,89 @@
+/*
+    * Copyright (C) 2019 RateYourHouse
+    * File created By Jack Allcock
+    *
+    * Licensing information goes here
+    *
+    * Class function: This is the main parent class which hosts the header, review input and post modal
+    * Dependencies: Children: ViewReviews.js and Header.js
+    * Third party libraries/frameworks: Material UI and react-meta-tags
+ */
+
 import React from 'react';
-import PropTypes from 'prop-types';
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Hidden from '@material-ui/core/Hidden';
-import Header from './components/header';
-import Main from "./components/main";
-import './App.css';
-import MetaTags from 'react-meta-tags';
-import StickyFooter from 'react-sticky-footer';
-
-let theme = createMuiTheme({
-    typography: {
-        useNextVariants: true,
-        h5: {
-            fontWeight: 500,
-            fontSize: 26,
-            letterSpacing: 0.5,
-        },
-    },
-    palette: {
-        primary: {
-            light: '#DA563A',
-            main: '#DA563A',
-            dark: '#DA563A',
-        },
-    },
-    shape: {
-        borderRadius: 8,
-    },
-});
-
-theme = {
-    ...theme,
-    overrides: {
-        MuiTabs: {
-            root: {
-                marginLeft: theme.spacing.unit,
-            },
-            indicator: {
-                height: 3,
-                borderTopLeftRadius: 3,
-                borderTopRightRadius: 3,
-                backgroundColor: theme.palette.common.white,
-            },
-        },
-        MuiTab: {
-            root: {
-                textTransform: 'initial',
-                margin: '0 16px',
-                minWidth: 0,
-                [theme.breakpoints.up('md')]: {
-                    minWidth: 0,
-                },
-            },
-            labelContainer: {
-                padding: 0,
-                [theme.breakpoints.up('md')]: {
-                    padding: 0,
-                },
-            },
-        },
-        MuiIconButton: {
-            root: {
-                padding: theme.spacing.unit,
-            },
-        },
-        MuiTooltip: {
-            tooltip: {
-                borderRadius: 4,
-            },
-        },
-        MuiDivider: {
-            root: {
-                backgroundColor: '#404854',
-            },
-        },
-        MuiListItemText: {
-            primary: {
-                fontWeight: theme.typography.fontWeightMedium,
-            },
-        },
-        MuiListItemIcon: {
-            root: {
-                color: 'inherit',
-                marginRight: 0,
-                '& svg': {
-                    fontSize: 20,
-                },
-            },
-        },
-        MuiAvatar: {
-            root: {
-                width: 32,
-                height: 32,
-            },
-        },
-    },
-    props: {
-        MuiTab: {
-            disableRipple: true,
-        },
-    },
-    mixins: {
-        ...theme.mixins,
-        toolbar: {
-            minHeight: 60,
-        },
-    },
-};
-
-const drawerWidth = 256;
-
-const styles = () => ({
-    root: {
-        display: 'flex',
-        minHeight: '100vh',
-        background: '#DA563A',
-    },
-    appContent: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#DA563A',
-    },
-    mainContent: {
-        flex: 1,
-        padding: '48px 36px 0',
-        background: '#DA563A',
-    },
-});
+import './css/App.css';
+import Localisation from './abstractions/localisation';
+import AdvertisementManager from './scripts/AdvertisementManager'
+import Header from './components/Header';
+import ViewReviews from "./components/ViewReviews";
 
 class App extends React.Component {
 
-    state = {
-        mobileOpen: false,
-        loggedIn: true
-    };
-
-    handleDrawerToggle = () => {
-        this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-    };
+    constructor (props) {
+        // Get advertisements to display below the form search
+        const advertisementManager = new AdvertisementManager();
+        super(props);
+        this.state = {
+            mobileOpen: false,
+            loggedIn: true,
+            advertisements: advertisementManager.getAdvertisements()
+        };
+    }
 
     render() {
-        const { classes } = this.props;
+        // The text that informs users how to use the search
+        let infoText = Localisation.infoText;
+        // The text that gives users a tip on searching
+        let helpText = Localisation.helpText;
+        // The text in the footer
+        let footerText = Localisation.footerText;
+        // The advertisement section title
+        let adTitle = Localisation.adTitle;
+        // Advertisements
+        let advertisements = this.state.advertisements;
+        let advertisementSection = null;
+        // If advertisements have loaded
+        if (advertisements) {
+            // Create the section and iterate over the JSON
+            advertisementSection = <div className='advertisements'>
+                <span>{adTitle}</span>
+                {Object.values(this.state.advertisements).map((advertisement, i) => {
+                    return (
+                        <div key={i} className='advertisement'>
+                            <img width='80px' src={advertisement.image} alt={advertisement.info}/>
+                            <p><b>{advertisement.price}  </b>{advertisement.info}</p>
+                        </div>
+                    )})}
+            </div>;
+        }
 
         return (
             <div>
-            <MetaTags>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            </MetaTags>
-            <MuiThemeProvider theme={theme}>
-                <div className={classes.root}>
-                    <CssBaseline />
-                    <div className={classes.appContent}>
-                        <Header onDrawerToggle={this.handleDrawerToggle} loggedIn={this.state.loggedIn}/>
-                        <Main/>
-
+                <div className='root'>
+                    {/* Some material ui base styling */}
+                    <CssBaseline/>
+                    <div className='appContent'>
+                        {/* Pass logged in state to header */}
+                        <Header loggedIn={this.state.loggedIn}/>
+                        {/* Load the reviews search tool */}
+                        <div className='mainContent'>
+                            <p className='infoText'>{infoText}</p>
+                            <div className='inputWrapper'>
+                                <ViewReviews/>
+                            </div>
+                            <p className='helpText'>{helpText}</p>
+                        </div>
+                        {/* Load up advertisements */}
+                        {advertisementSection}
+                        {/* Here is the footer */}
                         <footer className="site-footer">
-                            <p>RateMyHouse.com by Jack Allcock 2019</p>
+                            <p>{footerText}</p>
                         </footer>
                     </div>
                 </div>
-            </MuiThemeProvider>
-            </div>
+        </div>
         );
     }
 }
 
-App.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(App);
+export default (App);

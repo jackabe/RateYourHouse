@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 let port = 4000;
 const cors = require('cors');
+const dateTime = require('node-datetime');
 
 app.use(cors());
 
@@ -25,6 +26,10 @@ app.post('/upload/review', function (req, res) {
         .child("reviews");
     const addressReviewRef = ref.child(address);
     let key = addressReviewRef.push().getKey();
+
+    let date = dateTime.create();
+    date = date.format('d/m/Y');
+
     const message = {
         id: key,
         userId: req.body.userId,
@@ -43,10 +48,15 @@ app.post('/upload/review', function (req, res) {
         agencyComments: req.body.agencyComments,
         mainReviewInput: req.body.mainReviewInput,
         titleInput: req.body.titleInput,
+        date: date
     };
-    addressReviewRef.push(message);
-
-    res.status("201").json("Completed");
+    addressReviewRef.push(message)
+        .then(() => {
+            res.status("201").json("Completed");
+        })
+        .catch((error) => {
+            res.status("501").json(error);
+        });
 });
 
 app.get('/reviews/:address', function (req, res) {
