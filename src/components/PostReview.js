@@ -243,7 +243,7 @@ class PostReview extends React.Component {
             { this.state.alert ?  <Alert reason={this.state.alertType} message={this.state.alertMessage}/> : null }
             {/* If we are told to open form from header then show this */}
             {openForm ? (
-                <div className='postReviewModal'>
+                <div className='modal'>
                     {/* The modal itself */}
                     <Modal
                         aria-labelledby="simple-modal-title"
@@ -251,7 +251,7 @@ class PostReview extends React.Component {
                         open={this.state.open}
                         onClose={this.handleClose}>
                         {/* Paper effect with close x button*/}
-                        <div className='postReviewPaper'>
+                        <div className='paper'>
                             <div className='backButton'>
                                 <Typography variant="h6" onClick={this.handleClose}>
                                     x
