@@ -16,6 +16,7 @@ import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
 import ViewReviews from "./components/ViewReviews";
+import ReviewSearchTool from "./components/ReviewSearchTool";
 
 class App extends React.Component {
 
@@ -69,7 +70,7 @@ class App extends React.Component {
                         <div className='mainContent'>
                             <p className='infoText'>{infoText}</p>
                             <div className='inputWrapper'>
-                                <ViewReviews/>
+                                <ReviewSearchTool/>
                             </div>
                             <p className='helpText'>{helpText}</p>
                         </div>

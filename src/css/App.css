@@ -198,6 +198,15 @@ a {
 
 /* SnackBar styling is inside components/SnackBar.js*/
 
+/* Review search */
+
+.reviewSearch {
+    width: 100%;
+    border-radius: 50px;
+    text-align: center;
+    align-items: center;
+}
+
 /* Reviews */
 .listItem:hover {
     cursor: pointer;
@@ -356,7 +365,7 @@ button:focus, button:focus {
     font-size: 8pt;
 }
 
-.postReviewPaper {
+.paper {
     background: white;
     width: 60%;
     height: 80%;
@@ -369,13 +378,21 @@ button:focus, button:focus {
     font-size: 9pt;
 }
 
-.postReviewModal {
+.modal {
     position: absolute;
     width: 80%;
     margin-top: -150px;
     margin-left: 100px;
     z-index: -1;
     height: 80%;
+}
+
+.listRoot {
+    width: 100%;
+}
+
+.avatar {
+    margin: 10px;
 }
 
 .postReviewMain {
@@ -515,7 +532,7 @@ button:focus, button:focus {
 }
 
 @media only screen and (max-width: 1200px) {
-    .postReviewModal {
+    .modal {
         margin-left: 5px;
     }
 }
@@ -606,7 +623,7 @@ button:focus, button:focus {
         margin-right: 40px;
     }
 
-    .postReviewPaper {
+    .paper {
         margin-top: 20px;
         width: 90%;
         height: 90%;
@@ -619,7 +636,7 @@ button:focus, button:focus {
         width: 100%;
     }
 
-    .postReviewModal {
+    .modal {
         width: 100%;
         margin-left: 5px;
     }
