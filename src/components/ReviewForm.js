@@ -37,7 +37,9 @@ class ReviewForm extends React.Component {
             alertType: '',
             alertMessage: '',
             postDisabled: false,
-            nextDisabled: true
+            nextDisabled: true,
+            mainCharactersLeft: 'Characters needed: 5',
+            secondaryCharactersLeft: 'Characters needed: 20',
         };
     };
 
@@ -54,6 +56,21 @@ class ReviewForm extends React.Component {
     onCommentsChange = name => event => {
         // Send back to PostReview but still update state to represent change on this page
         this.props.commentsHandler(name, event.target.value);
+
+        let number = event.target.value.length;
+        let main = (5 - number);
+        let secondary = (20 - number);
+
+        if (name === 'titleInput' && main >= 0) {
+            this.setState(({
+                mainCharactersLeft: 'Characters needed: ' + main
+            }))
+        }
+        else if (name === 'mainReviewInput' && secondary >= 0) {
+            this.setState(({
+                secondaryCharactersLeft: 'Characters needed: ' + secondary
+            }));
+        }
         this.setState({
             [name]: event.target.value
         });
@@ -117,6 +134,15 @@ class ReviewForm extends React.Component {
                                     }}
                                 />
                             </FormControl>
+                            {this.state.mainCharactersLeft === 'Characters needed: 0' ? (
+                                <p className='mainCharacterCheck'>
+                                    {this.state.mainCharactersLeft}
+                                </p>
+                            ) : (
+                                <p className='mainCharacterCheckFail'>
+                                    {this.state.mainCharactersLeft}
+                                </p>
+                            )}
                             <p className='commentsHeading'>
                                 {Localisation.yourReview}
                             </p>
@@ -133,6 +159,15 @@ class ReviewForm extends React.Component {
                                     }}
                                 />
                             </FormControl>
+                            {this.state.secondaryCharactersLeft === 'Characters needed: 0' ? (
+                                <p className='secondCharacterCheck'>
+                                    {this.state.secondaryCharactersLeft}
+                                </p>
+                            ) : (
+                                <p className='secondCharacterCheckFail'>
+                                    {this.state.secondaryCharactersLeft}
+                                </p>
+                            )}
                         </div>
                     </div>
             },
@@ -434,10 +469,9 @@ class ReviewForm extends React.Component {
                             <div className='reviewVerify'>
                                 <p>{Localisation.reviewVerify}</p>
                                 <p>{Localisation.reviewVerifyInfo}</p>
-                                <p className='reviewCannotChangeWarning'>{Localisation.reviewVerifiyWarning}</p>
+                                <p className='reviewCannotChangeWarning'>{Localisation.reviewVerifyWarning}</p>
                             </div>
-
-                            ) : (
+                        ) : (
                         // Else just load the form based on the review stage
                         <div>
                             <div className='reviewWrapper'>

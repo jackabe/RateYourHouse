@@ -15,7 +15,6 @@ import './css/App.css';
 import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
-import ViewReviews from "./components/ViewReviews";
 import ReviewSearchTool from "./components/ReviewSearchTool";
 
 class App extends React.Component {
