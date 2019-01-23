@@ -15,11 +15,13 @@ import InputBase from '@material-ui/core/InputBase';
 import axios from 'axios';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import {geocodeByAddress} from 'react-places-autocomplete';
-import config from '../config/config';
-import ViewReviews from "./ViewReviews";
+import SweetAlert from 'sweetalert-react';
+import 'sweetalert/dist/sweetalert.css';
 import Modal from "@material-ui/core/Modal/Modal";
 import Typography from "@material-ui/core/Typography/Typography";
+import config from '../config/config';
 import Review from "./Review";
+import ViewReviews from "./ViewReviews";
 
 // The address axios calls
 const BASE_URL = config.serverURL;
@@ -32,7 +34,18 @@ class ReviewSearchTool extends React.Component {
         openModal: false,
         openReview: false,
         allReviewData: null,
-        reviewData: null
+        reviewData: null,
+        alertTitle: '',
+        alertInfo: ''
+    };
+
+    /**
+     * @param: review -> comes from the review list and is the one clicked on
+     * @method: handler callback which is passed to the review list to callback a review click
+     **/
+    openReview = review => {
+        this.setState({ openReview: true });
+        this.setState({ reviewData: review });
     };
 
     /**
@@ -44,10 +57,17 @@ class ReviewSearchTool extends React.Component {
     };
 
     /**
-     * @method: close the modal when needed
+     * @method: close the modal when needed and refresh location
      **/
     handleClose = () => {
-        this.setState({ openModal: false });
+        if (this.state.openReview) {
+            this.setState({ openReview: false });
+        }
+        else {
+            this.setState({ openModal: false });
+            // We may not need to reload - just an inconvenience to user and there is no problematic state to clear
+            // window.location.reload();
+        }
     };
 
     /**
@@ -72,8 +92,32 @@ class ReviewSearchTool extends React.Component {
                     openModal: true
                 });
             })
-            .catch(function (error) {
-                alert('Oops! There has been an issue with finding a review with that address - please try again');
+            .catch((error) => {
+                if (error.response) {
+                    if (error.response.status === 404) {
+                        this.setState({
+                            showError: true,
+                            alertTitle: 'No reviews!',
+                            alertInfo: 'Sorry there are no reviews for this property. Perhaps you can post one?',
+                        });
+                    }
+                    else {
+                        console.log(error.response);
+                        this.setState({
+                            showError: true,
+                            alertTitle: 'Uh oh!',
+                            alertInfo: 'We are currently having problems, please contact support if the issue persists',
+                        });
+                    }
+                }
+                else {
+                    console.log(error);
+                    this.setState({
+                        showError: true,
+                        alertTitle: 'Uh oh!',
+                        alertInfo: 'We are currently having problems, please contact support if the issue persists',
+                    });
+                }
             });
     };
 
@@ -159,14 +203,26 @@ class ReviewSearchTool extends React.Component {
                             {/* Open up reviews list or specific review */}
                             {this.state.openReview ? (
                                 /* Review data passed to the review */
-                                <Review data={this.state.reviewData}/>
+                                <Review data={this.state.reviewData} address={this.state.address}/>
                             ) : (
                                 /* Reviews data passed to the review list */
-                                <ViewReviews data={this.state.allReviewData} address={this.state.address}/>
+                                <ViewReviews data={this.state.allReviewData} openReview={this.openReview} address={this.state.address}/>
                             )}
                         </div>
                     </Modal>
                  </div>
+
+                {/* Error alert when no reviews found */}
+                <div>
+                    <SweetAlert
+                        show={this.state.showError}
+                        title={this.state.alertTitle}
+                        text={this.state.alertInfo}
+                        animation="slide-from-top"
+                        type="error"
+                        onConfirm={() => this.setState({ showError: false })}
+                    />
+                </div>
             </div>
         );
     }

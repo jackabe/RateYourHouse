@@ -54,8 +54,10 @@ app.post('/upload/review', function (req, res) {
         .then(() => {
             res.status("201").json("Completed");
         })
+        // TODO: Check if firebase is pending as offline - If so inform user it will post
         .catch((error) => {
             res.status("501").json(error);
+            console.log(error);
         });
 });
 
@@ -63,13 +65,16 @@ app.get('/reviews/:address', function (req, res) {
     console.log('Review requested');
     let address = req.param("address");
     console.log(address);
-    firebase.database().ref("reviews").child(address+' ').once('value').then(function(snapshot) {
-        if (snapshot.val()) {
+    firebase.database().ref("reviews").child(address + ' ').once('value').then(function (snapshot) {
+        if (snapshot.exists()) {
             res.send(snapshot.val());
         }
         else {
-            res.status("501").json("No data");
+            res.status("404").json("No data");
         }
+    }, function(error) {
+        console.error(error);
+        res.status("501").json("Sorry but your request failed");
     });
 });
 
@@ -78,9 +83,6 @@ const server = app.listen(port, () => console.log("Listenting on ", {port}));
 
 // https://stackoverflow.com/questions/7067966/how-to-allow-cors
 // Allows communication between React and Node server which are on same IP but on different ports
-// https://stackoverflow.com/questions/7067966/how-to-allow-cors
-// Allows communication between React and Node server which are on same IP but on different ports
-
 // Start server
 
 

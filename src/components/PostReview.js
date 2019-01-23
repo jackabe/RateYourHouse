@@ -18,6 +18,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from "axios";
+import { Line, Circle } from 'rc-progress';
 import Alert from "./SnackBar";
 import config from '../config/config';
 import Localisation from '../abstractions/localisation';
@@ -95,7 +96,6 @@ class PostReview extends React.Component {
         this.getStarValue = this.getStarValue.bind(this);
         this.getCommentsValue = this.getCommentsValue.bind(this);
         this.onStepHandler = this.onStepHandler.bind(this);
-
     };
 
     // Cleaner way of representing large state and can change dynamically
@@ -130,9 +130,31 @@ class PostReview extends React.Component {
             alert: false,
             alertType: '',
             alertMessage: '',
-            postDisabled: false
+            postDisabled: false,
+            percent: 30,
+            progressColor: '#3FC7FA',
         };
     };
+
+    changeProgress(value) {
+        const colorMap = ['#85D262', '#3FC7FA'];
+        alert(value);
+        if (value < 30) {
+            this.setState({
+                percent: value,
+                color: colorMap[0],
+            });
+        }
+        else {
+            this.setState({
+                percent: value,
+                color: colorMap[1],
+            });
+        }
+        if (value === 100) {
+            window.location.reload();
+        }
+    }
 
     // Handle stepper next
     handleNext = () => {
@@ -164,6 +186,7 @@ class PostReview extends React.Component {
         this.setState({
             postDisabled: true,
         });
+        this.changeProgress(20);
         // Post to server via axios
         axios.post(BASE_URL + 'upload/review', {
             address: this.state.addressToPost,
@@ -186,12 +209,14 @@ class PostReview extends React.Component {
             titleInput: this.state.titleInput.substr(0, config.maxLength)
         })
         .then((response) => {
+            this.changeProgress(80);
             this.setState({
                 alert: true,
                 alertType: 'success',
                 alertMessage: 'You have successfully created a review, thanks!'
             });
-            setTimeout(() => window.location.reload(), 2500);
+            setTimeout(() =>
+            this.changeProgress(100), 2500);
         })
         .catch((response) => {
             console.log(response);
@@ -199,8 +224,11 @@ class PostReview extends React.Component {
                 alert: true,
                 alertType: 'error',
                 alertMessage: 'There was a problem! Please try again.',
-                postDisabled: false,
             });
+            setTimeout(() =>  this.setState({
+                postDisabled: false,
+                alert: false,
+            }), 2000);
         });
     };
 
@@ -337,6 +365,12 @@ class PostReview extends React.Component {
                                                 {this.state.reviewStep === 5 ? (
                                                     <div className='reviewStepperButtons'>
                                                     {/* Disable submit if invalid data / after submit */}
+                                                    <div className='progressLine'>
+                                                        <Line
+                                                            percent={this.state.progress}
+                                                            strokeWidth="2"
+                                                            strokeColor={this.state.progressColor}/>
+                                                    </div>
                                                     {this.state.postDisabled ? (
                                                         <div className='reviewStepperButtons'>
                                                             <button
