@@ -11,7 +11,7 @@
   "alertDefaultText": "Alerts • No alters",
   "loginText": "Login",
   "logoutText": "Logout",
-  "addressBoxErrorText": "Oops! The address entered has either been entered incorrectly or is not available on our public database. Please try                            again or contact the support team at",
+  "addressBoxErrorText": "Oops! The address entered has either been entered incorrectly or is not available on our public database. Please try again or contact the support team at",
   "supportLink": "www.ratemyhouse.com/support",
   "enterAddress": "You need to enter an address. When you do it will pop up in here.",
   "postCodeLabel": "Postcode",
