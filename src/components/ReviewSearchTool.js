@@ -5,7 +5,7 @@
     * Licensing information goes here
     *
     * Class function: This is the review search input class
-    * Dependencies: None
+    * Dependencies: Children; Review.js, ViewReviews.js, config.js
     * Third party libraries/frameworks: Material UI
  */
 
@@ -167,8 +167,8 @@ class ReviewSearchTool extends React.Component {
                                             ? 'suggestion-item--active'
                                             : 'suggestion-item';
                                         const style = suggestion.active
-                                            ? { backgroundColor: '#fafafa', fontFamily: "Arial", width: '100%', cursor: 'pointer',                                                                  padding: 5}
-                                            : { backgroundColor: '#ffffff', fontFamily: "Arial", width: '100%', cursor: 'pointer',                                                                  padding: 5 };
+                                            ? { backgroundColor: '#fafafa', fontFamily: "Arial", width: '100%', cursor: 'pointer', padding: 5}
+                                            : { backgroundColor: '#ffffff', fontFamily: "Arial", width: '100%', cursor: 'pointer', padding: 5 };
                                         return (
                                             <div
                                                 {...getSuggestionItemProps(suggestion, {

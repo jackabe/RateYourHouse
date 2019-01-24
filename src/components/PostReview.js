@@ -18,15 +18,17 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from "axios";
-import { Line, Circle } from 'rc-progress';
+import { Line } from 'rc-progress';
 import Alert from "./SnackBar";
 import config from '../config/config';
 import Localisation from '../abstractions/localisation';
 import AddressForm from "./AddressForm";
 import ReviewForm from "./ReviewForm";
 
+// The URL which points to the Express server
 const BASE_URL = config.serverURL;
 
+// TODO: Remove bootsrap inputs and figure out way to style stepper without this
 // The following are Material UI styles and themes that do not work when extracted to CSS
 const theme = createMuiTheme({
     // Passes to stepper
@@ -88,7 +90,7 @@ const styles = theme => ({
 
 class PostReview extends React.Component {
 
-    // Create bindings for buttons/stars/comments from different contexts
+    // Create bindings for buttons/stars/comments/stepper from different contexts
     constructor(props) {
         super(props);
         this.state = this.getInitialState();
@@ -136,26 +138,37 @@ class PostReview extends React.Component {
         };
     };
 
+    /**
+     * @param: value -> value between 0 and 100 represents progress
+     * @method: changes the states of the progress bar according to input and reloads page when submission done
+     **/
     changeProgress(value) {
+        // Blue to green
         const colorMap = ['#85D262', '#3FC7FA'];
+        // If less than 30% -> blue
         if (value < 30) {
             this.setState({
                 percent: value,
                 progressColor: colorMap[0],
             });
         }
+        // Over 30% set to green
         else {
             this.setState({
                 percent: value,
                 progressColor: colorMap[1],
             });
         }
+        // Reload page when progress reaches 100
         if (value === 100) {
             window.location.reload();
         }
     }
 
-    // Handle stepper next
+    /**
+     * @param: none
+     * @method: keeps track of which step the stepper is on
+     **/
     handleNext = () => {
         const {activeStep} = this.state;
         let {skipped} = this.state;
@@ -165,21 +178,34 @@ class PostReview extends React.Component {
         });
     };
 
-    // Clicking a star during review
+    /**
+     * @param: name -> name of the star class, which does it belong? Landlord, agent etc
+     * @param: nextValue -> the rating selected between 0 and 5
+     * @method: sets the state of address
+     **/
     getStarValue(name, nextValue) {
         this.setState({
             [name]: nextValue
         });
     };
 
-    // Adding comments
+    /**
+     * @param: name -> name of the comments class, which does it belong? Landlord, agent etc
+     * @param: value -> the entered text
+     * @method: sets the state of each individual comment
+     **/
     getCommentsValue(name, value) {
         this.setState({
             [name]: value
         });
     };
 
-    // Upload review handler
+    /**
+     * @param: none
+     * @method: uploads the review
+     * -> Disables post
+     * -> Sends via Axios
+     **/
     uploadReview = () => {
         // Don't let multiple submissions
         this.setState({
@@ -208,22 +234,27 @@ class PostReview extends React.Component {
             titleInput: this.state.titleInput.substr(0, config.maxLength)
         })
         .then((response) => {
+            // If success move to 80 and alert user
             this.changeProgress(80);
             this.setState({
                 alert: true,
                 alertType: 'success',
                 alertMessage: 'You have successfully created a review, thanks!'
             });
+            // After 2.5 seconds finish progress therefore reloading page
             setTimeout(() =>
             this.changeProgress(100), 2500);
         })
         .catch((response) => {
+            // Log error
             console.log(response);
+            // Alert user
             this.setState({
                 alert: true,
                 alertType: 'error',
                 alertMessage: 'There was a problem! Please try again.',
             });
+            // Unlock post button after 2 seconds and reset alert to allow others to be sent
             setTimeout(() =>  this.setState({
                 postDisabled: false,
                 alert: false,
@@ -231,14 +262,20 @@ class PostReview extends React.Component {
         });
     };
 
-    // Handle stepper back
+    /**
+     * @param: none
+     * @method: move the stepper back
+     **/
     handleBack = () => {
         this.setState(state => ({
             activeStep: state.activeStep - 1,
         }));
     };
 
-    // Handler that comes back from ReviewForm.js stepper to reveal submit button
+    /**
+     * @param: step -> the current step of the stepper
+     * @method: checks to see if step is 2 -> load in submit section
+     **/
     onStepHandler(step) {
         // Sets step to 2 to move to submit section
         this.setState({
@@ -247,12 +284,20 @@ class PostReview extends React.Component {
         });
     }
 
-    // Set the address from the API to state and enable the next button
+    /**
+     * @param: addressToPost -> returned address from the google API and allows next button to be not disabled
+     * @method: Set the address from the API to state and enable the next button
+     **/
     getAddressOfProperty = (addressToPost) => {
         this.setState({addressToPost: addressToPost});
         this.setState({valid: true});
     };
 
+    /**
+     * @param: none
+     * @method: calls Header.js to close modal -> reload to clear any state
+     *  -> Could just location.reload as clears state: but might change in future
+     **/
     handleClose = () => {
         this.props.handler();
         window.location.reload();
@@ -261,8 +306,8 @@ class PostReview extends React.Component {
     render() {
         const steps = ['Enter Address', 'Enter Review', 'Submit Review'];
         const {activeStep} = this.state;
-        const openForm = this.props.open;
         const {classes} = this.props;
+        const openForm = this.props.open;
 
         return (
             <div>
