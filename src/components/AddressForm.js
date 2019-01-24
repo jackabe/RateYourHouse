@@ -1,3 +1,14 @@
+/*
+    * Copyright (C) 2019 RateYourHouse
+    * File created By Jack Allcock
+    *
+    * Licensing information goes here
+    *
+    * Class function: This is the class which hosts the review form and gets an address to post review for
+    * Dependencies: Localisation.js, react-places-autocomplete
+    * Third party libraries/frameworks: Material UI
+ */
+
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -23,20 +34,28 @@ class AddressForm extends React.Component {
         this.handleAddressInput = this.handleAddressInput.bind(this);
     };
 
-    // Perform API check when address is entered
+    /**
+     * @param: none
+     * @method: When post code entered and street address try and find address -
+     **/
     handleAddressInput() {
         let postCode = document.getElementById("postcode").value;
         let road = document.getElementById("addressLine").value;
         let city = document.getElementById("city").value;
         let country = 'United Kingdom';
+        // Country first to limit to UK
         let addressIn = country + ' ' + postCode + ' ' + road + ' ' + city;
         geocodeByAddress(addressIn)
-            .then(results => results[0]['address_components'])
+            .then(results => results[0]['address_components']) // Get full component for analysis
             .then(address => this.goToAddress(address))
             .catch(error => this.setState({error}));
     };
 
-    // Get the long address from the API
+    /**
+     * @param: address -> from the above API
+     * @method: get the long address and only state valid if road has been started
+     *  -> Post address back to PostReview.js
+     **/
     goToAddress(address) {
         let addressToPost = '';
         let i = 0;
@@ -119,6 +138,7 @@ class AddressForm extends React.Component {
                 <Paper className='postReviewRoot' elevation={2}>
                     <div className='postReviewMain'>
                         <div>
+                            {/* Found an address*/}
                             {this.state.addressToPost.length !== 0 ? (
                                 <div>
                                     <span
@@ -133,6 +153,7 @@ class AddressForm extends React.Component {
                                 </div>
                             ) : (
                                 <div>
+                                    {/* No address yet */}
                                     {this.state.error.length !== 0 ? (
                                         <div>
                                            <span className='errorText'>{Localisation.addressBoxErrorText}
@@ -142,6 +163,7 @@ class AddressForm extends React.Component {
                                            </span>
                                         </div>
                                     ) : (
+                                        /* The help text when nothing entered but no error */
                                         <div>
                                            <span
                                                className='enterAddress'>{Localisation.enterAddress}</span>
