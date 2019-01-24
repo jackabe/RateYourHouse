@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 src/server/ratemyhouse-key.json
+.idea/encodings.xml
+.idea/workspace.xml
+
