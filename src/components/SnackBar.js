@@ -68,7 +68,6 @@ function MySnackbarContent(props) {
                     className={classes.close}
                     onClick={onClose}
                 >
-                    <CloseIcon className={classes.snackBarIcon} />
                 </IconButton>,
             ]}
             {...other}
@@ -81,7 +80,7 @@ MySnackbarContent.propTypes = {
     className: PropTypes.string,
     snackBarMessage: PropTypes.node,
     onClose: PropTypes.func,
-    variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
+    variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,g
 };
 
 const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);

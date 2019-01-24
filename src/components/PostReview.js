@@ -131,24 +131,23 @@ class PostReview extends React.Component {
             alertType: '',
             alertMessage: '',
             postDisabled: false,
-            percent: 30,
+            percent: 0,
             progressColor: '#3FC7FA',
         };
     };
 
     changeProgress(value) {
         const colorMap = ['#85D262', '#3FC7FA'];
-        alert(value);
         if (value < 30) {
             this.setState({
                 percent: value,
-                color: colorMap[0],
+                progressColor: colorMap[0],
             });
         }
         else {
             this.setState({
                 percent: value,
-                color: colorMap[1],
+                progressColor: colorMap[1],
             });
         }
         if (value === 100) {
@@ -367,7 +366,7 @@ class PostReview extends React.Component {
                                                     {/* Disable submit if invalid data / after submit */}
                                                     <div className='progressLine'>
                                                         <Line
-                                                            percent={this.state.progress}
+                                                            percent={this.state.percent}
                                                             strokeWidth="2"
                                                             strokeColor={this.state.progressColor}/>
                                                     </div>
