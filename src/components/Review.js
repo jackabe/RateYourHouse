@@ -1,3 +1,14 @@
+/*
+    * Copyright (C) 2019 RateYourHouse
+    * File created By Jack Allcock
+    *
+    * Licensing information goes here
+    *
+    * Class function: This is the class which shows the review in panels
+    * Dependencies: none
+    * Third party libraries/frameworks: Material UI, react-star-rating-component
+ */
+
 import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import StarIcon from '@material-ui/icons/Stars';
@@ -9,10 +20,15 @@ import Localisation from '../abstractions/localisation';
 
 class Review extends React.Component {
 
+    // State -> expanded is to know which panel needs to be opened and closed
     state = {
         expanded: null,
     };
 
+    /**
+     * @param: panel
+     * @method: closes panel if expanded and vice versa
+     **/
     handlePanelChange = panel => (event, expanded) => {
         this.setState({
             expanded: expanded ? panel : false,
@@ -24,6 +40,7 @@ class Review extends React.Component {
         const address = this.props.address;
         const review = this.props.data;
 
+        // Dynamically loaded in reviews to aid styling maintainability
         let reviews = [
             {
                 // Landlord

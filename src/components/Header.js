@@ -33,7 +33,10 @@ class Header extends React.Component {
         openForm: false
     };
 
-    // Have to be logged in and the modal cannot be open
+    /**
+     * @param: none
+     * @method: Check if user is logged in, if so open the post form section
+     **/
     handlePostReview() {
         if (this.props.loggedIn) {
             if (this.state.openForm) {

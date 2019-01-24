@@ -1,3 +1,15 @@
+/*
+    * Copyright (C) 2019 RateYourHouse
+    * File created By Jack Allcock
+    *
+    * Licensing information goes here
+    *
+    * Class function: This is the actual review form -> not submitted from here
+    *   Submission takes place in PostReview.js
+    * Dependencies: none;
+    * Third party libraries/frameworks: Material UI, react-star-rating-component
+ */
+
 import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,6 +24,7 @@ import Paper from '@material-ui/core/Paper';
 
 class ReviewForm extends React.Component {
 
+    // Variables to be posted
     constructor(props) {
         super(props);
         this.state = {
@@ -43,8 +56,12 @@ class ReviewForm extends React.Component {
         };
     };
 
-    // Clicking a star during review
-    onStarClick(nextValue, prevValue, name) {
+    /**
+     * @param: nextValue - value clicked, 0 or 5
+     * @param: name - class of the rating, e.g Landlord
+     * @method: fills in stars when clicked and informs PostReview.js
+     **/
+    onStarClick(nextValue, name) {
         // Send back to PostReview but still update state to represent change on this page
         this.props.starHandler(name, nextValue);
         this.setState({
@@ -52,31 +69,41 @@ class ReviewForm extends React.Component {
         });
     }
 
-    // Adding comments
+    /**
+     * @param: name - class of the comment, e.g Landlord
+     * @method: sets comment state in PostReview.js via callback
+     *  Also offers feedback on characters
+     **/
     onCommentsChange = name => event => {
         // Send back to PostReview but still update state to represent change on this page
         this.props.commentsHandler(name, event.target.value);
 
-        let number = event.target.value.length;
-        let main = (5 - number);
-        let secondary = (20 - number);
+        let length = event.target.value.length; // Length of input
+        let main = (5 - length); // Review title min of 5
+        let secondary = (20 - length); // Review info min of 20
 
+        // Update help text below title
         if (name === 'titleInput' && main >= 0) {
             this.setState(({
                 mainCharactersLeft: 'Characters needed: ' + main
             }))
         }
+        // Update help below info
         else if (name === 'mainReviewInput' && secondary >= 0) {
             this.setState(({
                 secondaryCharactersLeft: 'Characters needed: ' + secondary
             }));
         }
+        // Set comment state here to remember
         this.setState({
             [name]: event.target.value
         });
     };
 
-    // Handles the stepper next button
+    /**
+     * @param: none
+     * @method: handles stepper next button
+     **/
     handleNext = () => {
         // If step is 4, tell parent to show submit button
         if (this.state.activeStep === 4) {
@@ -87,13 +114,20 @@ class ReviewForm extends React.Component {
         }));
     };
 
+    /**
+     * @param: none
+     * @method: unlock next button only if title and info satisfied 5 and 20 characters
+     **/
     isDisabled = () => {
         if (this.state.titleInput.length < 5 || this.state.mainReviewInput.length < 20) {
             return true;
         }
     };
 
-    // Handles the stepper back button
+    /**
+     * @param: none
+     * @method: handles stepper back button
+     **/
     handleBack = () => {
         this.setState(state => ({
             activeStep: state.activeStep - 1,

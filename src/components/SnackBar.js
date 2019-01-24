@@ -80,7 +80,7 @@ MySnackbarContent.propTypes = {
     className: PropTypes.string,
     snackBarMessage: PropTypes.node,
     onClose: PropTypes.func,
-    variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,g
+    variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
 const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
@@ -96,9 +96,9 @@ class CustomizedSnackbars extends React.Component {
     constructor(props) {
         super(props);
 
-            this.state = {
-                open: true,
-            };
+        this.state = {
+            open: true,
+        };
     }
 
     handleClick = () => {
