@@ -14,35 +14,119 @@ import '../../css/App.css';
 import Modal from "@material-ui/core/Modal/Modal";
 import Typography from "@material-ui/core/Typography/Typography";
 import SweetAlert from "sweetalert-react";
-import SignUpPage from "../SignUp";
-import SignInPage from "../SignIn";
 import Google from "../../images/icon-google.png"
 import Facebook from "../../images/facebook-icon.png"
+import { withFirebase } from './../Firebase';
+
+const ERROR_CODE_ACCOUNT_EXISTS =
+    'auth/account-exists-with-different-credential';
+
+const ERROR_MSG_ACCOUNT_EXISTS = `
+  An account with an E-Mail address to
+  this social account already exists.
+`;
+
+const INITIAL_STATE = {
+    username: '',
+    email: '',
+    passwordOne: '',
+    passwordTwo: '',
+    error: null,
+    openModal: true,
+};
 
 class Login extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {
-            openModal: true
-        };
+        this.state = { ...INITIAL_STATE };
     }
+
+    onSubmit = event => {
+        const { email, password } = this.state;
+
+        this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState({ ...INITIAL_STATE });
+                // this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
+    };
+
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+    signUp = () => {
+        alert('Sign up');
+    };
+
+    googleLogin = event => {
+        event.preventDefault();
+        this.props.firebase
+            .doSignInWithGoogle()
+            .then(socialAuthUser => {
+                // Create a user in your Firebase Realtime Database too
+                return this.props.firebase.user(socialAuthUser.user.uid).set({
+                    username: socialAuthUser.user.displayName,
+                    email: socialAuthUser.user.email,
+                    roles: [],
+                });
+            })
+            .then(() => {
+                this.setState({ error: null });
+                // this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+                    error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                }
+
+                this.setState({ error });
+            });
+    };
+
+    facebookLogin = event => {
+        this.props.firebase
+            .doSignInWithFacebook()
+            .then(socialAuthUser => {
+                // Create a user in your Firebase Realtime Database too
+                return this.props.firebase.user(socialAuthUser.user.uid).set({
+                    username: socialAuthUser.additionalUserInfo.profile.name,
+                    email: socialAuthUser.additionalUserInfo.profile.email,
+                    roles: [],
+                });
+            })
+            .then(() => {
+                this.setState({ error: null });
+                // this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+                    error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                }
+
+                this.setState({ error });
+            });
+
+        event.preventDefault();
+    };
 
     /**
      * @method: close the modal when needed and refresh location
      **/
     handleClose = () => {
-        if (this.state.openReview) {
-            this.setState({ openReview: false });
-        }
-        else {
-            this.setState({ openModal: false });
-            // We may not need to reload - just an inconvenience to user and there is no problematic state to clear
-            // window.location.reload();
-        }
+        this.props.shutLoginForm();
     };
 
     render() {
+        const { email, password, error } = this.state;
+        const isInvalid = password === '' || email === '';
 
         return (
             <div>
@@ -64,11 +148,11 @@ class Login extends React.Component {
                             <h3>Log in with</h3>
 
                             <div className='alternativeLogins'>
-                                <div className='facebook'>
+                                <div className='facebook' onClick={this.facebookLogin}>
                                     <img src={Facebook} width='30px'/>
                                     <p>Facebook</p>
                                 </div>
-                                <div className='google'>
+                                <div className='google' onClick={this.googleLogin}>
                                     <img src={Google}/>
                                     <p>Google</p>
                                 </div>
@@ -77,39 +161,38 @@ class Login extends React.Component {
                             <div className='emailForm'>
                                 <label>Email</label>
                                 <br/>
-                                <input/>
+                                <input
+                                    name="email"
+                                    value={email}
+                                    onChange={this.onChange}
+                                    type="text"
+                                    placeholder="Email Address"
+                                />
                                 <br/>
                                 <label>Password</label>
                                 <br/>
-                                <input/>
+                                <input
+                                    name="password"
+                                    value={password}
+                                    onChange={this.onChange}
+                                    type="password"
+                                    placeholder="Password"
+                                />
 
-                                <button>Login</button>
+                                {error && <p>{error.message}</p>}
+
+                                <button disabled={isInvalid} onClick={this.onSubmit}>Login</button>
                             </div>
 
-                            <p className='signUpText'>Not a member? <a className={'www.google.co.uk'}>Sign up now </a></p>
+                            <p className='signUpText'>Not a member? <a onClick={this.signUp}>Sign up now </a></p>
 
-
-
-                            {/*<SignUpPage/>*/}
-                            {/*<SignInPage/>*/}
                         </div>
-                    </Modal>
-                </div>
 
-                {/* Error alert when no reviews found */}
-                <div>
-                    <SweetAlert
-                        show={this.state.showError}
-                        title={this.state.alertTitle}
-                        text={this.state.alertInfo}
-                        animation="slide-from-top"
-                        type="error"
-                        onConfirm={() => this.setState({ showError: false })}
-                    />
+                    </Modal>
                 </div>
             </div>
         );
     }
 }
 
-export default Login;
+export default withFirebase(Login);

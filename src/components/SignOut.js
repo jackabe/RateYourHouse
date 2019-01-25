@@ -3,9 +3,12 @@ import React from 'react';
 import { withFirebase } from './Firebase';
 
 const SignOutButton = ({ firebase }) => (
-    <p onClick={firebase.doSignOut}>
-        Logout
-    </p>
+    <div>
+        <p onClick={firebase.doSignOut}>
+            Logout
+        </p>
+    </div>
+
 );
 
 export default withFirebase(SignOutButton);
