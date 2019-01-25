@@ -16,10 +16,7 @@ import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
 import ReviewSearchTool from "./components/ReviewSearchTool";
-import SignUpPage from "./components/SignUp";
 import { withFirebase } from './components/Firebase';
-import SignInPage from "./components/SignIn";
-import SignOutButton from "./components/SignOut";
 import Login from "./components/Authentication/Login"
 
 class App extends React.Component {
@@ -30,7 +27,6 @@ class App extends React.Component {
         super(props);
         this.state = {
             mobileOpen: false,
-            loggedIn: true,
             advertisements: advertisementManager.getAdvertisements(),
             authUser: null,
         };
@@ -101,7 +97,6 @@ class App extends React.Component {
                         </footer>
                     </div>
                 </div>
-                <Login/>
         </div>
         );
     }

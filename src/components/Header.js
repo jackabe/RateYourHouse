@@ -21,6 +21,8 @@ import Localisation from '../abstractions/localisation';
 import PostReviewSection from './PostReview'
 import { withFirebase } from './Firebase';
 import SignOutButton from "./SignOut";
+import Login from "./Authentication/Login";
+import SweetAlert from "sweetalert-react";
 
 class Header extends React.Component {
 
@@ -32,7 +34,9 @@ class Header extends React.Component {
 
     // Decide whether the post review modal loads up or not
     state = {
-        openForm: false
+        openForm: false,
+        openLogin: false,
+        showLogout: false
     };
 
     /**
@@ -49,8 +53,22 @@ class Header extends React.Component {
             }
         }
         else {
-            alert(Localisation.loginAlert)
+            alert(Localisation.loginAlert);
+            this.setState({openLogin: false});
         }
+    };
+
+    handleLogin = () => {
+        this.setState({openLogin: true});
+    };
+
+    closeLogin = () => {
+        this.setState({openLogin: false});
+    };
+
+    handleLogout = () => {
+        this.setState({showLogout: true});
+        this.setState({openLogin: false});
     };
 
     render() {
@@ -85,11 +103,11 @@ class Header extends React.Component {
                         </Grid>
                         <Grid item className='headerLink'>
                             {isLoggedIn ? (
-                                <div>
+                                <div onClick={this.handleLogout}>
                                     <SignOutButton/>
                                 </div>
                             ) : (
-                               <div>
+                               <div onClick={this.handleLogin}>
                                    <p>
                                        {loginText}
                                    </p>
@@ -122,6 +140,20 @@ class Header extends React.Component {
             {/* The post review form will load up here when the link is clicked */}
             {/* I pass a handler through to here so that the modal closes when we are done with it */}
             <PostReviewSection authUser={this.props.authUser} open={this.state.openForm} handler={this.handlePostReview}/>
+
+            {!this.props.authUser && this.state.openLogin ? <Login shutLoginForm={this.closeLogin}/> : null}
+
+            <div>
+                <SweetAlert
+                    show={this.state.showLogout}
+                    title='Logged out'
+                    text='You have been successfully logged out!'
+                    animation="slide-from-top"
+                    type="success"
+                    onConfirm={() => this.setState({ showLogout: false })}
+                />
+            </div>
+
         </React.Fragment>
         );
     }
