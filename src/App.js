@@ -20,6 +20,7 @@ import SignUpPage from "./components/SignUp";
 import { withFirebase } from './components/Firebase';
 import SignInPage from "./components/SignIn";
 import SignOutButton from "./components/SignOut";
+import Login from "./components/Authentication/Login"
 
 class App extends React.Component {
 
@@ -78,9 +79,6 @@ class App extends React.Component {
 
         return (
             <div>
-                <SignUpPage/>
-                <SignInPage/>
-                <SignOutButton/>
                 <div className='root'>
                     {/* Some material ui base styling */}
                     <CssBaseline/>
@@ -103,6 +101,7 @@ class App extends React.Component {
                         </footer>
                     </div>
                 </div>
+                <Login/>
         </div>
         );
     }

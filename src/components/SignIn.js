@@ -7,7 +7,6 @@ import { withFirebase } from './Firebase';
 
 const SignInPage = () => (
     <div>
-        <h1>SignIn</h1>
         <SignInForm />
         <SignInGoogle />
         <SignInFacebook />
@@ -99,6 +98,7 @@ class SignInGoogleBase extends Component {
     }
 
     onSubmit = event => {
+        event.preventDefault();
         this.props.firebase
             .doSignInWithGoogle()
             .then(socialAuthUser => {
@@ -120,8 +120,6 @@ class SignInGoogleBase extends Component {
 
                 this.setState({ error });
             });
-
-        event.preventDefault();
     };
 
     render() {
