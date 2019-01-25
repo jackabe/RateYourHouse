@@ -5,12 +5,20 @@ let port = 4000;
 const cors = require('cors');
 const dateTime = require('node-datetime');
 
+const firebase = require('firebase-admin');
+
+let config = {
+    apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
+    authDomain: "ratemyhouse-1545743069431.firebaseapp.com",
+    databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com",
+    projectId: "ratemyhouse-1545743069431",
+    storageBucket: "ratemyhouse-1545743069431.appspot.com",
+    messagingSenderId: "170876410545",
+};
+
 app.use(cors());
 
-const firebase = require("firebase").initializeApp({
-    serviceAccount: "./ratemyhouse-key.json",
-    databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com"
-});
+firebase.initializeApp(config);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -19,6 +27,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/upload/review', function (req, res) {
     console.log('Review uploaded');
+    console.log(req.body.token);
+
+    firebase.auth().verifyIdToken(req.body.token)
+        .then(function(decodedToken) {
+            console.log('done');
+            // ...
+        }).catch(function(error) {
+        // Handle error
+    });
+
     let address = req.body.address;
     const ref = firebase
         .database()
