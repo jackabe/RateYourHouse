@@ -4,7 +4,6 @@ import { withFirebase } from './Firebase';
 
 const SignUpPage = () => (
     <div>
-        <h1>SignUp</h1>
         <SignUpForm />
     </div>
 );
@@ -66,7 +65,7 @@ class SignUpFormBase extends Component {
                     value={username}
                     onChange={this.onChange}
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="username"
                 />
                 <input
                     name="email"
