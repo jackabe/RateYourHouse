@@ -19,6 +19,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Localisation from '../abstractions/localisation';
 import PostReviewSection from './PostReview'
+import { withFirebase } from './Firebase';
+import SignOutButton from "./SignOut";
 
 class Header extends React.Component {
 
@@ -38,7 +40,7 @@ class Header extends React.Component {
      * @method: Check if user is logged in, if so open the post form section
      **/
     handlePostReview() {
-        if (this.props.loggedIn) {
+        if (this.props.authUser) {
             if (this.state.openForm) {
                 this.setState({openForm: false});
             }
@@ -54,7 +56,7 @@ class Header extends React.Component {
     render() {
 
         // Logged in comes from app.js verification methods
-        const isLoggedIn = this.props.loggedIn;
+        const isLoggedIn = this.props.authUser;
         let headerTextPost = Localisation.headerTextPost;
         let headerTitle = Localisation.appName;
         let headerVersion = Localisation.headerVersion;
@@ -81,10 +83,18 @@ class Header extends React.Component {
                                 {headerTextPost}
                             </p>
                         </Grid>
-                        <Grid item>
-                            <p className='headerLink'>
-                                {isLoggedIn ? logoutText : loginText}
-                            </p>
+                        <Grid item className='headerLink'>
+                            {isLoggedIn ? (
+                                <div>
+                                    <SignOutButton/>
+                                </div>
+                            ) : (
+                               <div>
+                                   <p>
+                                       {loginText}
+                                   </p>
+                               </div>
+                            )}
                         </Grid>
                     </Grid>
                 </Toolbar>
@@ -111,10 +121,10 @@ class Header extends React.Component {
             </AppBar>
             {/* The post review form will load up here when the link is clicked */}
             {/* I pass a handler through to here so that the modal closes when we are done with it */}
-            <PostReviewSection open={this.state.openForm} handler={this.handlePostReview}/>
+            <PostReviewSection authUser={this.props.authUser} open={this.state.openForm} handler={this.handlePostReview}/>
         </React.Fragment>
         );
     }
 }
 
-export default Header;
+export default withFirebase(Header);

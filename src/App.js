@@ -16,6 +16,10 @@ import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
 import ReviewSearchTool from "./components/ReviewSearchTool";
+import SignUpPage from "./components/SignUp";
+import { withFirebase } from './components/Firebase';
+import SignInPage from "./components/SignIn";
+import SignOutButton from "./components/SignOut";
 
 class App extends React.Component {
 
@@ -26,8 +30,23 @@ class App extends React.Component {
         this.state = {
             mobileOpen: false,
             loggedIn: true,
-            advertisements: advertisementManager.getAdvertisements()
+            advertisements: advertisementManager.getAdvertisements(),
+            authUser: null,
         };
+    }
+
+    componentDidMount() {
+        this.listener = this.props.firebase.auth.onAuthStateChanged(
+            authUser => {
+                authUser
+                    ? this.setState({ authUser })
+                    : this.setState({ authUser: null });
+            },
+        );
+    }
+
+    componentWillUnmount() {
+        this.listener();
     }
 
     render() {
@@ -59,12 +78,15 @@ class App extends React.Component {
 
         return (
             <div>
+                <SignUpPage/>
+                <SignInPage/>
+                <SignOutButton/>
                 <div className='root'>
                     {/* Some material ui base styling */}
                     <CssBaseline/>
                     <div className='appContent'>
                         {/* Pass logged in state to header */}
-                        <Header loggedIn={this.state.loggedIn}/>
+                        <Header authUser={this.state.authUser}/>
                         {/* Load the reviews search tool */}
                         <div className='mainContent'>
                             <p className='infoText'>{infoText}</p>
@@ -86,4 +108,4 @@ class App extends React.Component {
     }
 }
 
-export default (App);
+export default withFirebase(App);

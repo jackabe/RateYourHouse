@@ -11,6 +11,11 @@ input {
     margin: 0;
 }
 
+html {
+    -webkit-text-size-adjust: none;
+    touch-action: manipulation;
+}
+
 html, body {
     height: 100%;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
