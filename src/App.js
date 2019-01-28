@@ -16,6 +16,8 @@ import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
 import ReviewSearchTool from "./components/ReviewSearchTool";
+import { withFirebase } from './components/Firebase';
+import Login from "./components/Authentication/Login"
 
 class App extends React.Component {
 
@@ -25,9 +27,23 @@ class App extends React.Component {
         super(props);
         this.state = {
             mobileOpen: false,
-            loggedIn: true,
-            advertisements: advertisementManager.getAdvertisements()
+            advertisements: advertisementManager.getAdvertisements(),
+            authUser: null,
         };
+    }
+
+    componentDidMount() {
+        this.listener = this.props.firebase.auth.onAuthStateChanged(
+            authUser => {
+                authUser
+                    ? this.setState({ authUser })
+                    : this.setState({ authUser: null });
+            },
+        );
+    }
+
+    componentWillUnmount() {
+        this.listener();
     }
 
     render() {
@@ -64,7 +80,7 @@ class App extends React.Component {
                     <CssBaseline/>
                     <div className='appContent'>
                         {/* Pass logged in state to header */}
-                        <Header loggedIn={this.state.loggedIn}/>
+                        <Header authUser={this.state.authUser}/>
                         {/* Load the reviews search tool */}
                         <div className='mainContent'>
                             <p className='infoText'>{infoText}</p>
@@ -86,4 +102,4 @@ class App extends React.Component {
     }
 }
 
-export default (App);
+export default withFirebase(App);

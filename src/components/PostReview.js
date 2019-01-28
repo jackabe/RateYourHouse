@@ -24,6 +24,7 @@ import config from '../config/config';
 import Localisation from '../abstractions/localisation';
 import AddressForm from "./AddressForm";
 import ReviewForm from "./ReviewForm";
+import {withFirebase} from "./Firebase";
 
 // The URL which points to the Express server
 const BASE_URL = config.serverURL;
@@ -206,59 +207,63 @@ class PostReview extends React.Component {
      * -> Disables post
      * -> Sends via Axios
      **/
-    uploadReview = () => {
+    uploadReview = ({ firebase }) => {
         // Don't let multiple submissions
         this.setState({
             postDisabled: true,
         });
         this.changeProgress(20);
         // Post to server via axios
-        axios.post(BASE_URL + 'upload/review', {
-            address: this.state.addressToPost,
-            // Needs to change
-            userId: 'JackUUID',
-            landlordCommunicationRating: this.state.landlordCommunicationRating,
-            LandlordHelpfulnessRating: this.state.LandlordHelpfulnessRating,
-            agentCommunicationRating: this.state.agentCommunicationRating,
-            agentHelpfulnessRating: this.state.agentHelpfulnessRating,
-            priceRating: this.state.priceRating,
-            houseFurnishingRating: this.state.houseFurnishingRating,
-            houseConditionRating: this.state.houseConditionRating,
-            moveInRating: this.state.moveInRating,
-            moveOutRating: this.state.moveOutRating,
-            logisticsComments: this.state.logisticsComments,
-            houseComments: this.state.houseComments,
-            landlordComments: this.state.landlordComments,
-            agencyComments: this.state.agencyComments,
-            mainReviewInput: this.state.mainReviewInput,
-            titleInput: this.state.titleInput.substr(0, config.maxLength)
-        })
-        .then((response) => {
-            // If success move to 80 and alert user
-            this.changeProgress(80);
-            this.setState({
-                alert: true,
-                alertType: 'success',
-                alertMessage: 'You have successfully created a review, thanks!'
-            });
-            // After 2.5 seconds finish progress therefore reloading page
-            setTimeout(() =>
-            this.changeProgress(100), 2500);
-        })
-        .catch((response) => {
-            // Log error
-            console.log(response);
-            // Alert user
-            this.setState({
-                alert: true,
-                alertType: 'error',
-                alertMessage: 'There was a problem! Please try again.',
-            });
-            // Unlock post button after 2 seconds and reset alert to allow others to be sent
-            setTimeout(() =>  this.setState({
-                postDisabled: false,
-                alert: false,
-            }), 2000);
+        let auth = this.props.authUser;
+        auth.getIdToken().then((idToken) => {
+            axios.post(BASE_URL + 'upload/review', {
+                address: this.state.addressToPost,
+                // Needs to change
+                userId: 'JackUUID',
+                landlordCommunicationRating: this.state.landlordCommunicationRating,
+                LandlordHelpfulnessRating: this.state.LandlordHelpfulnessRating,
+                agentCommunicationRating: this.state.agentCommunicationRating,
+                agentHelpfulnessRating: this.state.agentHelpfulnessRating,
+                priceRating: this.state.priceRating,
+                houseFurnishingRating: this.state.houseFurnishingRating,
+                houseConditionRating: this.state.houseConditionRating,
+                moveInRating: this.state.moveInRating,
+                moveOutRating: this.state.moveOutRating,
+                logisticsComments: this.state.logisticsComments,
+                houseComments: this.state.houseComments,
+                landlordComments: this.state.landlordComments,
+                agencyComments: this.state.agencyComments,
+                mainReviewInput: this.state.mainReviewInput,
+                titleInput: this.state.titleInput.substr(0, config.maxLength),
+                token: idToken
+            })
+                .then((response) => {
+                    // If success move to 80 and alert user
+                    this.changeProgress(80);
+                    this.setState({
+                        alert: true,
+                        alertType: 'success',
+                        alertMessage: 'You have successfully created a review, thanks!'
+                    });
+                    // After 2.5 seconds finish progress therefore reloading page
+                    setTimeout(() =>
+                        this.changeProgress(100), 2500);
+                })
+                .catch((response) => {
+                    // Log error
+                    console.log(response);
+                    // Alert user
+                    this.setState({
+                        alert: true,
+                        alertType: 'error',
+                        alertMessage: 'There was a problem! Please try again.',
+                    });
+                    // Unlock post button after 2 seconds and reset alert to allow others to be sent
+                    setTimeout(() =>  this.setState({
+                        postDisabled: false,
+                        alert: false,
+                    }), 2000);
+                });
         });
     };
 
@@ -468,4 +473,4 @@ class PostReview extends React.Component {
     }
 }
 
-export default withStyles(styles)(PostReview);
+export default withFirebase(withStyles(styles)(PostReview));

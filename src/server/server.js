@@ -4,13 +4,22 @@ const bodyParser = require("body-parser");
 let port = 4000;
 const cors = require('cors');
 const dateTime = require('node-datetime');
+const serviceAccount = require("./ratemyhouse-key.json");
+const firebase = require('firebase-admin');
+
+let config = {
+    apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
+    authDomain: "ratemyhouse-1545743069431.firebaseapp.com",
+    databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com",
+    projectId: "ratemyhouse-1545743069431",
+    storageBucket: "ratemyhouse-1545743069431.appspot.com",
+    messagingSenderId: "170876410545",
+    credential: firebase.credential.cert(serviceAccount),
+};
 
 app.use(cors());
 
-const firebase = require("firebase").initializeApp({
-    serviceAccount: "./ratemyhouse-key.json",
-    databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com"
-});
+firebase.initializeApp(config);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -19,46 +28,56 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/upload/review', function (req, res) {
     console.log('Review uploaded');
-    let address = req.body.address;
-    const ref = firebase
-        .database()
-        .ref()
-        .child("reviews");
-    const addressReviewRef = ref.child(address);
-    let key = addressReviewRef.push().getKey();
+    console.log(req.body.token);
 
-    let date = dateTime.create();
-    date = date.format('d/m/Y');
+    firebase.auth().verifyIdToken(req.body.token)
+        .then(function(decodedToken) {
+            let address = req.body.address;
+            const ref = firebase
+                .database()
+                .ref()
+                .child("reviews");
+            const addressReviewRef = ref.child(address);
+            let key = addressReviewRef.push().getKey();
 
-    const message = {
-        id: key,
-        userId: req.body.userId,
-        landlordCommunicationRating: req.body.landlordCommunicationRating,
-        LandlordHelpfulnessRating: req.body.LandlordHelpfulnessRating,
-        agentCommunicationRating: req.body.agentCommunicationRating,
-        agentHelpfulnessRating: req.body.agentHelpfulnessRating,
-        priceRating: req.body.priceRating,
-        houseFurnishingRating: req.body.houseFurnishingRating,
-        houseConditionRating: req.body.houseConditionRating,
-        moveInRating: req.body.moveInRating,
-        moveOutRating: req.body.moveOutRating,
-        logisticsComments: req.body.logisticsComments,
-        houseComments: req.body.houseComments,
-        landlordComments: req.body.landlordComments,
-        agencyComments: req.body.agencyComments,
-        mainReviewInput: req.body.mainReviewInput,
-        titleInput: req.body.titleInput,
-        date: date
-    };
-    addressReviewRef.push(message)
-        .then(() => {
-            res.status("201").json("Completed");
-        })
-        // TODO: Check if firebase is pending as offline - If so inform user it will post
-        .catch((error) => {
-            res.status("501").json(error);
-            console.log(error);
-        });
+            let date = dateTime.create();
+            date = date.format('d/m/Y');
+
+            console.log(decodedToken);
+
+            const message = {
+                id: key,
+                userId: decodedToken.uid,
+                userName: decodedToken.email,
+                landlordCommunicationRating: req.body.landlordCommunicationRating,
+                LandlordHelpfulnessRating: req.body.LandlordHelpfulnessRating,
+                agentCommunicationRating: req.body.agentCommunicationRating,
+                agentHelpfulnessRating: req.body.agentHelpfulnessRating,
+                priceRating: req.body.priceRating,
+                houseFurnishingRating: req.body.houseFurnishingRating,
+                houseConditionRating: req.body.houseConditionRating,
+                moveInRating: req.body.moveInRating,
+                moveOutRating: req.body.moveOutRating,
+                logisticsComments: req.body.logisticsComments,
+                houseComments: req.body.houseComments,
+                landlordComments: req.body.landlordComments,
+                agencyComments: req.body.agencyComments,
+                mainReviewInput: req.body.mainReviewInput,
+                titleInput: req.body.titleInput,
+                date: date
+            };
+            addressReviewRef.push(message)
+                .then(() => {
+                    res.status("201").json("Completed");
+                })
+                // TODO: Check if firebase is pending as offline - If so inform user it will post
+                .catch((error) => {
+                    res.status("501").json(error);
+                    console.log(error);
+                });
+        }).catch(function(error) {
+        // Handle error
+    });
 });
 
 app.get('/reviews/:address', function (req, res) {
