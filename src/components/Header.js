@@ -19,6 +19,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Localisation from '../abstractions/localisation';
 import PostReviewSection from './PostReview'
+import { withFirebase } from './Firebase';
+import SignOutButton from "./SignOut";
+import Login from "./Authentication/Login";
+import SweetAlert from "sweetalert-react";
 
 class Header extends React.Component {
 
@@ -30,7 +34,10 @@ class Header extends React.Component {
 
     // Decide whether the post review modal loads up or not
     state = {
-        openForm: false
+        openForm: false,
+        openLogin: false,
+        showLogout: false,
+        alert: null,
     };
 
     /**
@@ -38,7 +45,7 @@ class Header extends React.Component {
      * @method: Check if user is logged in, if so open the post form section
      **/
     handlePostReview() {
-        if (this.props.loggedIn) {
+        if (this.props.authUser) {
             if (this.state.openForm) {
                 this.setState({openForm: false});
             }
@@ -47,14 +54,66 @@ class Header extends React.Component {
             }
         }
         else {
-            alert(Localisation.loginAlert)
+            this.showSuccessAlert('noLogin');
+            this.setState({openLogin: true});
         }
+    };
+
+    handleLogin = () => {
+        this.setState({openLogin: true});
+    };
+
+    closeLogin = () => {
+        this.setState({openLogin: false});
+    };
+
+    handleLogout = () => {
+        this.setState({showLogout: true});
+        this.setState({openLogin: false});
+    };
+
+    showSuccessAlert = (type) => {
+        let alertDialog;
+        let nullAlertDialog = <SweetAlert
+            show={false}
+        />;
+        if (type === 'login') {
+            alertDialog = <SweetAlert
+                title='Logged in'
+                text='You have been successfully logged in!'
+                animation="slide-from-top"
+                type="success"
+                show={true}
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        else if (type === 'signUp') {
+            alertDialog = <SweetAlert
+                show={true}
+                title='Success!'
+                text='Thank you for registering!'
+                animation="slide-from-top"
+                type="success"
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        else if (type === 'noLogin') {
+            alertDialog = <SweetAlert
+                show={true}
+                title='Please login'
+                text='This is so we can make reviews as valid as possible!'
+                animation="slide-from-top"
+                type="info"
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        this.setState({alert: alertDialog});
     };
 
     render() {
 
         // Logged in comes from app.js verification methods
-        const isLoggedIn = this.props.loggedIn;
+        const isLoggedIn = this.props.authUser;
         let headerTextPost = Localisation.headerTextPost;
         let headerTitle = Localisation.appName;
         let headerVersion = Localisation.headerVersion;
@@ -81,10 +140,18 @@ class Header extends React.Component {
                                 {headerTextPost}
                             </p>
                         </Grid>
-                        <Grid item>
-                            <p className='headerLink'>
-                                {isLoggedIn ? logoutText : loginText}
-                            </p>
+                        <Grid item className='headerLink'>
+                            {isLoggedIn ? (
+                                <div onClick={this.handleLogout}>
+                                    <SignOutButton/>
+                                </div>
+                            ) : (
+                               <div onClick={this.handleLogin}>
+                                   <p>
+                                       {loginText}
+                                   </p>
+                               </div>
+                            )}
                         </Grid>
                     </Grid>
                 </Toolbar>
@@ -111,10 +178,28 @@ class Header extends React.Component {
             </AppBar>
             {/* The post review form will load up here when the link is clicked */}
             {/* I pass a handler through to here so that the modal closes when we are done with it */}
-            <PostReviewSection open={this.state.openForm} handler={this.handlePostReview}/>
+            <PostReviewSection authUser={this.props.authUser} open={this.state.openForm} handler={this.handlePostReview}/>
+
+            {!this.props.authUser && this.state.openLogin ? <Login createSuccessAlert={this.showSuccessAlert} shutLoginForm={this.closeLogin}/> : null}
+
+            <div>
+                <SweetAlert
+                    show={this.state.showLogout}
+                    title='Logged out'
+                    text='You have been successfully logged out!'
+                    animation="slide-from-top"
+                    type="success"
+                    onConfirm={() => this.setState({ showLogout: false })}
+                />
+            </div>
+
+            <div>
+                {this.state.alert}
+            </div>
+
         </React.Fragment>
         );
     }
 }
 
-export default Header;
+export default withFirebase(Header);

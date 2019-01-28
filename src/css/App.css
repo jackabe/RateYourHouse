@@ -11,6 +11,11 @@ input {
     margin: 0;
 }
 
+html {
+    -webkit-text-size-adjust: none;
+    touch-action: manipulation;
+}
+
 html, body {
     height: 100%;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -194,6 +199,131 @@ a {
     height: 50px;
     -webkit-animation: slide-top 1s ease-out both;
     animation: slide-top 1s ease-out both;
+}
+
+/* Login */
+
+.loginModal {
+    width: 40%;
+    background: white;
+    height: 70%;
+    margin-left: 30%;
+    margin-top: 3%;
+    text-align: center;
+    padding: 20px;
+    overflow: auto;
+    color: #555;
+}
+
+.loginModal  h3 {
+    font-size: 29px;
+    letter-spacing: 2px;
+    font-weight: normal;
+}
+
+.google {
+    background-color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.google p {
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.facebook {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3b5998;
+    color: white;
+}
+
+.facebook p {
+    margin-top: 3px;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.alternativeLogins {
+    display: inline-flex;
+    margin-top: 10px;
+}
+
+.alternativeLogins div {
+    cursor: pointer;
+    margin: 20px;
+    width: 180px;
+    padding: 20px;
+    border: 1px;
+    border-radius: 10px;
+    /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.2); */
+    -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+    -o-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+    -ms-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+}
+
+.facebook:hover {
+    font-size: 10pt;
+}
+
+.google:hover {
+    font-size: 10pt;
+}
+
+.loginModal label {
+    color: #555;
+    margin-bottom: 10px!important;
+}
+
+.loginModal input:focus {
+    outline: none;
+}
+
+.loginModal a {
+    cursor: pointer!important;
+}
+
+.loginModal input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 60%;
+    height: 50px;
+    background-color: #f7f7f7;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+}
+
+.loginModal button {
+    margin-top: 20px;
+    padding: 0 20px;
+    width: 60%;
+    height: 60px;
+    background-color: #333;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    outline: none
+}
+
+.signUpText {
+    padding: 30px;
+    color: #555;
 }
 
 /* SnackBar styling is inside components/SnackBar.js*/
@@ -641,6 +771,21 @@ button:focus, button:focus {
     }
 }
 
+@media only screen and (max-width: 1500px) {
+    /* Login */
+    .loginModal {
+        width: 50%;
+        background: white;
+        height: 80%;
+        margin-left: 25%;
+        margin-top: 3%;
+        text-align: center;
+        padding: 20px;
+        overflow: auto;
+        color: #555;
+    }
+}
+
 /* Small devices with little vertical real estate */
 @media only screen and (max-height: 700px) {
     html, body {
@@ -697,6 +842,38 @@ button:focus, button:focus {
     }
     .reviewVerify p {
         padding: 5px;
+    }
+    /* Login */
+    .loginModal {
+        width: 80%;
+        font-size: 8pt;
+        background: white;
+        height: 90%;
+        margin-left: 10%;
+        margin-top: 8%;
+        text-align: center;
+        padding: 10px!important;
+        overflow: auto;
+        color: #555;
+    }
+    .loginModal h3 {
+        font-size: 16px!important;
+    }
+    .google p {
+        margin-top: 2px!important;
+        margin-left: 10px;
+        font-size: 9pt!important;
+    }
+    .facebook p {
+        margin-top: 2px!important;
+        margin-left: 10px;
+        font-size: 9pt!important;
+    }
+    .loginModal img {
+        width: 20px;
+    }
+    .loginModal input {
+        width: 70%!important;
     }
 }
 
@@ -844,6 +1021,115 @@ button:focus, button:focus {
     }
     .reviewStepperButtons {
         margin-top: 5%;
+    }
+    /* Login */
+    .loginModal {
+        width: 80%;
+        background: white;
+        height: 90%;
+        margin-left: 10%;
+        margin-top: 8%;
+        text-align: center;
+        padding: 20px;
+        overflow: auto;
+        color: #555;
+    }
+    .loginModal  h3 {
+        font-size: 29px;
+        letter-spacing: 2px;
+        font-weight: normal;
+    }
+    .google {
+        background-color: #fff;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .google p {
+        margin-top: 8px;
+        margin-left: 10px;
+        font-size: 18px;
+    }
+
+    .facebook {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #3b5998;
+        color: white;
+    }
+
+    .facebook p {
+        margin-top: 3px;
+        margin-left: 10px;
+        font-size: 18px;
+    }
+    .alternativeLogins {
+        display: block;
+        margin-top: 10px;
+    }
+    .alternativeLogins div {
+        cursor: pointer;
+        margin: 10px;
+        width: 180px;
+        padding: 10px;
+        border: 1px;
+        border-radius: 10px;
+        /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.2); */
+        -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+        -o-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+        -ms-box-shadow: 0 1px 5px 0 rgba(0,0,0,.2);
+        -webkit-transition: all .4s;
+        -o-transition: all .4s;
+        -moz-transition: all .4s;
+    }
+    .facebook:hover {
+        font-size: 10pt;
+    }
+    .google:hover {
+        font-size: 10pt;
+    }
+    .loginModal label {
+        color: #555;
+        margin-bottom: 10px!important;
+        margin-top: 5px;
+    }
+    .loginModal input:focus {
+        outline: none;
+    }
+    .loginModal input {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        height: 40px;
+        background-color: #f7f7f7;
+        border: 1px solid #e6e6e6;
+        border-radius: 10px;
+    }
+    .loginModal button {
+        margin-top: 20px;
+        padding: 0 20px;
+        width: 60%;
+        height: 60px;
+        background-color: #333;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #fff;
+        line-height: 1.2;
+        -webkit-transition: all .4s;
+        -o-transition: all .4s;
+        -moz-transition: all .4s;
+        transition: all .4s;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        outline: none
+    }
+    .signUpText {
+        padding: 30px;
+        color: #555;
     }
 }
 

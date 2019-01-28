@@ -96,7 +96,7 @@ class Review extends React.Component {
                     {'Review for '+address}
                 </p>
                 <p className='reviewCreationText'>
-                    {'Created on ' + review.date +' by '+ review.userId}
+                    {'Created on ' + review.date}
                 </p>
 
                 {/* First panel - review title and information */}

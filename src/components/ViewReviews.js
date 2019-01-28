@@ -49,7 +49,7 @@ class ViewReviews extends React.Component {
                         return (
                             <ListItem className='listItem'  onClick={() => this.openReview(review.id)} alignItems="flex-start">
                                 <ListItemAvatar>
-                                    <Avatar className='avatar'>{review.userId.substring(0, 2).toUpperCase()}</Avatar>
+                                    <Avatar className='avatar'>{review.userName.substring(0, 2).toUpperCase()}</Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={review.titleInput.substr(0, config.maxLength)+'...'}
