@@ -13,7 +13,6 @@ import React from 'react';
 import '../../css/App.css';
 import Modal from "@material-ui/core/Modal/Modal";
 import Typography from "@material-ui/core/Typography/Typography";
-import SweetAlert from "sweetalert-react";
 import Google from "../../images/icon-google.png"
 import Facebook from "../../images/facebook-icon.png"
 import { withFirebase } from './../Firebase';
@@ -49,21 +48,13 @@ class Login extends React.Component {
             .doSignInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
-                // this.props.history.push(ROUTES.HOME);
+                this.props.createSuccessAlert('login');
             })
             .catch(error => {
                 this.setState({ error });
             });
 
         event.preventDefault();
-    };
-
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
-
-    signUp = () => {
-        alert('Sign up');
     };
 
     googleLogin = event => {
@@ -79,8 +70,8 @@ class Login extends React.Component {
                 });
             })
             .then(() => {
-                this.setState({ error: null });
-                // this.props.history.push(ROUTES.HOME);
+                this.setState({ ...INITIAL_STATE });
+                this.props.createSuccessAlert('login');
             })
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
@@ -103,8 +94,8 @@ class Login extends React.Component {
                 });
             })
             .then(() => {
-                this.setState({ error: null });
-                // this.props.history.push(ROUTES.HOME);
+                this.setState({ ...INITIAL_STATE });
+                this.props.createSuccessAlert('login');
             })
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
@@ -117,6 +108,34 @@ class Login extends React.Component {
         event.preventDefault();
     };
 
+    onSignUp = event => {
+        const { username, email, passwordOne } = this.state;
+
+        this.props.firebase
+            .doCreateUserWithEmailAndPassword(email, passwordOne)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+                this.props.createSuccessAlert('signUp');
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
+    };
+
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+    signUp = () => {
+        this.setState({ signUp: true });
+    };
+
+    login = () => {
+        this.setState({ signUp: false });
+    };
+
     /**
      * @method: close the modal when needed and refresh location
      **/
@@ -125,72 +144,156 @@ class Login extends React.Component {
     };
 
     render() {
-        const { email, password, error } = this.state;
-        const isInvalid = password === '' || email === '';
+        const {
+            email,
+            password,
+            passwordOne,
+            passwordTwo,
+            error,
+        } = this.state;
+
+        const loginInvalid =
+            email === '' ||
+            password === '';
+
+        const isInvalid =
+            passwordOne !== passwordTwo ||
+            passwordOne === '' ||
+            email === '' ||
+            password === '';
+
+        let login;
+        if (!this.state.signUp) {
+             login =  <div className='loginModal'>
+                {/* The modal itself */}
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModal}
+                    onClose={this.handleClose}>
+                    {/* Paper effect with close x button*/}
+                    <div className='loginModal'>
+                        <div className='backButton'>
+                            <Typography variant="h6" onClick={this.handleClose}>
+                                x
+                            </Typography>
+                        </div>
+
+                        <h3>Log in with</h3>
+
+                        <div className='alternativeLogins'>
+                            <div className='facebook' onClick={this.facebookLogin}>
+                                <img src={Facebook} width='30px'/>
+                                <p>Facebook</p>
+                            </div>
+                            <div className='google' onClick={this.googleLogin}>
+                                <img src={Google}/>
+                                <p>Google</p>
+                            </div>
+                        </div>
+
+                        <div className='emailForm'>
+                            <label>Email</label>
+                            <br/>
+                            <input
+                                name="email"
+                                value={email}
+                                onChange={this.onChange}
+                                type="text"
+                                placeholder="Email Address"
+                            />
+                            <br/>
+                            <label>Password</label>
+                            <br/>
+                            <input
+                                name="password"
+                                value={password}
+                                onChange={this.onChange}
+                                type="password"
+                                placeholder="Password"
+                            />
+
+                            {error && <p>{error.message}</p>}
+
+                            <button disabled={loginInvalid} onClick={this.onSubmit}>Login</button>
+                        </div>
+
+                        <p className='signUpText'>Not a member? <a onClick={this.signUp}>Sign up now </a></p>
+
+                    </div>
+
+                </Modal>
+            </div>;
+        }
+
+        else {
+            login = <div className='loginModal'>
+                {/* The modal itself */}
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModal}
+                    onClose={this.handleClose}>
+                    {/* Paper effect with close x button*/}
+                    <div className='loginModal'>
+                        <div className='backButton'>
+                            <Typography variant="h6" onClick={this.handleClose}>
+                                x
+                            </Typography>
+                        </div>
+
+                        <h3>Register</h3>
+
+                        <br/>
+
+                        <div className='emailForm'>
+                            <label>Email:</label>
+                            <br/>
+                            <input
+                                name="email"
+                                value={email}
+                                onChange={this.onChange}
+                                type="text"
+                                placeholder="Email Address"
+                            />
+                            <br/>
+                            <label>Password:</label>
+                            <br/>
+                            <input
+                                name="passwordOne"
+                                value={passwordOne}
+                                onChange={this.onChange}
+                                type="password"
+                                placeholder="Password"
+                            />
+                            <br/>
+                            <label>Confirm Password:</label>
+                            <br/>
+                            <input
+                                name="passwordTwo"
+                                value={passwordTwo}
+                                onChange={this.onChange}
+                                type="password"
+                                placeholder="Confirm Password"
+                            />
+
+                            {error && <p>{error.message}</p>}
+
+                            <button disabled={isInvalid} onClick={this.onSignUp}>Sign up</button>
+                        </div>
+
+                        <p className='signUpText'>Already a member? <a onClick={this.login}>Login</a></p>
+
+                    </div>
+                </Modal>
+            </div>;
+        }
 
         return (
             <div>
-                <div className='loginModal'>
-                    {/* The modal itself */}
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.openModal}
-                        onClose={this.handleClose}>
-                        {/* Paper effect with close x button*/}
-                        <div className='loginModal'>
-                            <div className='backButton'>
-                                <Typography variant="h6" onClick={this.handleClose}>
-                                    x
-                                </Typography>
-                            </div>
-
-                            <h3>Log in with</h3>
-
-                            <div className='alternativeLogins'>
-                                <div className='facebook' onClick={this.facebookLogin}>
-                                    <img src={Facebook} width='30px'/>
-                                    <p>Facebook</p>
-                                </div>
-                                <div className='google' onClick={this.googleLogin}>
-                                    <img src={Google}/>
-                                    <p>Google</p>
-                                </div>
-                            </div>
-
-                            <div className='emailForm'>
-                                <label>Email</label>
-                                <br/>
-                                <input
-                                    name="email"
-                                    value={email}
-                                    onChange={this.onChange}
-                                    type="text"
-                                    placeholder="Email Address"
-                                />
-                                <br/>
-                                <label>Password</label>
-                                <br/>
-                                <input
-                                    name="password"
-                                    value={password}
-                                    onChange={this.onChange}
-                                    type="password"
-                                    placeholder="Password"
-                                />
-
-                                {error && <p>{error.message}</p>}
-
-                                <button disabled={isInvalid} onClick={this.onSubmit}>Login</button>
-                            </div>
-
-                            <p className='signUpText'>Not a member? <a onClick={this.signUp}>Sign up now </a></p>
-
-                        </div>
-
-                    </Modal>
-                </div>
+                {login}
             </div>
+
         );
     }
 }
