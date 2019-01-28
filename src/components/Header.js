@@ -36,7 +36,8 @@ class Header extends React.Component {
     state = {
         openForm: false,
         openLogin: false,
-        showLogout: false
+        showLogout: false,
+        alert: null,
     };
 
     /**
@@ -53,8 +54,8 @@ class Header extends React.Component {
             }
         }
         else {
-            alert(Localisation.loginAlert);
-            this.setState({openLogin: false});
+            this.showSuccessAlert('noLogin');
+            this.setState({openLogin: true});
         }
     };
 
@@ -69,6 +70,44 @@ class Header extends React.Component {
     handleLogout = () => {
         this.setState({showLogout: true});
         this.setState({openLogin: false});
+    };
+
+    showSuccessAlert = (type) => {
+        let alertDialog;
+        let nullAlertDialog = <SweetAlert
+            show={false}
+        />;
+        if (type === 'login') {
+            alertDialog = <SweetAlert
+                title='Logged in'
+                text='You have been successfully logged in!'
+                animation="slide-from-top"
+                type="success"
+                show={true}
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        else if (type === 'signUp') {
+            alertDialog = <SweetAlert
+                show={true}
+                title='Success!'
+                text='Thank you for registering!'
+                animation="slide-from-top"
+                type="success"
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        else if (type === 'noLogin') {
+            alertDialog = <SweetAlert
+                show={true}
+                title='Please login'
+                text='This is so we can make reviews as valid as possible!'
+                animation="slide-from-top"
+                type="info"
+                onConfirm={() => this.setState({ alert: nullAlertDialog })}
+            />;
+        }
+        this.setState({alert: alertDialog});
     };
 
     render() {
@@ -141,7 +180,7 @@ class Header extends React.Component {
             {/* I pass a handler through to here so that the modal closes when we are done with it */}
             <PostReviewSection authUser={this.props.authUser} open={this.state.openForm} handler={this.handlePostReview}/>
 
-            {!this.props.authUser && this.state.openLogin ? <Login shutLoginForm={this.closeLogin}/> : null}
+            {!this.props.authUser && this.state.openLogin ? <Login createSuccessAlert={this.showSuccessAlert} shutLoginForm={this.closeLogin}/> : null}
 
             <div>
                 <SweetAlert
@@ -152,6 +191,10 @@ class Header extends React.Component {
                     type="success"
                     onConfirm={() => this.setState({ showLogout: false })}
                 />
+            </div>
+
+            <div>
+                {this.state.alert}
             </div>
 
         </React.Fragment>
