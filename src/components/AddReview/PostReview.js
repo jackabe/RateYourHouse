@@ -19,12 +19,12 @@ import StepLabel from '@material-ui/core/StepLabel';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from "axios";
 import { Line } from 'rc-progress';
-import Alert from "./SnackBar";
-import config from '../config/config';
-import Localisation from '../abstractions/localisation';
+import Alert from "../Alerts/SnackBar";
+import config from '../../config/config';
+import Localisation from '../../abstractions/localisation';
 import AddressForm from "./AddressForm";
 import ReviewForm from "./ReviewForm";
-import {withFirebase} from "./Firebase";
+import {withFirebase} from "../Firebase";
 
 // The URL which points to the Express server
 const BASE_URL = config.serverURL;
