@@ -148,7 +148,7 @@ a {
 }
 
 .profileLogout {
-    margin-top: 80px;
+    margin-top: 75px;
     text-align: center;
     margin-left: -20px;
     cursor: pointer;
@@ -164,7 +164,7 @@ a {
     font-size: 11pt!important;
 }
 
-.settingsLink:hover {
+.settingsList p:hover {
   color: grey;
 }
 
@@ -601,6 +601,7 @@ button:focus, button:focus {
     margin: 30px auto;
     padding: 30px;
     overflow: auto;
+    outline: none;
 }
 
 .postReviewPanel {
@@ -807,6 +808,7 @@ button:focus, button:focus {
     }
     .postReviewRoot {
         width: 60%;
+        outline: none;
     }
     .expansionDetails {
         margin-top: -13px
@@ -816,6 +818,7 @@ button:focus, button:focus {
 @media only screen and (max-width: 1200px) {
     .modal {
         margin-left: 5px;
+        outline: none;
     }
 }
 
@@ -831,6 +834,7 @@ button:focus, button:focus {
         padding: 20px;
         overflow: auto;
         color: #555;
+        outline: none;
     }
 }
 
@@ -841,15 +845,12 @@ button:focus, button:focus {
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
         background: #048299;
     }
-
     .advertisements span {
         display: none;
     }
-
     .advertisements {
         margin-top: -40px;
     }
-
     .site-footer {
         background: inherit;
         color: white;
@@ -870,7 +871,6 @@ button:focus, button:focus {
         margin-top: 50px;
         font-size: 9pt;
     }
-
     .reviewVerify p {
         padding: 10px;
     }
@@ -903,6 +903,7 @@ button:focus, button:focus {
         padding: 10px!important;
         overflow: auto;
         color: #555;
+        outline: none;
     }
     .loginModal h3 {
         font-size: 16px!important;
@@ -930,75 +931,63 @@ button:focus, button:focus {
     .largeHeading {
         font-size: 12pt;
     }
-
     .smallSecondaryHeading {
         font-size: 9pt;
     }
-
     .heading {
         margin-top: 30px;
         font-size: 12pt;
         margin-bottom: 15px;
     }
-
     .comments input {
         margin-bottom: 10px;
     }
-
     .secondaryHeading {
         font-size: 10pt;
         margin-bottom: 20px
     }
-
     .reviewStepperButtons {
         margin-top: 40%;
     }
-
     .commentsHeading {
         font-size: 8pt;
         margin-bottom: 10px;
     }
-
     .secondaryHeadingRating {
         font-size: 10pt;
         margin-right: 40px;
     }
-
     .paper {
         margin-top: 20px;
         width: 90%;
         height: 90%;
         padding: 20px;
         overflow: auto;
+        outline: none;
     }
-
     .postReviewPanel {
         font-size: 5pt;
         width: 100%;
     }
-
     .modal {
         width: 100%;
         margin-left: 5px;
+        outline: none;
     }
-
     .inputWrapper {
         width: 100%;
         text-align: center;
     }
-
     .backButton {
         margin-left: 95%;
         margin-top: -10px;
         cursor: pointer;
     }
-
     .mainBackButton {
         margin-left: 95%;
         margin-top: -90px;
         cursor: pointer;
     }
-
     .stepperRoot {
         width: 100%;
         margin-top: -20px;
@@ -1081,6 +1070,7 @@ button:focus, button:focus {
         padding: 20px;
         overflow: auto;
         color: #555;
+        outline: none;
     }
     .loginModal  h3 {
         font-size: 29px;
@@ -1093,13 +1083,11 @@ button:focus, button:focus {
         justify-content: center;
         align-items: center;
     }
-
     .google p {
         margin-top: 8px;
         margin-left: 10px;
         font-size: 18px;
     }
-
     .facebook {
         display: inline-flex;
         justify-content: center;
@@ -1107,7 +1095,6 @@ button:focus, button:focus {
         background-color: #3b5998;
         color: white;
     }
-
     .facebook p {
         margin-top: 3px;
         margin-left: 10px;

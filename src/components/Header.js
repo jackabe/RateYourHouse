@@ -158,7 +158,7 @@ class Header extends React.Component {
                         <Grid item className='headerLink'>
                             {isLoggedIn ? (
                                 <div onClick={this.profile}>
-                                    <Profile logoutHandler={this.handleLogout}/>
+                                    <Profile auth={this.props.authUser} logoutHandler={this.handleLogout}/>
                                 </div>
                             ) : (
                                <div onClick={this.handleLogin}>

@@ -69,13 +69,13 @@ class Profile extends React.Component {
                         {/* Paper effect with close x button*/}
                         <div className='profileModal'>
 
-                            <p className='profileEmail'>jackallcock@yahoo.co.uk</p>
+                            <p className='profileEmail'>{this.props.auth.email}</p>
 
                             <div className='settingsList'>
-                                <p className='settingsLink'>Account Settings</p>
-                                <p className='settingsLink'>Help</p>
-                                <p className='settingsLink'>Share</p>
-                                <p className='settingsLink'>Privacy</p>
+                                <p>Account Settings</p>
+                                <p>Help</p>
+                                <p>Become a landlord</p>
+                                <p>Privacy</p>
                             </div>
 
                             <div className='profileLogout'>
