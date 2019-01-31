@@ -127,6 +127,52 @@ a {
     padding: 4px;
 }
 
+/* Profile */
+
+.profileAvatar {
+    margin: 3px;
+    width: 40px;
+}
+
+.profileModal {
+    width: 250px;
+    height: 300px;
+    margin-top: 60px;
+    position: absolute;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    overflow: auto;
+    color: #555;
+    outline: none;
+}
+
+.profileLogout {
+    margin-top: 80px;
+    text-align: center;
+    margin-left: -20px;
+    cursor: pointer;
+}
+
+.settingsList p {
+    font-size: 10pt;
+    padding-top: 20px;
+    cursor: pointer;
+}
+
+.profileLogoutButton p {
+    font-size: 11pt!important;
+}
+
+.settingsLink:hover {
+  color: grey;
+}
+
+.logoutIcon {
+    margin-top: -20px;
+    margin-left: 80px;
+}
+
 /* Advertisements section */
 
 .advertisements {
@@ -213,6 +259,7 @@ a {
     padding: 20px;
     overflow: auto;
     color: #555;
+    outline: none;
 }
 
 .loginModal  h3 {
@@ -567,6 +614,7 @@ button:focus, button:focus {
     margin-left: 100px;
     z-index: -1;
     height: 80%;
+    outline: none;
 }
 
 .listRoot {

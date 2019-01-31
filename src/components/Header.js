@@ -21,8 +21,8 @@ import SweetAlert from "sweetalert-react";
 import Localisation from '../abstractions/localisation';
 import PostReviewSection from './AddReview/PostReview'
 import { withFirebase } from './Firebase';
-import SignOutButton from "./Authentication/SignOut";
 import Login from "./Authentication/Login";
+import Profile from "./Profile/Profile"
 
 class Header extends React.Component {
 
@@ -157,8 +157,8 @@ class Header extends React.Component {
                         </Grid>
                         <Grid item className='headerLink'>
                             {isLoggedIn ? (
-                                <div onClick={this.handleLogout}>
-                                    <SignOutButton/>
+                                <div onClick={this.profile}>
+                                    <Profile logoutHandler={this.handleLogout}/>
                                 </div>
                             ) : (
                                <div onClick={this.handleLogin}>

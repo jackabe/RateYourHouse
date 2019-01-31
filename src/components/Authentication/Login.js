@@ -62,6 +62,8 @@ class Login extends React.Component {
         this.props.firebase
             .doSignInWithGoogle()
             .then(socialAuthUser => {
+                this.setState({ ...INITIAL_STATE });
+                this.props.createSuccessAlert('login');
                 // Create a user in your Firebase Realtime Database too
                 return this.props.firebase.user(socialAuthUser.user.uid).set({
                     username: socialAuthUser.user.displayName,
@@ -69,15 +71,10 @@ class Login extends React.Component {
                     roles: [],
                 });
             })
-            .then(() => {
-                this.setState({ ...INITIAL_STATE });
-                this.props.createSuccessAlert('login');
-            })
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
                     error.message = ERROR_MSG_ACCOUNT_EXISTS;
                 }
-
                 this.setState({ error });
             });
     };
@@ -86,6 +83,8 @@ class Login extends React.Component {
         this.props.firebase
             .doSignInWithFacebook()
             .then(socialAuthUser => {
+                this.setState({ ...INITIAL_STATE });
+                this.props.createSuccessAlert('login');
                 // Create a user in your Firebase Realtime Database too
                 return this.props.firebase.user(socialAuthUser.user.uid).set({
                     username: socialAuthUser.additionalUserInfo.profile.name,
@@ -93,15 +92,10 @@ class Login extends React.Component {
                     roles: [],
                 });
             })
-            .then(() => {
-                this.setState({ ...INITIAL_STATE });
-                this.props.createSuccessAlert('login');
-            })
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
                     error.message = ERROR_MSG_ACCOUNT_EXISTS;
                 }
-
                 this.setState({ error });
             });
 
