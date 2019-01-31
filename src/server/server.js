@@ -6,6 +6,7 @@ const cors = require('cors');
 const dateTime = require('node-datetime');
 const serviceAccount = require("./ratemyhouse-key.json");
 const firebase = require('firebase-admin');
+const mailer = require('express-mailer');
 
 let config = {
     apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
@@ -67,6 +68,42 @@ app.post('/upload/review', function (req, res) {
                 date: date
             };
             addressReviewRef.push(message)
+                .then(() => {
+                    res.status("201").json("Completed");
+                })
+                // TODO: Check if firebase is pending as offline - If so inform user it will post
+                .catch((error) => {
+                    res.status("501").json(error);
+                    console.log(error);
+                });
+        }).catch(function(error) {
+        // Handle error
+    });
+});
+
+app.post('/request/account/rentor', function (req, res) {
+    console.log('Account requested');
+
+    firebase.auth().verifyIdToken(req.body.token)
+        .then(function(decodedToken) {
+            let email = req.body.email;
+            let type = req.body.type;
+            const ref = firebase
+                .database()
+                .ref()
+                .child("requests");
+
+            let date = dateTime.create();
+            date = date.format('d/m/Y');
+
+            const message = {
+                userId: decodedToken.uid,
+                type: type,
+                email: email,
+                date: date
+            };
+
+            ref.push(message)
                 .then(() => {
                     res.status("201").json("Completed");
                 })

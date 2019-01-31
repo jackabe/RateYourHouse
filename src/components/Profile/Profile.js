@@ -16,6 +16,7 @@ import UserImage from '../../images/user.svg';
 import SignOutButton from "../Authentication/SignOut";
 import Modal from "@material-ui/core/Modal";
 import Exit from '@material-ui/icons/ExitToApp';
+import ProfileLandlordSetting from "./ProfileLandlord";
 
 class Profile extends React.Component {
 
@@ -25,7 +26,8 @@ class Profile extends React.Component {
 
     state = {
         openProfile: false,
-        showLogout: false
+        showLogout: false,
+        settingType: null
     };
 
     /**
@@ -48,6 +50,18 @@ class Profile extends React.Component {
      **/
     handleLogout = () => {
         this.props.logoutHandler();
+    };
+
+    /**
+     * @param: none
+     * @method: Define what setting to add
+     **/
+    openSetting = (type) => {
+        this.setState({settingType: type});
+    };
+
+    cancelSetting = () => {
+        this.setState({settingType: null})
     };
 
     render() {
@@ -74,7 +88,7 @@ class Profile extends React.Component {
                             <div className='settingsList'>
                                 <p>Account Settings</p>
                                 <p>Help</p>
-                                <p>Become a landlord</p>
+                                <p onClick={() => this.openSetting('landlord')}>Become a landlord</p>
                                 <p>Privacy</p>
                             </div>
 
@@ -90,6 +104,8 @@ class Profile extends React.Component {
                         </div>
                     </Modal>
                 </div>
+
+                <ProfileLandlordSetting auth={this.props.auth} cancelSetting={this.cancelSetting} type={this.state.settingType}/>
             </div>
         );
     }

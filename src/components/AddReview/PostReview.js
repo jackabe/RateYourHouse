@@ -219,7 +219,7 @@ class PostReview extends React.Component {
             axios.post(BASE_URL + 'upload/review', {
                 address: this.state.addressToPost,
                 // Needs to change
-                userId: 'JackUUID',
+                userId: auth.email,
                 landlordCommunicationRating: this.state.landlordCommunicationRating,
                 LandlordHelpfulnessRating: this.state.LandlordHelpfulnessRating,
                 agentCommunicationRating: this.state.agentCommunicationRating,
