@@ -19,7 +19,7 @@ import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
 import Modal from "@material-ui/core/Modal/Modal";
 import Typography from "@material-ui/core/Typography/Typography";
-import config from '../config/config';
+import config from '../../config/config';
 import Review from "./Review";
 import ViewReviews from "./ViewReviews";
 

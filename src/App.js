@@ -15,9 +15,8 @@ import './css/App.css';
 import Localisation from './abstractions/localisation';
 import AdvertisementManager from './scripts/AdvertisementManager'
 import Header from './components/Header';
-import ReviewSearchTool from "./components/ReviewSearchTool";
+import ReviewSearchTool from "./components/ViewReview/ReviewSearchTool";
 import { withFirebase } from './components/Firebase';
-import Login from "./components/Authentication/Login"
 
 class App extends React.Component {
 
@@ -32,6 +31,11 @@ class App extends React.Component {
         };
     }
 
+    /**
+     * @param: none
+     * @method: handles login sessions and create auth object
+     *  - This object is passed around app as a prop
+     **/
     componentDidMount() {
         this.listener = this.props.firebase.auth.onAuthStateChanged(
             authUser => {
@@ -42,6 +46,10 @@ class App extends React.Component {
         );
     }
 
+    /**
+     * @param: none
+     * @method: Inform of unmount
+     **/
     componentWillUnmount() {
         this.listener();
     }

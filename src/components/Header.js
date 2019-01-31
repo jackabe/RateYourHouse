@@ -17,12 +17,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import Localisation from '../abstractions/localisation';
-import PostReviewSection from './PostReview'
-import { withFirebase } from './Firebase';
-import SignOutButton from "./SignOut";
-import Login from "./Authentication/Login";
 import SweetAlert from "sweetalert-react";
+import Localisation from '../abstractions/localisation';
+import PostReviewSection from './AddReview/PostReview'
+import { withFirebase } from './Firebase';
+import SignOutButton from "./Authentication/SignOut";
+import Login from "./Authentication/Login";
 
 class Header extends React.Component {
 
@@ -59,19 +59,35 @@ class Header extends React.Component {
         }
     };
 
+    /**
+     * @param: none
+     * @method: If called -> open login modal
+     **/
     handleLogin = () => {
         this.setState({openLogin: true});
     };
 
+    /**
+     * @param: none
+     * @method: If called -> close login modal
+     **/
     closeLogin = () => {
         this.setState({openLogin: false});
     };
 
+    /**
+     * @param: none
+     * @method: If called -> show logout alert and hide login modal
+     **/
     handleLogout = () => {
         this.setState({showLogout: true});
         this.setState({openLogin: false});
     };
 
+    /**
+     * @param: type -> the type of alert (login, signup and nologin)
+     * @method: Shows an alert based on type
+     **/
     showSuccessAlert = (type) => {
         let alertDialog;
         let nullAlertDialog = <SweetAlert
@@ -119,7 +135,6 @@ class Header extends React.Component {
         let headerVersion = Localisation.headerVersion;
         let alertDefaultText = Localisation.alertDefaultText;
         let loginText = Localisation.loginText;
-        let logoutText = Localisation.logoutText;
 
         return (
         <React.Fragment>
@@ -180,8 +195,11 @@ class Header extends React.Component {
             {/* I pass a handler through to here so that the modal closes when we are done with it */}
             <PostReviewSection authUser={this.props.authUser} open={this.state.openForm} handler={this.handlePostReview}/>
 
+            {/* If no user and login needed show login modal */}
             {!this.props.authUser && this.state.openLogin ? <Login createSuccessAlert={this.showSuccessAlert} shutLoginForm={this.closeLogin}/> : null}
 
+            {/*  Logout alert */}
+            {/* TODO: put this with other alerts*/}
             <div>
                 <SweetAlert
                     show={this.state.showLogout}
@@ -193,6 +211,7 @@ class Header extends React.Component {
                 />
             </div>
 
+            {/* All other alerts */}
             <div>
                 {this.state.alert}
             </div>
