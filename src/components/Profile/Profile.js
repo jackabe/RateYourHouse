@@ -88,7 +88,7 @@ class Profile extends React.Component {
                             <div className='settingsList'>
                                 <p>Account Settings</p>
                                 <p>Help</p>
-                                <p onClick={() => this.openSetting('landlord')}>Become a landlord</p>
+                                <p onClick={() => this.openSetting('landlord')}>Become a Provider</p>
                                 <p>Privacy</p>
                             </div>
 

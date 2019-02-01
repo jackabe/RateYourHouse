@@ -108,14 +108,14 @@ class ProfileLandlordSetting extends React.Component {
                         </h2>
                     </div>
 
-                    <h3>Become a landlord</h3>
+                    <h3>Become a landlord/agent (provider)</h3>
 
                     <p>Whilst this service is mainly for those renting, a crucial part of our future sustainability is to create
-                    a fair service for both rentees and rentors. Creating a rentor account will allow you to reply to reviews
+                    a fair service for both tenants and providers. Creating a provider account will allow you to reply to reviews
                     regarding the address(s) you own.</p>
 
                     <p>Whilst we would love for landlords and agents to be able to respond to reviews straight away, it is
-                    important that we provide sufficient verification in order to provide a service that is as useful
+                    important that we carry out sufficient verification in order to provide a service that is as useful
                     and valid as possible.</p>
 
                     <p>Please send us a request by clicking the button below and we will get back to you as soon as possible. Thank you
@@ -143,7 +143,7 @@ class ProfileLandlordSetting extends React.Component {
 
                     <br/>
 
-                    <button onClick={this.requestAccount}>Request Rentor Account</button>
+                    <button onClick={this.requestAccount}>Request Provider Account</button>
 
                 </div>
             </Modal>

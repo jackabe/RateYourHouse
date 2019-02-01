@@ -24,19 +24,24 @@
     "sweetalert-react": "^0.4.11"
   },
   "scripts": {
-    "start": "PORT=443 HTTPS=true react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "set PORT=443 && set HTTPS=true && react-scripts start",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "express-pino-logger": "^4.0.0",
+    "node-env-run": "^3.0.2",
+    "nodemon": "^1.18.9",
+    "npm-run-all": "^4.1.5",
+    "pino-colada": "^1.4.4"
+  }
 }

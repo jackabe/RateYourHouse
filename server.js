@@ -1,14 +1,14 @@
 const express = require('express');
-const app = express();
 const bodyParser = require("body-parser");
-let port = 4000;
 const cors = require('cors');
 const dateTime = require('node-datetime');
 const serviceAccount = require("./ratemyhouse-key.json");
 const firebase = require('firebase-admin');
-const mailer = require('express-mailer');
+const path = require("path");
+const https = require('https');
+const fs = require('fs');
 
-let config = {
+const config = {
     apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
     authDomain: "ratemyhouse-1545743069431.firebaseapp.com",
     databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com",
@@ -18,14 +18,14 @@ let config = {
     credential: firebase.credential.cert(serviceAccount),
 };
 
+const app = express();
+
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, "build")));
 
 firebase.initializeApp(config);
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-// in latest body-parser use like below.
-app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/upload/review', function (req, res) {
     console.log('Review uploaded');
@@ -134,11 +134,22 @@ app.get('/reviews/:address', function (req, res) {
     });
 });
 
-// Start server
-const server = app.listen(port, () => console.log("Listenting on ", {port}));
-
 // https://stackoverflow.com/questions/7067966/how-to-allow-cors
 // Allows communication between React and Node server which are on same IP but on different ports
 // Start server
 
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+}, app).listen(443, function () {
+    console.log('Example app listening on port 443! Go to https://localhost/')
+});
+
+// Redirect from http port 80 to https
+const http = require('http');
+
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
 
