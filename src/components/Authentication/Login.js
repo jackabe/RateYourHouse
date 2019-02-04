@@ -51,6 +51,10 @@ class Login extends React.Component {
                 this.props.createSuccessAlert('login');
             })
             .catch(error => {
+                console.log(error.message);
+                if (error.message === 'The password is invalid or the user does not have a password.') {
+                    this.setState({ forgotten: true });
+                }
                 this.setState({ error });
             });
 
@@ -75,6 +79,9 @@ class Login extends React.Component {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
                     error.message = ERROR_MSG_ACCOUNT_EXISTS;
                 }
+                else if (error.message === 'The password is invalid or the user does not have a password.') {
+                    this.setState({ forgotten: true });
+                }
                 this.setState({ error });
             });
     };
@@ -95,6 +102,9 @@ class Login extends React.Component {
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
                     error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                }
+                else if (error.message === 'The password is invalid or the user does not have a password.') {
+                    this.setState({ forgotten: true });
                 }
                 this.setState({ error });
             });
@@ -213,6 +223,8 @@ class Login extends React.Component {
                         </div>
 
                         <p className='signUpText'>Not a member? <a onClick={this.signUp}>Sign up now </a></p>
+
+                        { this.state.forgotten ? <p className='forgotText'>Forgotten password? <a onClick={this.resetPassword}>Reset</a></p> : null }
 
                     </div>
 

@@ -17,6 +17,13 @@ import SignOutButton from "../Authentication/SignOut";
 import Modal from "@material-ui/core/Modal";
 import Exit from '@material-ui/icons/ExitToApp';
 import ProfileLandlordSetting from "./ProfileLandlord";
+import ProfileAccountSettings from "./AccountSettings";
+
+const styles = {
+    root: {
+        backgroundColor: "transparent"
+    }
+};
 
 class Profile extends React.Component {
 
@@ -86,10 +93,10 @@ class Profile extends React.Component {
                             <p className='profileEmail'>{this.props.auth.email}</p>
 
                             <div className='settingsList'>
-                                <p>Account Settings</p>
-                                <p>Help</p>
+                                <p onClick={() => this.openSetting('account')}>Account Settings</p>
+                                {/*<p>Help</p>*/}
                                 <p onClick={() => this.openSetting('landlord')}>Become a Provider</p>
-                                <p>Privacy</p>
+                                <p><a className='privacyLink' target="_blank" href={'/privacy.html'}>Privacy</a></p>
                             </div>
 
                             <div className='profileLogout'>
@@ -105,7 +112,8 @@ class Profile extends React.Component {
                     </Modal>
                 </div>
 
-                <ProfileLandlordSetting auth={this.props.auth} cancelSetting={this.cancelSetting} type={this.state.settingType}/>
+                <ProfileLandlordSetting auth={this.props.auth} closeProfile={this.closeProfile} cancelSetting={this.cancelSetting} type={this.state.settingType}/>
+                <ProfileAccountSettings auth={this.props.auth} closeProfile={this.closeProfile} cancelSetting={this.cancelSetting} type={this.state.settingType}/>
             </div>
         );
     }

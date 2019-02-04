@@ -79,9 +79,33 @@ class ReviewSearchTool extends React.Component {
     goToAddress(address) {
         let addressToPost = '';
         // Get the full address as the ID
-        for (let i = 0; i < address.length; i++) {
-            addressToPost += address[i]['long_name'] + ' ';
+        let i = 0;
+        let number;
+        let street;
+        let postcode;
+        let country;
+        let city;
+
+        for (i; i < address.length; i++) {
+            let data = address[i];
+            console.log(data['types'][0]);
+            if (data['types'][0] === 'postal_code') {
+                postcode = data['long_name'];
+            }
+            else if (data['types'][0] === 'street_number') {
+                number = data['long_name'];
+            }
+            else if (data['types'][0] === 'route') {
+                street = data['long_name'];
+            }
+            else if (data['types'][0] === 'country') {
+                country = data['long_name'];
+            }
+            else if (data['types'][0] === 'postal_town') {
+                city = data['long_name'];
+            }
         }
+        addressToPost += number + ' ' + street + ' ' + postcode + ' ' + country + ' ';
         this.setState({ address: addressToPost });
         // Make a call to axios
         axios.get(BASE_URL + 'reviews/'+addressToPost)

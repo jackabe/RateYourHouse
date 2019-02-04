@@ -61,7 +61,7 @@ class ReviewForm extends React.Component {
      * @param: name - class of the rating, e.g Landlord
      * @method: fills in stars when clicked and informs PostReview.js
      **/
-    onStarClick(nextValue, name) {
+    onStarClick(nextValue, prevValue, name) {
         // Send back to PostReview but still update state to represent change on this page
         this.props.starHandler(name, nextValue);
         this.setState({

@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Modal from "@material-ui/core/Modal";
 import axios from "axios";
 import config from "../../config/config";
-import Alert from "../AddReview/PostReview";
+import Alert from "../Alerts/SnackBar";
 
 // The URL which points to the Express server
 const BASE_URL = config.serverURL;
@@ -33,7 +33,10 @@ class ProfileLandlordSetting extends React.Component {
     };
 
     state = {
-        rentorType: 'Agent'
+        rentorType: 'Agent',
+        alert: false,
+        alertType: '',
+        alertMessage: ''
     };
 
     handleChange = name => event => {
@@ -56,18 +59,28 @@ class ProfileLandlordSetting extends React.Component {
         // Post to server via axios
         let auth = this.props.auth;
         auth.getIdToken().then((idToken) => {
-            alert(this.state.rentorType);
             axios.post(BASE_URL + 'request/account/rentor', {
                 email: this.props.auth.email,
                 type: this.state.rentorType,
                 token: idToken
             })
-                .then((response) => {
-                    this.setState({
-                        alert: true,
-                        alertType: 'success',
-                        alertMessage: 'You have successfully created a review, thanks!'
-                    });
+                .then(() => {
+                    this.close();
+                    this.props.closeProfile();
+                    if (this.state.rentorType === 'Agent') {
+                        this.setState({
+                            alert: true,
+                            alertType: 'success',
+                            alertMessage: 'Thanks for requesting an '+this.state.rentorType + ' account! We will get back to you shortly.'
+                        });
+                    }
+                    else {
+                        this.setState({
+                            alert: true,
+                            alertType: 'success',
+                            alertMessage: 'Thanks for requesting a '+this.state.rentorType + ' account! We will get back to you shortly.'
+                        });
+                    }
                 })
                 .catch((response) => {
                     // Log error
@@ -95,6 +108,7 @@ class ProfileLandlordSetting extends React.Component {
 
         if (type === 'landlord') {
             content = <Modal
+                hideBackdrop={true}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
                 open='true'
@@ -146,6 +160,7 @@ class ProfileLandlordSetting extends React.Component {
                     <button onClick={this.requestAccount}>Request Provider Account</button>
 
                 </div>
+
             </Modal>
         }
         else {
@@ -154,7 +169,6 @@ class ProfileLandlordSetting extends React.Component {
 
         return (
                 <div className='landlordSettingSection'>
-                    {/* If we have an alert, display it here */}
                     { this.state.alert ?  <Alert reason={this.state.alertType} message={this.state.alertMessage}/> : null }
                     {content}
                 </div>

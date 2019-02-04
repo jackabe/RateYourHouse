@@ -46,6 +46,11 @@ a {
     background: #048299;
 }
 
+.privacyLink {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}
+
 .root {
     display: flex;
     min-height: 100vh;
@@ -209,6 +214,13 @@ a {
     border: 1px solid black;
 }
 
+.resetPassword {
+    cursor: pointer;
+}
+
+.resetSuccess p {
+    font-size: 9pt;
+}
 /* Advertisements section */
 
 .advertisements {
@@ -267,6 +279,11 @@ a {
 
 .site-footer, .page-wrap:after {
     height: 50px;
+}
+
+.site-footer p {
+    padding: 10px;
+    display: inline-block;
 }
 
 .site-footer {
@@ -1203,10 +1220,10 @@ button:focus, button:focus {
         color: #555;
     }
     .settingsModal {
-        width: 80%;
+        width: 90%;
         background: white;
-        height: 70%;
-        margin-left: 10%;
+        height: 90%;
+        margin-left: 5%;
         margin-top: 3%;
         text-align: center;
         padding: 20px;
@@ -1223,6 +1240,9 @@ button:focus, button:focus {
     .settingsModal p {
         font-size: 13px;
         margin: 20px;
+    }
+    .resetSuccess p {
+        font-size: 8pt;
     }
 
 }

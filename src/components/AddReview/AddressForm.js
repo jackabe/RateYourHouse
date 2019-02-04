@@ -44,7 +44,7 @@ class AddressForm extends React.Component {
         let city = document.getElementById("city").value;
         let country = 'United Kingdom';
         // Country first to limit to UK
-        let addressIn = country + ' ' + postCode + ' ' + road + ' ' + city;
+        let addressIn = road + ' ' + city + ' ' + postCode + ' ' + country;
         geocodeByAddress(addressIn)
             .then(results => results[0]['address_components']) // Get full component for analysis
             .then(address => this.goToAddress(address))
@@ -59,12 +59,33 @@ class AddressForm extends React.Component {
     goToAddress(address) {
         let addressToPost = '';
         let i = 0;
+        let number = 'Unspecified';
+        let street;
+        let postcode;
+        let country;
+
         for (i; i < address.length; i++) {
-            addressToPost += address[i]['long_name'] + ' ';
+            let data = address[i];
+            console.log(data['types'][0]);
+            if (data['types'][0] === 'postal_code') {
+                postcode = data['long_name'];
+            }
+            else if (data['types'][0] === 'street_number') {
+                number = data['long_name'];
+            }
+            else if (data['types'][0] === 'route') {
+                street = data['long_name'];
+            }
+            else if (data['types'][0] === 'country') {
+                country = data['long_name'];
+            }
         }
+
+        addressToPost += number + ' ' + street + ' ' + postcode + ' ' + country + ' ';
         let road = document.getElementById("addressLine").value;
         // Do not let people proceed until they have entered a house number/road
-        if (road.length > 4) {
+        if (road.length > 4 && number !== 'Unspecified') {
+            // let addressToPost =
             this.setState({addressToPost});
             // Send the address back to the PostReview section
             this.props.addressHandler(addressToPost);
