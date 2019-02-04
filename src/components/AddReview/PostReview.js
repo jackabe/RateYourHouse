@@ -234,7 +234,7 @@ class PostReview extends React.Component {
                 landlordComments: this.state.landlordComments,
                 agencyComments: this.state.agencyComments,
                 mainReviewInput: this.state.mainReviewInput,
-                titleInput: this.state.titleInput.substr(0, config.maxLength),
+                titleInput: this.state.titleInput,
                 token: idToken
             })
                 .then((response) => {
