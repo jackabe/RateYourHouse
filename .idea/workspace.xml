@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5575f15-060d-47cc-8666-fe78de63a46e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/privacy.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/privacy.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ratemyhouse-key.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/AccountSettings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.cert" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/abstractions/localisation.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/abstractions/localisation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddReview/AddressForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddReview/AddressForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddReview/ReviewForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddReview/ReviewForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Authentication/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Authentication/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/ProfileLandlord.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/ProfileLandlord.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ViewReview/ReviewSearchTool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ViewReview/ReviewSearchTool.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.key" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,10 +21,11 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="1" />
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -48,14 +36,14 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="cert" value="1" />
-          <entry key="js" value="6" />
+          <entry key="js" value="7" />
           <entry key="json" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="3" />
-          <entry key="JavaScript" value="6" />
+          <entry key="JavaScript" value="7" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -126,22 +114,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/AddReview/PostReview.js">
+        <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="186" column="35" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
-              <folding>
-                <element signature="e#334#360#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/AddReview/ReviewForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
+            <state relative-caret-position="639">
+              <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
             </state>
           </provider>
         </entry>
@@ -158,7 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>handlePostReview</find>
       <find>handler</find>
       <find>loggedIn</find>
       <find>www.</find>
@@ -188,6 +163,7 @@
       <find>css</find>
       <find>settingsModal</find>
       <find>onStarClick</find>
+      <find>server.c</find>
     </findStrings>
     <replaceStrings>
       <replace>review</replace>
@@ -237,7 +213,6 @@
         <option value="$PROJECT_DIR$/src/components/Header.js" />
         <option value="$PROJECT_DIR$/src/server/server.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/src/config/config.json" />
         <option value="$PROJECT_DIR$/src/components/Profile/ProfileLandlord.js" />
         <option value="$PROJECT_DIR$/public/privacy.css" />
@@ -252,6 +227,7 @@
         <option value="$PROJECT_DIR$/src/components/AddReview/AddressForm.js" />
         <option value="$PROJECT_DIR$/src/components/AddReview/ReviewForm.js" />
         <option value="$PROJECT_DIR$/src/components/AddReview/PostReview.js" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -270,9 +246,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-97" />
-    <option name="y" value="196" />
-    <option name="width" value="1936" />
+    <option name="x" value="-98" />
+    <option name="y" value="195" />
+    <option name="width" value="1937" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -281,7 +257,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -345,6 +320,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -415,11 +391,12 @@
       <workItem from="1549045234773" duration="1035000" />
       <workItem from="1549284591821" duration="31000" />
       <workItem from="1549284645538" duration="10130000" />
+      <workItem from="1549298113699" duration="127000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93684000" />
+    <option name="totallyTimeSpent" value="93811000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -431,15 +408,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1519" height="1017" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24868283" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24831308" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.35022026" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3494253" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3293944" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -485,7 +462,6 @@
     <entry file="file://$PROJECT_DIR$/src/components/Session/Context.js" />
     <entry file="file://$PROJECT_DIR$/src/components/Session/withAuthentication.js" />
     <entry file="file://$PROJECT_DIR$/src/components/Session/index.js" />
-    <entry file="file://$PROJECT_DIR$/ratemyhouse-key.json" />
     <entry file="file://$PROJECT_DIR$/src/components/Firebase/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -606,17 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="50" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <element signature="e#5692#5697#0" expanded="true" />
-            <element signature="e#11600#11605#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -693,9 +658,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
-          <folding>
-            <element signature="e#367#393#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -713,20 +675,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AddReview/PostReview.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+          <folding>
+            <element signature="e#334#360#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/AddReview/ReviewForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
+        <state relative-caret-position="989">
           <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AddReview/PostReview.js">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="186" column="35" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
-          <folding>
-            <element signature="e#334#360#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="639">
+          <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
         </state>
       </provider>
     </entry>
