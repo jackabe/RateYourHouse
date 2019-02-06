@@ -31,15 +31,15 @@ class ReviewForm extends React.Component {
             activeStep: 0,
             error: '',
             expanded: null,
-            landlordCommunicationRating: 0,
-            LandlordHelpfulnessRating: 0,
-            agentCommunicationRating: 0,
-            agentHelpfulnessRating: 0,
-            priceRating: 0,
-            houseFurnishingRating: 0,
-            houseConditionRating: 0,
-            moveInRating: 0,
-            moveOutRating: 0,
+            landlordCommunicationRating: 1,
+            LandlordHelpfulnessRating: 1,
+            agentCommunicationRating: 1,
+            agentHelpfulnessRating: 1,
+            priceRating: 1,
+            houseFurnishingRating: 1,
+            houseConditionRating: 1,
+            moveInRating: 1,
+            moveOutRating: 1,
             logisticsComments: '',
             houseComments: '',
             landlordComments: '',
@@ -116,11 +116,18 @@ class ReviewForm extends React.Component {
 
     /**
      * @param: none
-     * @method: unlock next button only if title and info satisfied 5 and 20 characters
+     * @method: unlock next button only if title and info satisfied 5 and 20 characters and if agent entered
      **/
     isDisabled = () => {
-        if (this.state.titleInput.length < 5 || this.state.mainReviewInput.length < 20) {
-            return true;
+        if (this.state.activeStep === 2) {
+            if (this.state.agencyComments.length < 1) {
+                return true;
+            }
+        }
+        else {
+            if (this.state.titleInput.length < 5 || this.state.mainReviewInput.length < 20) {
+                return true;
+            }
         }
     };
 
@@ -307,16 +314,17 @@ class ReviewForm extends React.Component {
                                 />
                             </div>
                         </div>
+                        <br/>
                         <div className='comments'>
                             <p className='commentsHeading'>
-                                {Localisation.nameOfAgent}
+                                <span>*</span>{Localisation.nameOfAgent}
                             </p>
                             <FormControl className='commentsContainer'>
                                 <InputBase
                                     id="agencyComments"
                                     multiline
                                     value={this.state.agencyComments}
-                                    placeholder=""
+                                    placeholder="This is a mandatory field"
                                     onChange={this.onCommentsChange("agencyComments")}
                                     classes={{
                                         root: classes.bootstrapRoot,

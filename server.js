@@ -137,20 +137,22 @@ app.get('/reviews/:address', function (req, res) {
 // https://stackoverflow.com/questions/7067966/how-to-allow-cors
 // Allows communication between React and Node server which are on same IP but on different ports
 
-https.createServer({
-    key: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/cert.pem', 'utf8'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/chain.pem', 'utf8')
-}, app).listen(443, function () {
-    console.log('Example app listening on port 443! Go to https://localhost/')
-});
+// https.createServer({
+//     key: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/privkey.pem', 'utf8'),
+//     cert: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/cert.pem', 'utf8'),
+//     ca: fs.readFileSync('/etc/letsencrypt/live/www.rateyourhouse.co.uk/chain.pem', 'utf8')
+// }, app).listen(443, function () {
+//     console.log('Example app listening on port 443! Go to https://localhost/')
+// });
 
+// Start server
+const server = app.listen(4000, () => console.log("Listenting on ", 4000));
 
 // Redirect from http port 80 to https
 const http = require('http');
 
-http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80);
-
+// http.createServer(function (req, res) {
+//     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+//     res.end();
+// }).listen(80);
+//
