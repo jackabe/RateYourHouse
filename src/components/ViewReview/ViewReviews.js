@@ -55,7 +55,7 @@ class ViewReviews extends React.Component {
                                     primary={review.titleInput.substr(0, config.maxLength)+'...'}
                                     secondary={
                                         <React.Fragment>
-                                            {review.mainReviewInput}
+                                            {review.mainReviewInput.substring(0, 100)+'...'}
                                         </React.Fragment>
                                     }
                                 />

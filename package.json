@@ -24,7 +24,7 @@
     "sweetalert-react": "^0.4.11"
   },
   "scripts": {
-    "start": "set PORT=443 && set HTTPS=true && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
