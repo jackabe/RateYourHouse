@@ -62,7 +62,7 @@ class Review extends React.Component {
                     { rating: Localisation.helpfulness, score: review.agentHelpfulnessRating},
                 ],
                 id: 'agent',
-                comments: review.agencyComments
+                comments: 'Agent was: '+ review.agencyComments
             },
             {
                 // House

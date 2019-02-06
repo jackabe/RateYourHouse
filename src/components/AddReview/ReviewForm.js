@@ -116,11 +116,18 @@ class ReviewForm extends React.Component {
 
     /**
      * @param: none
-     * @method: unlock next button only if title and info satisfied 5 and 20 characters
+     * @method: unlock next button only if title and info satisfied 5 and 20 characters and if agent entered
      **/
     isDisabled = () => {
-        if (this.state.titleInput.length < 5 || this.state.mainReviewInput.length < 20) {
-            return true;
+        if (this.state.activeStep === 2) {
+            if (this.state.agencyComments.length < 1) {
+                return true;
+            }
+        }
+        else {
+            if (this.state.titleInput.length < 5 || this.state.mainReviewInput.length < 20) {
+                return true;
+            }
         }
     };
 
@@ -307,16 +314,17 @@ class ReviewForm extends React.Component {
                                 />
                             </div>
                         </div>
+                        <br/>
                         <div className='comments'>
                             <p className='commentsHeading'>
-                                {Localisation.nameOfAgent}
+                                <span>*</span>{Localisation.nameOfAgent}
                             </p>
                             <FormControl className='commentsContainer'>
                                 <InputBase
                                     id="agencyComments"
                                     multiline
                                     value={this.state.agencyComments}
-                                    placeholder=""
+                                    placeholder="This is a mandatory field"
                                     onChange={this.onCommentsChange("agencyComments")}
                                     classes={{
                                         root: classes.bootstrapRoot,
