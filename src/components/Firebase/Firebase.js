@@ -2,7 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-    apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
+    apiKey: "AIzaSyBR1l227u8Kf4QGNgfKMaK1NkH3a_uSBQ4",
     authDomain: "ratemyhouse-1545743069431.firebaseapp.com",
     databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com",
     projectId: "ratemyhouse-1545743069431",
