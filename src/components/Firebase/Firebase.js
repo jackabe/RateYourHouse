@@ -2,8 +2,8 @@ import app from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-    apiKey: "AIzaSyBR1l227u8Kf4QGNgfKMaK1NkH3a_uSBQ4",
-    authDomain: "rateyourhouse.co.uk",
+    apiKey: "AIzaSyD_2jytsfIy1wzrg6dXdbtqjo3Z7Q-dIgk",
+    authDomain: "rateyourhouse.co.uk/",
     databaseURL: "https://ratemyhouse-1545743069431.firebaseio.com",
     projectId: "ratemyhouse-1545743069431",
     storageBucket: "ratemyhouse-1545743069431.appspot.com",
