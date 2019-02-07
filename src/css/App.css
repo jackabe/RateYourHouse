@@ -861,7 +861,9 @@ button:focus, button:focus {
 }
 
 .agentText {
-    font-size: 8pt;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 8px;
     margin-bottom: 15px;
 }
 
