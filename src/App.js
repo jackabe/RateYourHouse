@@ -103,6 +103,7 @@ class App extends React.Component {
                         <footer className="site-footer">
                             <p>{footerText}</p>
                             <p><a className='privacyLink' target="_blank" href={'/privacy.html'}>Privacy</a></p>
+                            <p><a className='privacyLink' target="_blank" href={'/terms.html'}>Terms And Conditions</a></p>
                         </footer>
                     </div>
                 </div>
