@@ -129,6 +129,7 @@ class PostReview extends React.Component {
             landlordComments: '',
             agencyComments: '',
             mainReviewInput: '',
+            agencyName: '',
             titleInput: '',
             alert: false,
             alertType: '',
@@ -233,6 +234,7 @@ class PostReview extends React.Component {
                 houseComments: this.state.houseComments,
                 landlordComments: this.state.landlordComments,
                 agencyComments: this.state.agencyComments,
+                agencyName: this.state.agencyName,
                 mainReviewInput: this.state.mainReviewInput,
                 titleInput: this.state.titleInput,
                 token: idToken

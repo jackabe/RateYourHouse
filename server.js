@@ -63,6 +63,7 @@ app.post('/upload/review', function (req, res) {
                 houseComments: req.body.houseComments,
                 landlordComments: req.body.landlordComments,
                 agencyComments: req.body.agencyComments,
+                agencyName: req.body.agencyName,
                 mainReviewInput: req.body.mainReviewInput,
                 titleInput: req.body.titleInput,
                 date: date

@@ -151,7 +151,7 @@ class Header extends React.Component {
                         </Grid>
                         <Grid item xs/>
                         <Grid item>
-                            <p className='headerLink' onClick={this.handlePostReview}>
+                            <p className='headerLink' id='postReviewButton' onClick={this.handlePostReview}>
                                 {headerTextPost}
                             </p>
                         </Grid>

@@ -98,6 +98,9 @@ class Review extends React.Component {
                 <p className='reviewCreationText'>
                     {'Created on ' + review.date}
                 </p>
+                <p className='agentText'>
+                    {'Letting Agent: ' + review.agencyName}
+                </p>
 
                 {/* First panel - review title and information */}
                 <ExpansionPanel expanded={expanded === 'panelFeedback'} onChange={this.handlePanelChange('panelFeedback')}>

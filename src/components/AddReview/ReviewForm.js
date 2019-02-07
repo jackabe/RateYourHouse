@@ -44,6 +44,7 @@ class ReviewForm extends React.Component {
             houseComments: '',
             landlordComments: '',
             agencyComments: '',
+            agencyName: '',
             mainReviewInput: '',
             titleInput: '',
             alert: false,
@@ -120,7 +121,7 @@ class ReviewForm extends React.Component {
      **/
     isDisabled = () => {
         if (this.state.activeStep === 2) {
-            if (this.state.agencyComments.length < 1) {
+            if (this.state.agencyName.length < 1) {
                 return true;
             }
         }
@@ -257,7 +258,10 @@ class ReviewForm extends React.Component {
                         <p className='commentsHeading'>
                             {Localisation.comments}
                         </p>
-                        <FormControl className='commentsContainer'>
+                        <p className='landlordInfo'>
+                            If your property was managed by an agency, please indicate this here.
+                        </p>
+                        <FormControl className='commentsContainerThinner'>
                             <InputBase
                                 id="landlordComments"
                                 multiline
@@ -314,17 +318,32 @@ class ReviewForm extends React.Component {
                                 />
                             </div>
                         </div>
-                        <br/>
                         <div className='comments'>
                             <p className='commentsHeading'>
                                 <span>*</span>{Localisation.nameOfAgent}
                             </p>
-                            <FormControl className='commentsContainer'>
+                            <FormControl className='commentsContainerThinner'>
+                                <InputBase
+                                    id="agencyName"
+                                    multiline
+                                    value={this.state.agencyName}
+                                    placeholder="This is a mandatory field"
+                                    onChange={this.onCommentsChange("agencyName")}
+                                    classes={{
+                                        root: classes.bootstrapRoot,
+                                        input: classes.reviewInput,
+                                    }}
+                                />
+                            </FormControl>
+                            <p className='commentsHeading'>Comments:</p>
+                            <p className='landlordInfo'>
+                                If your property was managed directly by the landlord, please indicate this here.
+                            </p>
+                            <FormControl className='commentsContainerThinner'>
                                 <InputBase
                                     id="agencyComments"
                                     multiline
                                     value={this.state.agencyComments}
-                                    placeholder="This is a mandatory field"
                                     onChange={this.onCommentsChange("agencyComments")}
                                     classes={{
                                         root: classes.bootstrapRoot,

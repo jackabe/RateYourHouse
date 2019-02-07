@@ -1,4 +1,4 @@
 {
-  "serverURL": "/",
+  "serverURL": "http://localhost:5000/",
   "maxLength": 30
 }
