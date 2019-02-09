@@ -104,9 +104,9 @@ class App extends React.Component {
                         </div>
                         <footer className="site-footer">
                             <p>{footerText}</p>
-                            <p><a className='privacyLink' target="_blank" href={'/privacy.html'}>Privacy</a></p>
-                            <p><a className='privacyLink' target="_blank" href={'/terms.html'}>Terms And Conditions</a></p>
-                            <p><a className='privacyLink' target="_blank"  href="https://www.freepik.com/free-photos-vectors/background">VectorPocket</a></p>
+                            <p><a className='privacyLink' href='/privacy.html'>Privacy</a></p>
+                            <p><a className='privacyLink' href='/terms.html'>Terms And Conditions</a></p>
+                            <p><a className='privacyLink' href="https://www.freepik.com/free-photos-vectors/background">VectorPocket</a></p>
                         </footer>
                     </div>
                 </div>

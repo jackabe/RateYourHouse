@@ -451,6 +451,7 @@ class PostReview extends React.Component {
                                                                 className='postNextButton'>
                                                                 {Localisation.submit}
                                                             </button>
+                                                            <p className='agreements'>By posting a review, you agree to our <a href='/terms.html'>conditions</a> and <a href='/privacy.html'>policy</a> agreements</p>
                                                         </div>
                                                         )}
                                                     </div>

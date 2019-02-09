@@ -775,6 +775,10 @@ button:focus, button:focus {
     text-align: center;
 }
 
+.agreements {
+    font-size: 7pt;
+}
+
 .viewRatingWrapper {
     margin-right: 20px;
 }
