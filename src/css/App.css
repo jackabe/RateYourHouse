@@ -19,7 +19,6 @@ html {
 html, body {
     height: 100%;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    background: #048299;
     overflow: hidden;
 }
 
@@ -56,7 +55,7 @@ a {
     width: 100%;
     text-align: center;
     padding: 20px 36px 0;
-    background: #048299;
+    background: none;
 }
 
 .privacyLink {
@@ -67,7 +66,7 @@ a {
 .root {
     display: flex;
     min-height: 100vh;
-    background: #048299;
+    background: none;
     webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadein 2s; /* Firefox < 16 */
     -ms-animation: fadein 2s; /* Internet Explorer */
@@ -79,7 +78,6 @@ a {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: #048299;
 }
 
 .inputWrapper {
@@ -110,12 +108,12 @@ a {
 }
 
 .header {
-    background: #048299;
+    background: transparent!important;
 }
 
 .secondaryHeader {
     z-index: 0;
-    background: #048299;
+    background: transparent!important;
     text-align: center;
 }
 
@@ -231,6 +229,47 @@ a {
     cursor: pointer;
 }
 
+.homepage {
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 50px;
+    border-radius: 50px;
+    background-color:rgba(28, 90, 103, 0.7);
+}
+
+.background {
+    background-size: cover;
+    background: url('/background.jpg') no-repeat center center;
+    margin: auto;
+    padding: 0;
+}
+
+.logoText {
+    font-size: 45pt;
+    font-weight: normal;
+    letter-spacing: 2;
+}
+
+@media only screen and (max-width: 780px) {
+    .background {
+        background-size: cover;
+        background: url('/mobile.jpg') no-repeat center left;
+        margin: auto;
+        padding: 0;
+    }
+    .logoText {
+        font-size: 25pt;
+        font-weight: normal;
+        letter-spacing: 2;
+    }
+    .homepage {
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: 15px;
+        border-radius: 30px;
+        background-color:rgba(28, 90, 103, 0.7);
+    }
+}
 .resetSuccess p {
     font-size: 9pt;
 }

@@ -89,6 +89,7 @@ class App extends React.Component {
                     <div className='appContent'>
                         {/* Pass logged in state to header */}
                         <Header authUser={this.state.authUser}/>
+                        <div className='homepage'>
                         {/* Load the reviews search tool */}
                         <div className='mainContent'>
                             <p className='infoText'>{infoText}</p>
@@ -98,8 +99,9 @@ class App extends React.Component {
                             <p className='helpText'>{helpText}</p>
                         </div>
                         {/* Load up advertisements */}
-                        {advertisementSection}
+                        {/*{advertisementSection}*/}
                         {/* Here is the footer */}
+                        </div>
                         <footer className="site-footer">
                             <p>{footerText}</p>
                             <p><a className='privacyLink' target="_blank" href={'/privacy.html'}>Privacy</a></p>

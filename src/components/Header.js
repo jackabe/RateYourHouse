@@ -139,7 +139,7 @@ class Header extends React.Component {
         return (
         <React.Fragment>
             {/* Alerts, form link and login/logout (top header) */}
-            <AppBar position="sticky" elevation={0}>
+            <AppBar position="sticky" elevation={0} style={{ background: 'transparent', boxShadow: 'none'}}>
                 <Toolbar className='header'>
                     <Grid container spacing={8} alignItems="center">
                         <Grid item>
@@ -181,9 +181,9 @@ class Header extends React.Component {
                 <Toolbar className='header'>
                     <Grid container alignItems="center" spacing={8}>
                         <Grid item xs>
-                            <Typography color="inherit" variant="h4">
+                            <h4 className='logoText'>
                                 {headerTitle}
-                            </Typography>
+                            </h4>
                             <p className='headerTitleVersionText'>
                                 {headerVersion}
                             </p>
