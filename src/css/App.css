@@ -235,6 +235,8 @@ a {
     margin-top: 50px;
     border-radius: 50px;
     background-color:rgba(28, 90, 103, 0.7);
+    -webkit-animation: slide-left 1s ease-out both;
+    animation: slide-left 1s ease-out both;
 }
 
 .background {
@@ -268,6 +270,8 @@ a {
         margin-top: 15px;
         border-radius: 30px;
         background-color:rgba(28, 90, 103, 0.7);
+        -webkit-animation: slide-left 1s ease-out both;
+        animation: slide-left 1s ease-out both;
     }
 }
 .resetSuccess p {
@@ -1420,5 +1424,27 @@ button:focus, button:focus {
     100% {
         -webkit-transform: translateY(0);
         transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(-600px);
+        transform: translateX(-600px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(-600px);
+        transform: translateX(-600px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
     }
 }
