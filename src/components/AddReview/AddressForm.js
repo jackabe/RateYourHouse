@@ -178,8 +178,7 @@ class AddressForm extends React.Component {
                                     {this.state.error.length !== 0 ? (
                                         <div>
                                            <span className='errorText'>{Localisation.addressBoxErrorText}
-                                                <a
-                                               href={Localisation.supportLink}>{Localisation.supportLink}
+                                                <a href= "mailto: support@rateyourhouse.co.uk"> {Localisation.supportLink}
                                                </a>
                                            </span>
                                         </div>
