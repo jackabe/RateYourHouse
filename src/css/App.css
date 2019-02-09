@@ -1072,6 +1072,10 @@ button:focus, button:focus {
 
 /* Mobile devices */
 @media only screen and (max-width: 780px) {
+    .site-footer p {
+        padding: 4px;
+        display: inline-block;
+    }
     .largeHeading {
         font-size: 12pt;
     }
