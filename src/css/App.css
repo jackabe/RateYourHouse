@@ -80,6 +80,16 @@ a {
     flex-direction: column;
 }
 
+.logo {
+    width: 300px;
+}
+
+@media only screen and (max-width: 780px) {
+    .logo {
+        width: 200px;
+    }
+}
+
 .inputWrapper {
     width: 60%;
     text-align: center;

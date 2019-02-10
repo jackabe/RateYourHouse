@@ -181,9 +181,7 @@ class Header extends React.Component {
                 <Toolbar className='header'>
                     <Grid container alignItems="center" spacing={8}>
                         <Grid item xs>
-                            <h4 className='logoText'>
-                                {headerTitle}
-                            </h4>
+                                <img className='logo' src='/logo-text6.png'/>
                             <p className='headerTitleVersionText'>
                                 {headerVersion}
                             </p>
