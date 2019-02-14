@@ -129,6 +129,7 @@ class PostReview extends React.Component {
             landlordComments: '',
             agencyComments: '',
             mainReviewInput: '',
+            agencyName: '',
             titleInput: '',
             alert: false,
             alertType: '',
@@ -233,6 +234,7 @@ class PostReview extends React.Component {
                 houseComments: this.state.houseComments,
                 landlordComments: this.state.landlordComments,
                 agencyComments: this.state.agencyComments,
+                agencyName: this.state.agencyName,
                 mainReviewInput: this.state.mainReviewInput,
                 titleInput: this.state.titleInput,
                 token: idToken
@@ -449,6 +451,7 @@ class PostReview extends React.Component {
                                                                 className='postNextButton'>
                                                                 {Localisation.submit}
                                                             </button>
+                                                            <p className='agreements'>By posting a review, you agree to our <a href='/terms.html'>conditions</a> and <a href='/privacy.html'>policy</a> agreements</p>
                                                         </div>
                                                         )}
                                                     </div>

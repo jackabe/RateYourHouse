@@ -122,7 +122,7 @@ class ReviewSearchTool extends React.Component {
                         this.setState({
                             showError: true,
                             alertTitle: 'No reviews!',
-                            alertInfo: 'Sorry there are no reviews for this property. Perhaps you can post one?',
+                            alertInfo: 'Sorry, but no one has posted a review for this property yet!',
                         });
                     }
                     else {
@@ -242,9 +242,12 @@ class ReviewSearchTool extends React.Component {
                         show={this.state.showError}
                         title={this.state.alertTitle}
                         text={this.state.alertInfo}
+                        showConfirmButton={false}
+                        showCancelButton
+                        cancelButtonText='Close'
                         animation="slide-from-top"
                         type="error"
-                        onConfirm={() => this.setState({ showError: false })}
+                        onCancel={() => this.setState({ showError: false })}
                     />
                 </div>
             </div>

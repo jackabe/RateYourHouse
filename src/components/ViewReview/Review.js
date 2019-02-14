@@ -62,7 +62,7 @@ class Review extends React.Component {
                     { rating: Localisation.helpfulness, score: review.agentHelpfulnessRating},
                 ],
                 id: 'agent',
-                comments: 'Agent was: '+ review.agencyComments
+                comments: review.agencyComments
             },
             {
                 // House
@@ -97,6 +97,9 @@ class Review extends React.Component {
                 </p>
                 <p className='reviewCreationText'>
                     {'Created on ' + review.date}
+                </p>
+                <p className='agentText'>
+                    {'Letting Agent: ' + review.agencyName}
                 </p>
 
                 {/* First panel - review title and information */}
