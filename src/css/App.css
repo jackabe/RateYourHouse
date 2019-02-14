@@ -250,10 +250,13 @@ a {
 }
 
 .background {
-    background-size: cover;
-    background: url('/background.jpg') no-repeat center center;
-    margin: auto;
-    padding: 0;
+    background-size:cover;
+    background-position:center;
+    display:table;
+    width:100%;
+    height:100%;
+    table-layout:fixed;
+    background-image:url(/background.jpg)
 }
 
 .logoText {
