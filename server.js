@@ -8,6 +8,7 @@ const path = require("path");
 const https = require('https');
 const fs = require('fs');
 
+// Dummy creds, accounts are shut down
 const config = {
     apiKey: "AIzaSyDGvWJOmQf9j3Hew489kBnvwPI797o2axw",
     authDomain: "ratemyhouse-1545743069431.firebaseapp.com",
